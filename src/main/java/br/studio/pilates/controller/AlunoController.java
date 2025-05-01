@@ -20,13 +20,13 @@ public class AlunoController {
 	@Autowired
 	private AlunoService alunoService;
 	
-	@GetMapping("/aluno")
+	@GetMapping("aluno")
 	public List<Aluno> listar(){
 		return alunoService.listarTodos();
 	}
 	
 	@GetMapping("aluno/{id}")
-	public Aluno getByRaAluno(@PathVariable("id") String Id) {
+	public Aluno getByIdAluno(@PathVariable("id") String Id) {
 		return alunoService.getById(Id);
 	}
 	
@@ -39,17 +39,23 @@ public class AlunoController {
 	public List<Aluno> getByFirstName(@PathVariable("nome") String nome) {
 		return alunoService.getByPrimeiroNome(nome);
 	}
+
+	@PostMapping("aluno")
+		public Aluno insert(@RequestBody Aluno aluno) {
+		return alunoService.saveAluno(aluno);
 	
-	@DeleteMapping("/api/alunos/{id}")
+	}
+	
+	@DeleteMapping("aluno/{id}")
 	public String delete(@PathVariable("id") String Id) {
 		alunoService.deleteAluno(Id);
 		return "Aluno Excluido com sucesso!!";
 	}
 	
-	@PostMapping("/api/alunos")
-		public Aluno insert(@RequestBody Aluno aluno) {
-		return alunoService.saveAluno(aluno);
-	
+	@DeleteMapping("aluno/nome/{nome}")
+	public String deleteByName(@PathVariable("nome") String nome) {
+		alunoService.deleteAlunoByName(nome);
+		return "Aluno Excluido com sucesso!!";
 	}
 
 }

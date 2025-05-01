@@ -2,16 +2,14 @@ package br.studio.pilates.model.entity;
 
 import java.time.LocalDate;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-
-@Entity
 @Document(collection = "Alunos")
+@EntityScan
 
 public class Aluno {
 	
@@ -20,24 +18,24 @@ public class Aluno {
 	
 	private String nome;
 	private LocalDate data;
-	private Integer cpf; 
+	private Long cpf; 
 	private	String email;
-	private Integer contato;
+	private Long contato;
 	private String profissao;
 	
 	//ficha de avaliação
-	private FichaAvaliacao fichaAvaliacao;
+	// private FichaAvaliacao fichaAvaliacao;
 	
-	//planos
-	private Plano plano;
+	// //planos
+	// private Plano plano;
 		
-	//Aulas marcadas
-	private List<Aula> aulasMarcadas;
+	// //Aulas marcadas
+	// private List<Aula> aulasMarcadas;
 	
-	//histórico de pagamento
-	private List<Financeiro> historicoPagamento;
+	// //histórico de pagamento
+	// private List<Financeiro> historicoPagamento;
 	
-	private List<String> fotos;
+	// private List<String> fotos;
 	
 	
 	public Aluno() {
@@ -45,7 +43,7 @@ public class Aluno {
 	}
 
 
-	public Aluno(String id, String nome, LocalDate data, Integer cpf, String email, Integer contato, String profissao,
+	public Aluno(String id, String nome, LocalDate data, Long cpf, String email, Long contato, String profissao,
 			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
 			List<String> fotos) {
 		super();
@@ -56,11 +54,11 @@ public class Aluno {
 		this.email = email;
 		this.contato = contato;
 		this.profissao = profissao;
-		this.fichaAvaliacao = fichaAvaliacao;
-		this.plano = plano;
-		this.aulasMarcadas = aulasMarcadas;
-		this.historicoPagamento = historicoPagamento;
-		this.fotos = fotos;
+		// this.fichaAvaliacao = fichaAvaliacao;
+		// this.plano = plano;
+		// this.aulasMarcadas = aulasMarcadas;
+		// this.historicoPagamento = historicoPagamento;
+		// this.fotos = fotos;
 	}
 
 
@@ -88,11 +86,11 @@ public class Aluno {
 		this.data = data;
 	}
 
-	public Integer getCpf() {
+	public Long getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(Long cpf) {
 		this.cpf = cpf;
 	}
 
@@ -104,11 +102,11 @@ public class Aluno {
 		this.email = email;
 	}
 
-	public Integer getContato() {
+	public Long getContato() {
 		return contato;
 	}
 
-	public void setContato(Integer contato) {
+	public void setContato(Long contato) {
 		this.contato = contato;
 	}
 
@@ -120,48 +118,48 @@ public class Aluno {
 		this.profissao = profissao;
 	}
 
-	public FichaAvaliacao getFichaAvaliacao() {
-		return fichaAvaliacao;
-	}
+// 	public FichaAvaliacao getFichaAvaliacao() {
+// 		return fichaAvaliacao;
+// 	}
 
-	public void setFichaAvaliacao(FichaAvaliacao fichaAvaliacao) {
-		this.fichaAvaliacao = fichaAvaliacao;
-	}
+// 	public void setFichaAvaliacao(FichaAvaliacao fichaAvaliacao) {
+// 		this.fichaAvaliacao = fichaAvaliacao;
+// 	}
 
-	public Plano getPlano() {
-		return plano;
-	}
+// 	public Plano getPlano() {
+// 		return plano;
+// 	}
 
-	public void setPlano(Plano plano) {
-		this.plano = plano;
-	}
+// 	public void setPlano(Plano plano) {
+// 		this.plano = plano;
+// 	}
 
-	public List<Aula> getAulasMarcadas() {
-		return aulasMarcadas;
-	}
+// 	public List<Aula> getAulasMarcadas() {
+// 		return aulasMarcadas;
+// 	}
 
-	public void setAulasMarcadas(List<Aula> aulasMarcadas) {
-		this.aulasMarcadas = aulasMarcadas;
-	}
+// 	public void setAulasMarcadas(List<Aula> aulasMarcadas) {
+// 		this.aulasMarcadas = aulasMarcadas;
+// 	}
 
-	public List<Financeiro> getHistoricoPagamento() {
-		return historicoPagamento;
-	}
+// 	public List<Financeiro> getHistoricoPagamento() {
+// 		return historicoPagamento;
+// 	}
 
-	public void setHistoricoPagamento(List<Financeiro> historicoPagamento) {
-		this.historicoPagamento = historicoPagamento;
-	}
+// 	public void setHistoricoPagamento(List<Financeiro> historicoPagamento) {
+// 		this.historicoPagamento = historicoPagamento;
+// 	}
 
-	public List<String> getFotos() {
-		return fotos;
-	}
+// 	public List<String> getFotos() {
+// 		return fotos;
+// 	}
 
-	public void setFotos(List<String> fotos) {
-		this.fotos = fotos;
-	}
+// 	public void setFotos(List<String> fotos) {
+// 		this.fotos = fotos;
+// 	}
 	
 	
-}
+	}
 
 
 

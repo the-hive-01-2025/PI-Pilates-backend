@@ -4,13 +4,9 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 @Document(collection = "Usuario")
 public class Usuario {
-	@Id
+	
 	private String IdUsuario;
 
 	private String nomeUsuario;

@@ -18,9 +18,11 @@ public class AlunoService {
 		return alunoRepository.findAll();
 	}
 	
-	public Aluno getById(String Id) {
-		return alunoRepository.findById(Id).get();
+	public Aluno getById(String id) {
+		return alunoRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + id));
 	}
+	
 	
 	public Aluno getByNome(String nome) {
 		return alunoRepository.findByNome(nome);
@@ -34,7 +36,11 @@ public class AlunoService {
 		return alunoRepository.save(aluno);
 	}
 	
-	public void deleteAluno(String id) {
-		alunoRepository.deleteById(id);
+	public void deleteAluno(String Id) {
+		alunoRepository.deleteById(Id);
+	}
+
+	public void deleteAlunoByName(String nome) {
+		alunoRepository.deleteByNome(nome);
 	}
 }
