@@ -23,7 +23,6 @@ public class UsuarioService {
 				
 	}
 	
-	
 	public Usuario getByNome(String nome) {
 		return usuarioRepository.findByNome(nome);
 	}

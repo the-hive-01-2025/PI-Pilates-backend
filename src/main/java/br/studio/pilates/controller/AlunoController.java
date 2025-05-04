@@ -43,9 +43,14 @@ public class AlunoController {
 	}
 
 	@PostMapping("aluno")
-	public Aluno insert(@RequestBody Aluno aluno) {
-		return alunoService.saveAluno(aluno);
-
+	public ResponseEntity<?> cadastrarAluno(@RequestBody Aluno aluno) {
+		try {
+			Aluno novoAluno = alunoService.saveAluno(aluno);
+			return ResponseEntity.ok(novoAluno);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body("Não foi possível cadastrar o aluno: " + e.getMessage());
+		}
 	}
 
 	@DeleteMapping("aluno/{id}")

@@ -1,6 +1,7 @@
 package br.studio.pilates.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,6 @@ public class AlunoService {
 				
 	}
 	
-	
 	public Aluno getByNome(String nome) {
 		return alunoRepository.findByNome(nome);
 	}
@@ -33,7 +33,13 @@ public class AlunoService {
 	}
 	
 	public Aluno saveAluno(Aluno aluno) {
-		return alunoRepository.save(aluno);
+		Optional<Aluno> alunoExistente = alunoRepository.findByCpf(aluno.getCpf());
+
+    if (alunoExistente.isPresent()) {
+        throw new IllegalArgumentException("Já existe um aluno com este CPF.");
+    }
+
+    return alunoRepository.save(aluno);
 	}
 	
 	public void deleteAluno(String Id) {
