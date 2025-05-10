@@ -1,0 +1,149 @@
+package br.studio.pilates.model.entity;
+
+import java.time.LocalDate;
+
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+
+@Document(collection = "Alunos")
+@EntityScan
+
+public class Aluno {
+
+	@Id
+	private String id;
+
+	private String nome;
+	private LocalDate data;
+	private Long cpf;
+	private String email;
+	private Long contato;
+	private String profissao;
+	private FichaAvaliacao fichaAvaliacao;
+	private Plano plano;
+	private List<Aula> aulasMarcadas;
+	private List<Financeiro> historicoPagamento;
+	private List<String> fotos;
+
+	public Aluno() {
+
+	}
+
+	public Aluno(String id, String nome, LocalDate data, Long cpf, String email, Long contato, String profissao,
+			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
+			List<String> fotos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.data = data;
+		this.cpf = cpf;
+		this.email = email;
+		this.contato = contato;
+		this.profissao = profissao;
+		this.fichaAvaliacao = fichaAvaliacao;
+		this.plano = plano;
+		this.aulasMarcadas = aulasMarcadas;
+		this.historicoPagamento = historicoPagamento;
+		this.fotos = fotos;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public LocalDate getData() {
+		return data;
+	}
+
+	public void setData(LocalDate data) {
+		this.data = data;
+	}
+
+	public Long getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Long getContato() {
+		return contato;
+	}
+
+	public void setContato(Long contato) {
+		this.contato = contato;
+	}
+
+	public String getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(String profissao) {
+		this.profissao = profissao;
+	}
+
+	public FichaAvaliacao getFichaAvaliacao() {
+	return fichaAvaliacao;
+	}
+
+	public void setFichaAvaliacao(FichaAvaliacao fichaAvaliacao) {
+	this.fichaAvaliacao = fichaAvaliacao;
+	}
+
+	public Plano getPlano() {
+	return plano;
+	}
+
+	public void setPlano(Plano plano) {
+	this.plano = plano;
+	}
+
+	public List<Aula> getAulasMarcadas() {
+	return aulasMarcadas;
+	}
+
+	public void setAulasMarcadas(List<Aula> aulasMarcadas) {
+	this.aulasMarcadas = aulasMarcadas;
+	}
+
+	public List<Financeiro> getHistoricoPagamento() {
+	return historicoPagamento;
+	}
+
+	public void setHistoricoPagamento(List<Financeiro> historicoPagamento) {
+	this.historicoPagamento = historicoPagamento;
+	}
+
+	public List<String> getFotos() {
+	return fotos;
+	}
+
+	public void setFotos(List<String> fotos) {
+	this.fotos = fotos;
+	}
+
+}
