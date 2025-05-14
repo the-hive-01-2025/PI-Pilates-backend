@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/home.css}">
+    <title>Home - Pilates</title>
+    <style>
+       
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #e6e6e6;
+        }
+        header {
+            background-color: #9b8efb;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav {
+            background-color: #a698f5;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container-welcome {
+            padding: 20px;
+        }
+        .welcome {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .container-buttons-home {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .btn {
+            background-color: #c2b5f5;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #b3a6f2;
+        }
+        #avisos {
+            margin-top: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+    <body>
+        <header>
+            <div><strong>Pilates</strong></div>
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: #ddd;"></div>
+        </header>
+        <nav>
+            <a href="#">Modalidades</a>
+            <a href="#">Aulas</a>
+            <a href="#">Planos</a>
+            <a href="#">Evolução</a>
+            <a href="#">Avaliações</a>
+            <a href="#">Pagamentos</a>
+        </nav>
+        <div class="container-welcome">
+            <div class="welcome">Seja bem-vindo <span th:text="${nome}">[Nome]</span></div>
+    
+            <div class="container-buttons-home">
+                <div class="btn">Modalidades</div>
+                <div class="btn">Aulas</div>
+                <div class="btn">Plano e Assinatura</div>
+                <div class="btn">Evolução</div>
+                <div class="btn">Ficha de Avaliações</div>
+                <div class="btn">Pagamento e Faturas</div>
+            </div>
+    
+            <div id="avisos">Avisos</div>
+        </div>
+    </body>
+</html>

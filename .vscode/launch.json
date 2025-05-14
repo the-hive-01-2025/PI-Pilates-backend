@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-StudiopilatesApplication<studiopilates>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.studio.pilates.StudiopilatesApplication",
+            "projectName": "studiopilates",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
