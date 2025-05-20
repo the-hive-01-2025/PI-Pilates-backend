@@ -7,9 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import br.studio.pilates.model.entity.Aluno;
+import br.studio.pilates.service.AlunoService;
 
 @Controller
 public class AlunoWebController {
+
+	private AlunoService alunoService;
   @GetMapping("/aluno")
 	public String listarTodos(Model model) {
 		List<Aluno> alunos = alunoService.listarTodos();
