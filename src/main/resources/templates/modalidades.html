@@ -1,51 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modalidades</title>
     <link rel="stylesheet" href="../static/css/modalidades.css">
 </head>
+
 <body>
     <header>
-            <div><strong>Pilates</strong></div>
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: #ddd;"></div>
-        </header>
-        <nav>
-            <a href="#">Modalidades</a>
-            <a href="#">Aulas</a>
-            <a href="#">Planos</a>
-            <a href="#">Evolução</a>
-            <a href="#">Avaliações</a>
-            <a href="#">Pagamentos</a>
-        </nav>
+        <a class="logo" th:href="@{home}">Pilates</a>
+        <div id="radius-perfil"></div>
+    </header>
+    <nav>
+        <a th:href="@{/modalidades}">Modalidades</a>
+        <a th:href="@{/aulas}">Aulas</a>
+        <a th:href="@{/planos}">Planos</a>
+        <a th:href="@{/evolucao}">Evolução</a>
+        <a th:href="@{/avaliacoes}">Avaliações</a>
+        <a th:href="@{/pagamentos}">Pagamentos</a>
+    </nav>
+
     <main>
-        <h2>Modalidades</h2>
+        <h2 class="titulo-page">Modalidades</h2>
         <div class="card-container">
             <div class="card">
                 <div class="card-header">Yoga</div>
                 <div id="card-body-container">
                     <div class="card-body">
-                        Além de um ambiente super acolhedor, você vai encontrar instrutores incríveis, muito atenciosos e preparados para adaptar as posturas para todos os níveis.
+                        Além de um ambiente super acolhedor, você vai encontrar instrutores incríveis, muito atenciosos
+                        e preparados para adaptar as posturas para todos os níveis.
                     </div>
                     <button>Marcar</button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">Pilates</div>
-                <div class="card-body">
-                    Aulas de pilates com instrutores atenciosos, equipamentos de ponta e um ambiente perfeito para fortalecer o corpo e melhorar a postura.
+                <div id="card-body-container">
+                    <div class="card-body">
+                        Aulas de pilates com instrutores atenciosos, equipamentos de ponta e um ambiente perfeito para
+                        fortalecer o corpo e melhorar a postura.
+                    </div>
                 </div>
                 <button>Marcar</button>
             </div>
             <div class="card">
                 <div class="card-header">Cursos</div>
-                <div class="card-body">
-                    Cursos focados em saúde, alimentação consciente e bem-estar, com aulas práticas e dinâmicas ministradas por profissionais experientes.
+                <div id="card-body-container">
+                    <div class="card-body">
+                        Cursos focados em saúde, alimentação consciente e bem-estar, com aulas práticas e dinâmicas
+                        ministradas por profissionais experientes.
+                    </div>
                 </div>
                 <button>Marcar</button>
             </div>
         </div>
     </main>
 </body>
+
 </html>

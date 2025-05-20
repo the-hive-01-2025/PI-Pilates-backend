@@ -8,28 +8,20 @@
  </head>
     <body>
         <header>
-            <div><strong>Pilates</strong></div>
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: #ddd;"></div>
+            <a class="logo" th:href="@{/home}">Pilates</a>
+            <div id="radius-perfil"></div>
         </header>
-        <nav>
-            <a href="#">Modalidades</a>
-            <a href="#">Aulas</a>
-            <a href="#">Planos</a>
-            <a href="#">Evolução</a>
-            <a href="#">Avaliações</a>
-            <a href="#">Pagamentos</a>
-        </nav>
         <main>
             <div class="container-welcome">
                 <div class="welcome">Seja bem-vindo <span th:text="${nome}">[Nome]</span></div>
             
                 <div class="container-buttons-home">
-                    <div class="btn">Modalidades</div>
-                    <div class="btn">Aulas</div>
-                    <div class="btn">Plano e Assinatura</div>
-                    <div class="btn">Evolução</div>
-                    <div class="btn">Ficha de Avaliações</div>
-                    <div class="btn">Pagamento e Faturas</div>
+                    <div onclick="window.location.href='@{/modalidades}'" class="btn">Modalidades</div>
+                    <div onclick="window.location.href='@{/aulas}'" class="btn">Aulas</div>
+                    <div onclick="window.location.href='@{/planos}'" class="btn">Plano e Assinatura</div>
+                    <div onclick="window.location.href='@{/evolucao}'" class="btn">Evolução</div>
+                    <div onclick="window.location.href='@{/avaliacoes}'" class="btn">Ficha de Avaliações</div>
+                    <div onclick="window.location.href='@{/pagamentos}'" class="btn">Pagamento e Faturas</div>
                 </div>
             
                 <div id="avisos">Avisos</div>
