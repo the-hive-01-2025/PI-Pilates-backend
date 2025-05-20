@@ -1,6 +1,7 @@
 package br.studio.pilates.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +30,13 @@ public class AlunoController {
 	}
 
 	@GetMapping("aluno/{id}")
-	public Aluno getById(@PathVariable("id") String Id) {
+	public Optional<Aluno> getById(@PathVariable("id") String Id) {
 		return alunoService.getById(Id);
+	}
+
+	@GetMapping("aluno/cpf/{cpf}")
+	public Aluno getByCpf(@PathVariable("cpf") long cpf) {
+		return alunoService.getByCpf(cpf);
 	}
 
 	@GetMapping("aluno/nome/{nome}")
@@ -50,6 +57,17 @@ public class AlunoController {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT)
 					.body("Não foi possível cadastrar o aluno: " + e.getMessage());
+		}
+	}
+
+	@PutMapping("aluno/{id}")
+	public ResponseEntity<?> atualizarAluno(@PathVariable("id") String Id, @RequestBody Aluno aluno) {
+		try {
+			Aluno alunoAtualizado = alunoService.atualizarAluno(Id, aluno);
+			return ResponseEntity.ok(alunoAtualizado);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body("Não foi possível atualizar o aluno: " + e.getMessage());
 		}
 	}
 

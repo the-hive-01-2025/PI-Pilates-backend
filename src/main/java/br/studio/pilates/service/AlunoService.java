@@ -19,7 +19,7 @@ public class AlunoService {
 		return alunoRepository.findAll();
 	}
 	
-	public Aluno getById(String Id) {
+	public Optional<Aluno> getById(String Id) {
 		return alunoRepository.findAlunoById(Id);
 				
 	}
@@ -28,6 +28,9 @@ public class AlunoService {
 		return alunoRepository.findByNome(nome);
 	}
 	
+	public Aluno getByCpf(Long cpf) {
+		return alunoRepository.findByCpf(cpf).orElse(null);
+	}
 	public List<Aluno> getByPrimeiroNome (String nome) {
 		return alunoRepository.findByNomeStartsWith(nome);
 	}
@@ -40,6 +43,16 @@ public class AlunoService {
     }
 
     return alunoRepository.save(aluno);
+	}
+
+	public Aluno atualizarAluno(String Id, Aluno aluno) {
+		Optional<Aluno> alunoExistente = alunoRepository.findByCpf(aluno.getCpf());
+
+	if (alunoExistente.isPresent()) {
+        throw new IllegalArgumentException("Já existe um aluno com este CPF.");
+    }
+
+	return alunoRepository.save(aluno);
 	}
 	
 	public void deleteAluno(String Id) {

@@ -13,7 +13,7 @@ public interface AlunoRepository extends MongoRepository<Aluno, String>{
 
 	public List<Aluno> findByNomeStartsWith(String nome);
 
-	public Aluno findAlunoById(String Id);
+	public Optional<Aluno> findAlunoById(String Id);
 
 	Optional<Aluno> findByCpf(Long cpf);
 
