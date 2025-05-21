@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tela Início Instrutor</title>
+    <link rel="stylesheet" href="../../static/css/painel-instrutor.css">
+</head>
+<body>
+    <header class="top-bar">
+        <div class="logo">Pilates</div>
+        <div class="user-icon"></div>
+    </header>
+
+    <main class="container">
+        <h2>Seja bem-vindo <span th:text="${nome}">[Nome]</span></h2>
+
+        <div class="menu-instrutor">
+            <a th:href="@{/agenda}" class="menu-button">Agenda de Aulas</a>
+            <a th:href="@{/evolucao}" class="menu-button">Registro de Evolução</a>
+            <a th:href="@{/avaliacao}" class="menu-button">Ficha de Avaliação</a>
+        </div>
+    </main>
+</body>
+</html>

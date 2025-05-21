@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tela Agenda</title>
+    <link rel="stylesheet" href="../static/css/agenda.css">
+</head>
+<body>
+    <header class="top-bar">
+        <div class="logo">Pilates</div>
+        <div class="user-icon"></div>
+    </header>
+
+    <main class="container">
+        <h1>Agenda de Aulas</h1>
+
+        <div class="search-box">
+            <input type="text" placeholder="Procurar Aula">
+            <button><i>🔍</i></button>
+        </div>
+
+        <table class="agenda-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Alunos</th>
+                    <th>Estúdio</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Exemplo com dados fixos ou pode usar um loop do Thymeleaf -->
+                <tr>
+                    <td>06/05/2025</td>
+                    <td>09:00</td>
+                    <td>Maria Eduarda</td>
+                    <td>Estúdio Estudio Life</td>
+                    <td>
+                        <button class="btn-cancelar">Cancelar</button>
+                        <button class="btn-presenca">Marcar Presença</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

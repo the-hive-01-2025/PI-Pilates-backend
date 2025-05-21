@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.top-bar {
+    background-color: #937ee2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.user-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #d6d6d6;
+    border-radius: 50%;
+}
+
+.container {
+    padding: 30px;
+    background-color: #d6d6d6;
+    min-height: 100vh;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.search-box {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.search-box button {
+    margin-left: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.agenda-table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.agenda-table th, .agenda-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn-cancelar {
+    background-color: #c1b3f4;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-presenca {
+    background-color: #937ee2;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
