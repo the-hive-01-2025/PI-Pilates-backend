@@ -17,6 +17,7 @@ public class Aluno {
 	private String id;
 
 	private String nome;
+	private String sexo;
 	private LocalDate data;
 	private Long cpf;
 	private String email;
@@ -32,12 +33,13 @@ public class Aluno {
 
 	}
 
-	public Aluno(String id, String nome, LocalDate data, Long cpf, String email, Long contato, String profissao,
+	public Aluno(String id, String nome, String sexo, LocalDate data, Long cpf, String email, Long contato, String profissao,
 			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
 			List<String> fotos) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.sexo = sexo;
 		this.data = data;
 		this.cpf = cpf;
 		this.email = email;
@@ -64,6 +66,14 @@ public class Aluno {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 	public LocalDate getData() {

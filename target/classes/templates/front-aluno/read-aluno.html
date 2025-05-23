@@ -1,11 +1,90 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Ver Aluno</title>
+    <title>Ficha do Aluno</title>
 </head>
+
+<!-- //Aqui será possível vizualizar os dados do aluno individualmente -->
 <body>
-    <!-- //Aqui será possível vizualizar os dados do aluno individualmente -->
-    <h2>Ver Aluno</h2>
-    
+
+    <h2>Ficha do Aluno</h2>
+
+    <section>
+        <div>
+            <strong>Nome:</strong>
+            <span th:text="${alunos.nome}">Nome</span>
+        </div>
+
+        <div>
+            <strong>Sexo:</strong>
+            <span th:text="${alunos.sexo}">Sexo</span>
+        </div>
+
+        <div>
+            <strong>Data de Nascimento:</strong>
+            <span th:text="${alunos.data}">01/01/2000</span>
+        </div>
+
+        <div>
+            <strong>CPF:</strong>
+            <span th:text="${alunos.cpf}">00000000000</span>
+        </div>
+
+        <div>
+            <strong>Email:</strong>
+            <span th:text="${alunos.email}">email@exemplo.com</span>
+        </div>
+
+        <div>
+            <strong>Contato:</strong>
+            <span th:text="${alunos.contato}">11999999999</span>
+        </div>
+
+        <div>
+            <strong>Profissão:</strong>
+            <span th:text="${alunos.profissao}">Profissão</span>
+        </div>
+
+        <div>
+            <strong>Plano:</strong>
+            <span th:text="${alunos.plano.nome}">Nome do Plano</span>
+        </div>
+
+        <div>
+            <strong>Ficha de Avaliação:</strong>
+            <span th:text="${alunos.fichaAvaliacao.descricao}">Descrição da ficha</span>
+        </div>
+
+        <div>
+            <strong>Aulas Marcadas:</strong>
+            <ul>
+                <li th:each="aula : ${alunos.aulasMarcadas}" th:text="${#dates.format(aula.dataHora, 'dd/MM/yyyy HH:mm')}">Data da Aula</li>
+            </ul>
+        </div>
+
+        <div>
+            <strong>Histórico de Pagamento:</strong>
+            <ul>
+                <li th:each="pagamento : ${alunos.historicoPagamento}">
+                    <span th:text="'R$ ' + ${pagamento.valor} + ' - ' + ${#dates.format(pagamento.dataPagamento, 'dd/MM/yyyy')}">Pagamento</span>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <strong>Fotos:</strong>
+            <ul>
+                <li th:each="foto : ${alunos.fotos}">
+                    <img th:src="@{${foto}}" alt="Foto do aluno" width="100">
+                </li>
+            </ul>
+        </div>
+
+        <br>
+        <a th:href="@{/web/aluno/list}">Voltar à Lista</a>
+        <a th:href="@{web/aluno/editar/{id}(id=${alunos.id})}">Editar</a>
+    </section>
+
 </body>
 </html>

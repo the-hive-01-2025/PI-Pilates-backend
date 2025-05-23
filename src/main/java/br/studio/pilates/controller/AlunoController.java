@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.studio.pilates.model.entity.Aluno;
@@ -19,12 +20,13 @@ import br.studio.pilates.service.AlunoService;
 
 
 @RestController
+@RequestMapping("api")
 public class AlunoController {
 
 	@Autowired
 	private AlunoService alunoService;
 
-	@GetMapping("aluno")
+	@GetMapping("/aluno")
 	public List<Aluno> listar() {
 		return alunoService.listarTodos();
 	}

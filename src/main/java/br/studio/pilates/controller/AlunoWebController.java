@@ -16,54 +16,56 @@ import br.studio.pilates.service.AlunoService;
 
 
 @Controller
-@RequestMapping("/aluno")
+@RequestMapping("web/aluno")
 public class AlunoWebController {
+
 	@Autowired
 	private AlunoService alunoService;
-
+	
 	@GetMapping("/home")
 	public String home() {
-		return "home";
+		return "front-aluno/home";
 	}
+
   	@GetMapping("/list")
 	public String listarTodos(Model model) {
 		List<Aluno> alunos = alunoService.listarTodos();
 		model.addAttribute("alunos", alunos);
-		return "consultar-aluno";
+		return "front-aluno/consultar-aluno";
 	}
 
 	@GetMapping("/{id}")
 	public String getById(Model model, @PathVariable String id ) {
 		Optional<Aluno> alunos = alunoService.getById(id);		
 		model.addAttribute("alunos", alunos.get());
-		return "read-aluno";
+		return "front-aluno/read-aluno";
 	}
 
 	@GetMapping("nome/{nome}")
 	public String getByNome(Model model, @PathVariable String nome ) {
 		Aluno alunos = alunoService.getByNome(nome);		
 		model.addAttribute("alunos", alunos);
-		return "read-aluno";
+		return "front-aluno/read-aluno";
 	}
 
 	@GetMapping("cpf/{cpf}")
 	public String getByCpf(Model model, @PathVariable long cpf ) {
 		Aluno alunos = alunoService.getByCpf(cpf);		
 		model.addAttribute("alunos", alunos);
-		return "read-aluno";
+		return "front-aluno/read-aluno";
 	}
 
 	@PostMapping("/save")
 	public String saveAluno(Aluno aluno) {
 		alunoService.saveAluno(aluno);
-		return "redirect:/aluno/list";
+		return "redirect:/web/aluno/list";
 	}
 
 	@GetMapping("/new")
 	public String cadastrarAluno(Model model) {
 		model.addAttribute("aluno", new Aluno());
 		model.addAttribute("novo", true);
-		return "cadastrar-aluno";
+		return "front-aluno/cadastrar-aluno";
 	}
 
 	@GetMapping("/editar/{id}")
@@ -71,13 +73,13 @@ public class AlunoWebController {
 		Optional<Aluno> aluno = alunoService.getById(Id);
 		model.addAttribute("aluno", aluno.get());
 		model.addAttribute("novo", false);
-		return "cadastrar-aluno";
+		return "front-aluno/cadastrar-aluno"; //dar uma atenção aqui
 	}
 
 	@GetMapping("/deletar/{id}")
 	public String deleteByName(@PathVariable("id") String Id) {
 		alunoService.deleteAluno(Id);
-		return "redirect:/aluno/list";
+		return "redirect:/web/aluno/list";
 	}
 
 }

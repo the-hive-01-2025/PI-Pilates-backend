@@ -1,11 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Gerenciamento de aluno</title>
 </head>
+
 <body>
     <!-- //aqui deve retornar a lista de alunos cadsatrados -->
-    <h2>Gerenciamento de aluno</h2>
-    
+    <h2>Procurar Aluno</h2>
+
+    <section>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Pesquisar aluno">
+            <img th:src="@{/images/search.png}" alt="Pesquisar" class="search-icon">
+        </div>
+
+        <table border="1">
+            <tr>
+                <th>Nome</th>
+                <th>sexo</th>
+                <th>CPF</th>
+                <th>Email</th>
+                <th>Contato</th>
+                <th>Plano</th>
+                <th>Controle</th>
+            </tr>
+            <tr th:each="aluno : ${alunos}">
+                <td th:text="${aluno.nome}"></td>
+                <td th:text="${aluno.sexo}"></td>
+                <td th:text="${aluno.cpf}"></td>
+                <td th:text="${aluno.email}"></td>
+                <td th:text="${aluno.contato}"></td>
+                <td th:text="${aluno.plano}"></td>
+                <td>
+                    <a th:href="@{web/aluno/editar/{id}(id=${aluno.id})}">editar</a>
+                    <a th:href="@{web/alunos/deletar/{id}(id=${aluno.id})}">excluir</a>
+                    <a th:href="@{web/aluno/{id}(id=${aluno.id})}">ver ficha</a>
+                </td>
+            </tr>
+        </table>
+        <a id="novo" th:href="@{web/alunos/new}">Novo</a>
+        <a id="voltar" th:href="@{web/usuario/home}">Voltar</a>
+    </section>
 </body>
+
 </html>
