@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Tela Agenda</title>
-    <link rel="stylesheet" href="../static/css/agenda.css">
+    <link rel="stylesheet" href="../../static/css/instrutor/agenda.css">
 </head>
+
 <body>
     <header class="top-bar">
         <div class="logo">Pilates</div>
@@ -30,19 +32,95 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Exemplo com dados fixos ou pode usar um loop do Thymeleaf -->
                 <tr>
                     <td>06/05/2025</td>
                     <td>09:00</td>
                     <td>Maria Eduarda</td>
                     <td>Estúdio Estudio Life</td>
                     <td>
-                        <button class="btn-cancelar">Cancelar</button>
-                        <button class="btn-presenca">Marcar Presença</button>
+                        <button class="btn-cancelar" id="abrirCancelarBtn">Cancelar</button>
+                        <button class="btn-presenca" id="abrirModalBtn">Marcar Presença</button>
                     </td>
                 </tr>
             </tbody>
+
+            <!-- Modal  botão presença -->
+            <div id="modalPresenca" class="modal">
+                <div class="modal-conteudo">
+                    <span class="fechar" id="fecharModal">&times;</span>
+                    <h2>Nome da Aula</h2>
+                    <input type="text" value="Pilates Avançado" readonly />
+
+                    <div class="campo">
+                        <label><strong>Presença:</strong></label>
+                        <input type="checkbox" id="presente" name="presente">
+                        <label for="presente">Maria Eduarda</label>
+                    </div>
+
+                    <div class="campo">
+                        <label><strong>Observações:</strong></label>
+                        <textarea rows="5" cols="40" placeholder="Digite aqui..."></textarea>
+                    </div>
+
+                    <button class="botao-concluir">Concluído</button>
+                </div>
+            </div>
+
+            <script>
+                const modal = document.getElementById("modalPresenca");
+                const btn = document.getElementById("abrirModalBtn");
+                const span = document.getElementById("fecharModal");
+
+                btn.onclick = function () {
+                    modal.style.display = "block";
+                }
+
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                window.onclick = function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+
+
+
+            <!-- Modal botão cancelar-->
+            <div id="modalCancelar" class="modal">
+                <div class="modal-conteudo">
+                    <h2>Cancelar aula</h2>
+                    <p>Você gostaria de cancelar a aula de <strong th:text="${aluno.nome}">[nome]</strong>?</p>
+
+                    <form th:action="@{/aulas/cancelar}" method="post">
+                        <input type="hidden" name="aulaId" th:value="${aula.id}" />
+                        <div class="botoes">
+                            <button type="button" class="botao-nao" id="fecharCancelar">Não</button>
+                            <button type="submit" class="botao-sim">Sim</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                const modalCancelar = document.getElementById("modalCancelar");
+                const abrirBtn = document.getElementById("abrirCancelarBtn");
+                const fecharBtn = document.getElementById("fecharCancelar");
+
+                abrirBtn.onclick = () => modalCancelar.style.display = "block";
+                fecharBtn.onclick = () => modalCancelar.style.display = "none";
+
+                window.onclick = function (event) {
+                    if (event.target === modalCancelar) {
+                        modalCancelar.style.display = "none";
+                    }
+                }
+            </script>
+
         </table>
     </main>
 </body>
+
 </html>
