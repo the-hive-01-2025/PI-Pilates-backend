@@ -30,28 +30,28 @@ public class AlunoWebController {
   	@GetMapping("/list")
 	public String listarTodos(Model model) {
 		List<Aluno> alunos = alunoService.listarTodos();
-		model.addAttribute("alunos", alunos);
+		model.addAttribute("aluno", alunos);
 		return "front-aluno/consultar-aluno";
 	}
 
 	@GetMapping("/{id}")
 	public String getById(Model model, @PathVariable String id ) {
 		Optional<Aluno> alunos = alunoService.getById(id);		
-		model.addAttribute("alunos", alunos.get());
+		model.addAttribute("aluno", alunos.get());
 		return "front-aluno/read-aluno";
 	}
 
 	@GetMapping("nome/{nome}")
 	public String getByNome(Model model, @PathVariable String nome ) {
 		Aluno alunos = alunoService.getByNome(nome);		
-		model.addAttribute("alunos", alunos);
+		model.addAttribute("aluno", alunos);
 		return "front-aluno/read-aluno";
 	}
 
 	@GetMapping("cpf/{cpf}")
-	public String getByCpf(Model model, @PathVariable long cpf ) {
+	public String getByCpf(Model model, @PathVariable String cpf ) {
 		Aluno alunos = alunoService.getByCpf(cpf);		
-		model.addAttribute("alunos", alunos);
+		model.addAttribute("aluno", alunos);
 		return "front-aluno/read-aluno";
 	}
 
@@ -68,13 +68,20 @@ public class AlunoWebController {
 		return "front-aluno/cadastrar-aluno";
 	}
 
-	@GetMapping("/editar/{id}")
-	public String editar(@PathVariable("id") String Id, Model model) {
-		Optional<Aluno> aluno = alunoService.getById(Id);
-		model.addAttribute("aluno", aluno.get());
-		model.addAttribute("novo", false);
-		return "front-aluno/cadastrar-aluno"; //dar uma atenção aqui
-	}
+@GetMapping("/editar/{id}")
+public String editar(@PathVariable("id") String Id, Model model) {
+    Optional<Aluno> aluno = alunoService.getById(Id);
+    
+    if (aluno.isEmpty()) {
+        // Se o aluno não existe, redireciona para a tela de cadastro
+        return "redirect:/web/aluno/new";
+    }
+
+    model.addAttribute("aluno", aluno.get());
+    model.addAttribute("novo", false);
+    return "front-aluno/cadastrar-aluno";
+}
+
 
 	@GetMapping("/deletar/{id}")
 	public String deleteByName(@PathVariable("id") String Id) {

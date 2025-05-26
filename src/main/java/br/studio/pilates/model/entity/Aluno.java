@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.List;
 
@@ -18,10 +19,16 @@ public class Aluno {
 
 	private String nome;
 	private String sexo;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate data;
-	private Long cpf;
+
+	private String cpf;
 	private String email;
+	private String senha;
 	private Long contato;
+	private String endereco;
+	private String cep;
 	private String profissao;
 	private FichaAvaliacao fichaAvaliacao;
 	private Plano plano;
@@ -33,7 +40,7 @@ public class Aluno {
 
 	}
 
-	public Aluno(String id, String nome, String sexo, LocalDate data, Long cpf, String email, Long contato, String profissao,
+	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String email, String senha, Long contato, String endereco, String cep, String profissao,
 			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
 			List<String> fotos) {
 		super();
@@ -43,7 +50,10 @@ public class Aluno {
 		this.data = data;
 		this.cpf = cpf;
 		this.email = email;
+		this.senha = senha;
 		this.contato = contato;
+		this.endereco = endereco;
+		this.cep = cep;
 		this.profissao = profissao;
 		this.fichaAvaliacao = fichaAvaliacao;
 		this.plano = plano;
@@ -84,11 +94,11 @@ public class Aluno {
 		this.data = data;
 	}
 
-	public Long getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Long cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
@@ -100,12 +110,36 @@ public class Aluno {
 		this.email = email;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
 	public Long getContato() {
 		return contato;
 	}
 
 	public void setContato(Long contato) {
 		this.contato = contato;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 
 	public String getProfissao() {

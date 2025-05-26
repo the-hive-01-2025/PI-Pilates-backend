@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/home.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <title>Home - Pilates</title>
- </head>
-    <body>
-        <header>
-            <a class="logo" th:href="@{/home}">Pilates</a>
-            <div id="radius-perfil"></div>
-        </header>
+</head>
+
+<body>
+    <header>
+        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="profile-circle"></div>
+    </header>
+
         <main>
-            <div class="container-welcome">
-                <div class="welcome">Seja bem-vindo <span th:text="${nome}">[Nome]</span></div>
-            
-                <div class="container-buttons-home">
-                    <div onclick="window.location.href='@{/modalidades}'" class="btn">Modalidades</div>
-                    <div onclick="window.location.href='@{/aulas}'" class="btn">Aulas</div>
-                    <div onclick="window.location.href='@{/planos}'" class="btn">Plano e Assinatura</div>
-                    <div onclick="window.location.href='@{/evolucao}'" class="btn">Evolução</div>
-                    <div onclick="window.location.href='@{/avaliacoes}'" class="btn">Ficha de Avaliações</div>
-                    <div onclick="window.location.href='@{/pagamentos}'" class="btn">Pagamento e Faturas</div>
-                </div>
-            
-                <div id="avisos">Avisos</div>
+            <h2>Seja bem-vindo <span th:text="${usuario != null ? usuario.nome : '[usuário]'}">usuário</span></h2>
+
+            <div class="button-grid">
+                <a class="btn-home" th:href="@{/web/aluno/new}">Cadastrar Aluno</a>
+                <a class="btn-home" th:href="@{/web/instrutor/new}">Cadastrar Instrutor</a>
+                <a class="btn-home" th:href="@{/web/aluno/list}">Consultar Aluno</a>
+                <a class="btn-home" th:href="@{/web/instrutor/list}">Consultar Instrutor</a>
+            </div>
+
+            <div class="button-center">
+                <a class="btn-home" th:href="@{/web/agendamento}">Agendamento</a>
             </div>
         </main>
-    </body>
+
+    </main>
+</body>
+
 </html>

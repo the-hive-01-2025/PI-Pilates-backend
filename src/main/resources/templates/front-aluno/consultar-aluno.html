@@ -1,47 +1,75 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Gerenciamento de aluno</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Aluno | Pilates</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lista.css">
 </head>
 
 <body>
-    <!-- //aqui deve retornar a lista de alunos cadsatrados -->
-    <h2>Procurar Aluno</h2>
 
-    <section>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Pesquisar aluno">
-            <img th:src="@{/images/search.png}" alt="Pesquisar" class="search-icon">
+    <header>
+        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="profile-circle"></div>
+    </header>
+
+    <main class="container">
+
+        <h2 class="page-title">Lista de Alunos</h2>
+        <div class="container-table">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Procurar Aluno">
+                <button class="btn-search">
+                    <img th:src="@{/images/search.png}" alt="Pesquisar" width="15" height="15">
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Sexo</th>
+                            <th>CPF</th>
+                            <th>Email</th>
+                            <th>Contato</th>
+                            <th>Plano</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="aluno : ${aluno}">
+                            <td th:text="${aluno.nome}">Maria Eduarda</td>
+                            <td th:text="${aluno.sexo}">Feminino</td>
+                            <td th:text="${aluno.cpf}">123.123.432-32</td>
+                            <td th:text="${aluno.email}">email@teste.com</td>
+                            <td th:text="${aluno.contato}">1199999999999</td>
+                            <td th:text="${aluno.plano}">Mensal</td>
+                            <td>
+                                <div class="actions">
+                                    <a th:href="@{/web/aluno/deletar/{id}(id=${aluno.id})}"
+                                        class="btn delete">Excluir</a>
+                                    <a th:href="@{/web/aluno/{id}(id=${aluno.id})}" class="btn ficha">Ficha</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
 
-        <table border="1">
-            <tr>
-                <th>Nome</th>
-                <th>sexo</th>
-                <th>CPF</th>
-                <th>Email</th>
-                <th>Contato</th>
-                <th>Plano</th>
-                <th>Controle</th>
-            </tr>
-            <tr th:each="aluno : ${alunos}">
-                <td th:text="${aluno.nome}"></td>
-                <td th:text="${aluno.sexo}"></td>
-                <td th:text="${aluno.cpf}"></td>
-                <td th:text="${aluno.email}"></td>
-                <td th:text="${aluno.contato}"></td>
-                <td th:text="${aluno.plano}"></td>
-                <td>
-                    <a th:href="@{web/aluno/editar/{id}(id=${aluno.id})}">editar</a>
-                    <a th:href="@{web/alunos/deletar/{id}(id=${aluno.id})}">excluir</a>
-                    <a th:href="@{web/aluno/{id}(id=${aluno.id})}">ver ficha</a>
-                </td>
-            </tr>
-        </table>
-        <a id="novo" th:href="@{web/alunos/new}">Novo</a>
-        <a id="voltar" th:href="@{web/usuario/home}">Voltar</a>
-    </section>
+        <div class="bottom-buttons">
+            <a id="novo" th:href="@{/web/aluno/new}" class="btn novo">Novo Registro</a>
+            <a id="voltar" th:href="@{/web/aluno/home}" class="btn voltar">Voltar</a>
+        </div>
+
+    </main>
+
+
 </body>
 
 </html>

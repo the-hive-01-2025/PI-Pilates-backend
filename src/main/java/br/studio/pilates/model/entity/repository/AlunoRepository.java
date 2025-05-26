@@ -15,7 +15,7 @@ public interface AlunoRepository extends MongoRepository<Aluno, String>{
 
 	public Optional<Aluno> findAlunoById(String Id);
 
-	Optional<Aluno> findByCpf(Long cpf);
+	Optional<Aluno> findByCpf(String cpf);
 
 	void deleteAlunoById(String Id);
 
