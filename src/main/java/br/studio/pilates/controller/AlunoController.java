@@ -24,14 +24,14 @@ public class AlunoController {
 
 	@Autowired
 	private AlunoService alunoService;
-	
-	@GetMapping("/aluno")
-	public List<Aluno> listar(){
+
+	@GetMapping("aluno")
+	public List<Aluno> listar() {
 		return alunoService.listarTodos();
 	}
 
 	@GetMapping("aluno/{id}")
-	public Aluno getByRaAluno(@PathVariable("id") String Id) {
+	public Optional<Aluno> getById(@PathVariable("id") String Id) {
 		return alunoService.getById(Id);
 	}
 
@@ -39,7 +39,7 @@ public class AlunoController {
 	public Aluno getByCpf(@PathVariable("cpf") String cpf) {
 		return alunoService.getByCpf(cpf);
 	}
-
+ 
 	@GetMapping("aluno/nome/{nome}")
 	public Aluno getByNomeAluno(@PathVariable("nome") String nome) {
 		return alunoService.getByNome(nome);
@@ -49,17 +49,50 @@ public class AlunoController {
 	public List<Aluno> getByFirstName(@PathVariable("nome") String nome) {
 		return alunoService.getByPrimeiroNome(nome);
 	}
-	
-	@DeleteMapping("/api/alunos/{id}")
-	public String delete(@PathVariable("id") String Id) {
-		alunoService.deleteAluno(Id);
-		return "Aluno Excluido com sucesso!!";
+
+	@PostMapping("/aluno")
+	public ResponseEntity<?> cadastrarAluno(@RequestBody Aluno aluno) {
+		try {
+			Aluno novoAluno = alunoService.saveAluno(aluno);
+			return ResponseEntity.ok(novoAluno);
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity
+					.status(HttpStatus.CONFLICT)
+					.body("Não foi possível cadastrar o aluno: " + e.getMessage());
+		}
 	}
 	
-	@PostMapping("/api/alunos")
-		public Aluno insert(@RequestBody Aluno aluno) {
-		return alunoService.saveAluno(aluno);
-	
+    @PutMapping("/aluno/{id}")
+    public ResponseEntity<?> atualizarAluno(@PathVariable String id, @RequestBody Aluno aluno) {
+        try {
+            Aluno alunoAtualizado = alunoService.atualizarAluno(id, aluno);
+            return ResponseEntity.ok(alunoAtualizado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Não foi possível atualizar o aluno: " + e.getMessage());
+        }
+    }
+
+	@DeleteMapping("aluno/{id}")
+	public String delete(@PathVariable("id") String Id) {
+		if (alunoService.getById(Id) != null) {
+
+			alunoService.deleteAluno(Id);
+			return "Aluno Excluido com sucesso!!";
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: recurso não encontrado!").toString();
+		}
+	}
+
+	@DeleteMapping("aluno/nome/{nome}")
+	public String deleteByName(@PathVariable("nome") String nome) {
+		try {
+			alunoService.deleteAlunoByName(nome);
+			return "Aluno Excluido com sucesso!!";
+		} catch (Exception e) {
+			return "Aluno nao encontrado!!";
+		}
 	}
 
 }
