@@ -36,17 +36,17 @@ public class AlunoController {
 	}
 
 	@GetMapping("aluno/cpf/{cpf}")
-	public Aluno getByCpf(@PathVariable("cpf") String cpf) {
+	public Aluno getByCpf(@PathVariable String cpf) {
 		return alunoService.getByCpf(cpf);
 	}
  
 	@GetMapping("aluno/nome/{nome}")
-	public Aluno getByNomeAluno(@PathVariable("nome") String nome) {
+	public Aluno getByNomeAluno(@PathVariable String nome) {
 		return alunoService.getByNome(nome);
 	}
 
 	@GetMapping("aluno/primeironome/{nome}")
-	public List<Aluno> getByFirstName(@PathVariable("nome") String nome) {
+	public List<Aluno> getByFirstName(@PathVariable String nome) {
 		return alunoService.getByPrimeiroNome(nome);
 	}
 
@@ -86,7 +86,7 @@ public class AlunoController {
 	}
 
 	@DeleteMapping("aluno/nome/{nome}")
-	public String deleteByName(@PathVariable("nome") String nome) {
+	public String deleteByName(@PathVariable String nome) {
 		try {
 			alunoService.deleteAlunoByName(nome);
 			return "Aluno Excluido com sucesso!!";

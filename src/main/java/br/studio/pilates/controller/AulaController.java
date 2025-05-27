@@ -35,7 +35,7 @@ public class AulaController {
     }
 
 	@GetMapping("aula/detalhada/{id}")
-	public ResponseEntity<?> getAulaDetalhada(@PathVariable("id") String id) {
+	public ResponseEntity<?> getAulaDetalhada(@PathVariable String id) {
 		AulaDetalhadaDTO dto = aulaService.getAulaDetalhadaById(id);
 		if (dto == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aula não encontrada para o id informado.");
@@ -72,7 +72,7 @@ public class AulaController {
     }
 
     @PutMapping("aula/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody Aula aulaAtualizada) {
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Aula aulaAtualizada) {
         Aula aulaExistente = aulaService.getAulaById(id);
         if (aulaExistente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aula não encontrada para o id informado.");

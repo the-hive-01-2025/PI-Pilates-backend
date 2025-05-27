@@ -33,7 +33,7 @@ public class EstudioController {
 	}
 
 	@GetMapping("estudio/nome/{nome}")
-	public Estudio getByNomeEstudio(@PathVariable("nome") String nome) {
+	public Estudio getByNomeEstudio(@PathVariable String nome) {
 		return estudioService.getByNome(nome);
 	}
 
@@ -54,7 +54,7 @@ public class EstudioController {
 	}
 		}
 	@DeleteMapping("estudio/nome/{nome}")
-	public String deleteByName(@PathVariable("nome") String nome) {
+	public String deleteByName(@PathVariable String nome) {
 		try {estudioService.deleteEstudioByName(nome);
 		return "Estudio Excluido com sucesso!!";
 		}

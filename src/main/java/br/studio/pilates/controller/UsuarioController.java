@@ -33,12 +33,12 @@ public class UsuarioController {
 	}
 
 	@GetMapping("usuario/nome/{nome}")
-	public Usuario getByNomeUsuario(@PathVariable("nome") String nome) {
+	public Usuario getByNomeUsuario(@PathVariable String nome) {
 		return usuarioService.getByNome(nome);
 	}
 
 	@GetMapping("usuario/primeironome/{nome}")
-	public List<Usuario> getByFirstName(@PathVariable("nome") String nome) {
+	public List<Usuario> getByFirstName(@PathVariable String nome) {
 		return usuarioService.getByPrimeiroNome(nome);
 	}
 
@@ -59,7 +59,7 @@ public class UsuarioController {
 	}
 		}
 	@DeleteMapping("usuario/nome/{nome}")
-	public String deleteByName(@PathVariable("nome") String nome) {
+	public String deleteByName(@PathVariable String nome) {
 		try {usuarioService.deleteUsuarioByName(nome);
 		return "usuario Excluido com sucesso!!";
 		}
