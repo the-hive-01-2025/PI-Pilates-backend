@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${novo} ? 'Cadastrar Aluno' : 'Editar Aluno'">Cadastro de Aluno</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/cadastro.css">
+</head>
+
+<body>
+
+    <header>
+        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="profile-circle"></div>
+    </header>
+    <main>
+        <div class="form-container">
+            <h2 class="title" th:text="${novo} ? 'Cadastrar Novo Aluno' : 'Editar Aluno'">Cadastro de Aluno</h2>
+
+            <form class="form-content" th:action="@{/web/aluno/save}" th:object="${aluno}" method="post">
+
+                <input type="hidden" th:if="${!novo}" th:field="*{id}" />
+
+                <div class="input-group">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" id="nome" th:field="*{nome}" placeholder="Digite o nome completo" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="sexo">Sexo</label>
+                    <select id="sexo" th:field="*{sexo}" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="data">Data de Nascimento</label>
+                    <input type="date" id="data" th:field="*{data}" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="cpf">CPF</label>
+                    <input type="text" id="cpf" th:field="*{cpf}" placeholder="000.000.000-00" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" th:field="*{email}" placeholder="email@exemplo.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div style="display: flex; align-items: center;">
+                        <input type="password" id="senha" th:field="*{senha}" placeholder="Digite a senha"
+                            th:required="${novo}" style="flex: 1;">
+                        <button type="button" onclick="toggleSenha()" style="margin-left: 8px;">👁️</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="contato">Contato</label>
+                    <input type="text" id="contato" th:field="*{contato}" placeholder="00 000000000" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco" th:field="*{endereco}" placeholder="Digite o endereço" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" th:field="*{cep}" placeholder="00000-000" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="profissao">Profissão</label>
+                    <input type="text" id="profissao" th:field="*{profissao}" placeholder="Digite a profissão" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="plano">Plano</label>
+                    <input type="text" id="plano" th:field="*{plano}" placeholder="Digite o plano contratado" required>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn" type="submit" th:text="${novo} ? 'Salvar' : 'Atualizar'">Salvar</button>
+                    <a class="btn cancel" th:href="@{/web/aluno/list}">Cancelar</a>
+                </div>
+
+            </form>
+        </div>
+    </main>
+    <script>
+    function toggleSenha() {
+        const senhaInput = document.getElementById("senha");
+        senhaInput.type = senhaInput.type === "password" ? "text" : "password";
+    }
+</script>
+</body>
+
+</html>

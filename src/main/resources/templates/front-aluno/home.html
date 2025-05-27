@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Home - Pilates</title>
+</head>
+
+<body>
+    <header>
+        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="profile-circle"></div>
+    </header>
+
+        <main>
+            <h2>Seja bem-vindo <span th:text="${usuario != null ? usuario.nome : '[usuário]'}">usuário</span></h2>
+
+            <div class="button-grid">
+                <a class="btn-home" th:href="@{/web/aluno/new}">Cadastrar Aluno</a>
+                <a class="btn-home" th:href="@{/web/instrutor/new}">Cadastrar Instrutor</a>
+                <a class="btn-home" th:href="@{/web/aluno/list}">Consultar Aluno</a>
+                <a class="btn-home" th:href="@{/web/instrutor/list}">Consultar Instrutor</a>
+            </div>
+
+            <div class="button-center">
+                <a class="btn-home" th:href="@{/web/agendamento}">Agendamento</a>
+            </div>
+        </main>
+
+    </main>
+</body>
+
+</html>

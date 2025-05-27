@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agenda do Instrutor</title>
+</head>
+<body>
+    <h2>Agenda do Instrutor</h2>
+    <table>
+        <tr>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Aluno(s)</th>
+            <th>Status</th>
+            <th>Observações</th>
+            <th>Ações</th>
+        </tr>
+        <tr th:each="aula : ${aulas}">
+            <td th:text="${aula.data}"></td>
+            <td th:text="${aula.horario}"></td>
+            <td th:text="${aula.alunos}"></td>
+            <td th:text="${aula.status}"></td>
+            <td th:text="${aula.observacoes}"></td>
+            <td>
+                <form th:action="@{/agendaInstrutor/cancelar/{id}(id=${aula.id})}" method="post">
+                    <button type="submit">Cancelar</button>
+                </form>
+                <form th:action="@{/agendaInstrutor/atualizar}" method="post">
+                    <input type="hidden" name="id" th:value="${aula.id}">
+                    <input type="text" name="observacoes" placeholder="Observações">
+                    <button type="submit">Atualizar</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

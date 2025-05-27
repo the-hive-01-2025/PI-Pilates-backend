@@ -1,0 +1,140 @@
+.container-table {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px;
+}
+.profile-circle {
+    width: 40px;
+    height: 40px;
+    background-color: var(--gray-color);
+    border-radius: 50%;
+}
+
+.page-title {
+    margin-top: 50px;
+    margin-left: 95px;
+    font-size: 26px;
+    color: var(--black-gray-color);
+}
+
+.search-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    width: 250px;
+}
+
+.btn-search {
+    background-color: var(--white-color);
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 6px;
+}
+
+.table-wrapper {
+    background-color: white;
+    border-radius: 8px;
+    overflow-x: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: var(--gray-color);
+}
+
+thead th {
+    text-align: left;
+    padding: 12px 16px;
+    color: var(--black-gray-color);
+}
+
+tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.actions {
+    display: flex;
+    gap: 6px;
+}
+
+.btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
+}
+
+.btn.edit {
+    background-color: var(--purple-color);
+}
+
+.btn.edit:hover {
+    background-color: var(--purple-light-color);
+}
+
+.btn.delete {
+    background-color: #ff5b5b;
+}
+
+.btn.delete:hover {
+    background-color: #e24c4c;
+}
+
+.btn.ficha {
+    background-color: #4ecdc4;
+}
+
+.btn.ficha:hover {
+    background-color: #3db5ae;
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn.novo {
+    background-color: var(--purple-color);
+}
+
+.btn.novo:hover {
+    background-color: var(--purple-light-color);
+}
+
+.btn.voltar {
+    background-color: #666;
+}
+
+.btn.voltar:hover {
+    background-color: #444;
+}
+
+/* Definir largura mínima e evitar quebra na coluna de CPF */
+td:nth-child(3), th:nth-child(3) {
+    min-width: 160px; /* ajuste conforme necessário */
+    white-space: nowrap;
+}
