@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+:root {
+    --purple-color: #8f83e5;
+    --purple-light-color: #a698f5;
+    --gray-color: #e2e2e2;
+    --white-color: #f6f6f6;
+    --black-gray-color: #2c2c2c;
+    font-family: "Inter", sans-serif;
+}
+
+header {
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(143, 131, 229, 1);
+    height: 85px;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    /* Garante que fique sobre outros elementos */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.profile-circle{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ddd;
+}
