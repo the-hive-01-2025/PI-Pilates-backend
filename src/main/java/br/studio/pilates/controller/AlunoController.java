@@ -47,11 +47,6 @@ public class AlunoController {
 		return alunoService.getByNome(nome);
 	}
 
-	@GetMapping("aluno/cpf/{cpf}")
-	public Optional<Aluno> getByCpfAluno(@PathVariable("cpf") String cpf) {
-		return alunoService.getByCpf(cpf);
-	}
-
 	@GetMapping("aluno/primeironome/{nome}")
 	public List<Aluno> getByFirstName(@PathVariable String nome) {
 		return alunoService.getByPrimeiroNome(nome);
