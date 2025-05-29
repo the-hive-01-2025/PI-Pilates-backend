@@ -30,11 +30,11 @@ public class AgendaInstrutorWebController {
 	return "instrutor/homeInstrutor";
 	}
 
-	@GetMapping("/listaraulas/{instrutorId}")
+	@GetMapping("/agenda")
 	public String listarAulas(Model model, @PathVariable String instrutorId) {
 	List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
 	model.addAttribute("aulas", aulas);
-	return "instrutor/agendaInstrutor";
+	return "redirect:instrutor/agenda";
 	}
 	
 
@@ -44,7 +44,7 @@ public class AgendaInstrutorWebController {
 	// return "redirect:/web/aluno/list";
 	// }
 
-	@GetMapping("/editar/{aulaId}")
+	@GetMapping("/editar/{aulaId}") // marcar presença
 	public String editar(@PathVariable("aulaId") String Id, Model model) {
 	List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulaById(Id);
 	model.addAttribute("aula", aulas.getStatus());
@@ -52,7 +52,7 @@ public class AgendaInstrutorWebController {
 	return "front-aluno/cadastrar-aluno"; //dar uma atenção aqui
 	}
 
-	@GetMapping("/deletar/{id}")
+	@GetMapping("/deletar/{id}") // cancelar aula (muda status para cancelado)
 	public String deleteByName(@PathVariable("id") String Id) {
 	agendaInstrutorService.deleteAluno(Id);
 	return "redirect:/web/aluno/list";
