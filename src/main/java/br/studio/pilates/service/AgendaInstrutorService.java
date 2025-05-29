@@ -1,6 +1,7 @@
 package br.studio.pilates.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class AgendaInstrutorService {
         return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
     }
 
+public List<AgendaInstrutorDTO> listarAulaById(String id) {
+    Optional<Aula> aulas = aulaRepository.findById(id);
+    return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
+}
+
     public void cancelarAula(String id) {
         Aula aula = aulaRepository.findById(id).orElseThrow(() -> new RuntimeException("Aula não encontrada"));
         aula.setStatus("Cancelado");
@@ -32,5 +38,8 @@ public class AgendaInstrutorService {
 
     public void atualizarAula(Aula aula) {
         aulaRepository.save(aula);
+    }
+    public Aula getAulaById(String Id) {
+        return aulaRepository.findAulaById(Id);
     }
 }
