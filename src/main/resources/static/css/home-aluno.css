@@ -1,0 +1,134 @@
+body {
+    background-color: var(--gray-color);
+}
+
+main {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 40px;
+}
+
+main h2 {
+    font-size: 24px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    color: var(--black-gray-color);
+    align-self: flex-start;
+}
+
+/* ---------- Botões Home ---------- */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 240px);
+    gap: 30px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.button-center {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--purple-light-color);
+    color: white;
+    padding: 20px 30px;
+    border: none;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    height: 70px;
+}
+
+.btn-home:hover {
+    background-color: var(--purple-color);
+}
+
+/* ---------- Carousel ---------- */
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 286px;
+    max-width: 400px;
+    margin: 40px auto;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-track img {
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+/* Botões de navegação */
+.carousel-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    pointer-events: none;
+}
+
+.carousel-btn {
+    background-color: var(--purple-color);
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-btn:hover {
+    background-color: var(--purple-light-color);
+}
+
+/* Indicadores (bolinhas) */
+.carousel-indicators {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 6px;
+    background-color: #ccc;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: var(--purple-color);
+}

@@ -8,6 +8,7 @@
 :root {
     --purple-color: #8f83e5;
     --purple-light-color: #a698f5;
+    --purple-color2: rgba(143, 131, 229, 1);
     --gray-color: #e2e2e2;
     --white-color: #f6f6f6;
     --black-gray-color: #2c2c2c;
@@ -18,8 +19,8 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(143, 131, 229, 1);
-    height: 85px;
+    background-color:var(--purple-color);
+    height: 92px;
     color: white;
     padding: 10px 20px;
     display: flex;

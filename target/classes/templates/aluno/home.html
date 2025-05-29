@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="../../static/css/home-aluno.css">
+    <title>Home - Pilates</title>
+</head>
+
+<body>
+    <header>
+        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="profile-circle"></div>
+    </header>
+
+    <main>
+        <h2>Seja bem-vindo <span th:text="${aluno != null ? aluno.nome : '[Aluno]'}">aluno</span></h2>
+
+        <div class="button-grid">
+            <a class="btn-home" th:href="@{/web/dashboard/modalidades}">Modalidades</a>
+            <a class="btn-home" th:href="@{/web/dashboard/aulas}">Aulas</a>
+            <a class="btn-home" th:href="@{/web/dashboard/planos}">Plano e Assinatura</a>
+            <a class="btn-home" th:href="@{/web/dashboard/evolucao}">Minha Evolução</a>
+            <a class="btn-home" th:href="@{/web/dashboard/ficha}">Ficha de Avaliação</a>
+            <a class="btn-home" th:href="@{/web/dashboard/faturas}">Pagamento e Faturas</a>
+        </div>
+        <div class="carousel">
+            <div class="carousel-track">
+                <img src="../../static/images/img-studio1.png" alt="Imagem 1">
+                <img src="../../static/images/img-studio2.png" alt="Imagem 2">
+                <img src="../../static/images/img-studio3.png" alt="Imagem 3">
+            </div>
+            <div class="carousel-buttons">
+                <button class="carousel-btn prev">&#10094;</button>
+                <button class="carousel-btn next">&#10095;</button>
+            </div>
+            <div class="carousel-indicators">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const track = document.querySelector('.carousel-track');
+        const images = document.querySelectorAll('.carousel-track img');
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+        const dots = document.querySelectorAll('.dot');
+        let index = 0;
+        const total = images.length;
+
+        function updateCarousel() {
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+        }
+
+        nextBtn.addEventListener('click', () => {
+            index = (index + 1) % total;
+            updateCarousel();
+            resetAutoPlay();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            index = (index - 1 + total) % total;
+            updateCarousel();
+            resetAutoPlay();
+        });
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                index = i;
+                updateCarousel();
+                resetAutoPlay();
+            });
+        });
+
+        function autoPlay() {
+            index = (index + 1) % total;
+            updateCarousel();
+        }
+
+        let interval = setInterval(autoPlay, 4000); // troca a cada 4 segundos
+
+        function resetAutoPlay() {
+            clearInterval(interval);
+            interval = setInterval(autoPlay, 4000);
+        }
+
+        updateCarousel(); // inicializa
+    </script>
+
+
+</body>
+
+</html>
