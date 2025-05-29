@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento de Aulas</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="../../static/css/home-aluno.css">
+    <link rel="stylesheet" href="../../static/css/agendamento.css">
+</head>
+
+<body>
+    <header>
+        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="profile-circle"></div>
+    </header>
+
+    <main>
+        <h2>Agendamento de Aulas</h2>
+        <div class="calendar-container">
+            <table class="calendar-table">
+                <thead>
+                    <tr>
+                        <th>Dom</th>
+                        <th>Seg</th>
+                        <th>Ter</th>
+                        <th>Qua</th>
+                        <th>Qui</th>
+                        <th>Sex</th>
+                        <th>Sáb</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    <!-- O calendário será preenchido via JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="aulas-marcadas">
+            <h3>Aulas Marcadas</h3>
+            <ul>
+                <li th:each="aula : ${aulas}">
+                    <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
+                    <span th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></span> -
+                    <span th:text="${aula.status}"></span>
+                </li>
+                <li th:if="${#lists.isEmpty(aulas)}">Nenhuma aula marcada.</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        // Exemplo simples de calendário JS (pode ser melhorado)
+        function gerarCalendario() {
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = hoje.getMonth();
+            const primeiroDia = new Date(ano, mes, 1);
+            const ultimoDia = new Date(ano, mes + 1, 0);
+            let diaSemana = primeiroDia.getDay();
+            let diasNoMes = ultimoDia.getDate();
+
+            let html = "<tr>";
+            for (let i = 0; i < diaSemana; i++) {
+                html += "<td></td>";
+            }
+            for (let dia = 1; dia <= diasNoMes; dia++) {
+                if ((diaSemana % 7) === 0 && dia !== 1) html += "</tr><tr>";
+                html += `<td>${dia}</td>`;
+                diaSemana++;
+            }
+            html += "</tr>";
+            document.getElementById("calendar-body").innerHTML = html;
+        }
+        gerarCalendario();
+    </script>
+</body>
+</html>

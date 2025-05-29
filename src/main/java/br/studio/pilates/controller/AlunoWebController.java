@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.studio.pilates.model.entity.Aluno;
+import br.studio.pilates.model.entity.Aula;
 import br.studio.pilates.service.AlunoService;
+import br.studio.pilates.service.AulaService;
 
 
 @Controller
@@ -88,5 +90,12 @@ public String editar(@PathVariable("id") String Id, Model model) {
 		alunoService.deleteAluno(Id);
 		return "redirect:/web/aluno/list";
 	}
-
+	@Autowired
+	private AulaService aulaService;
+	@GetMapping("/agendamento")
+	public String agendamento(Model model) {
+		List<Aula> aulas = aulaService.getAllAulas();
+		model.addAttribute("aulas", aulas);
+		return "front-aluno/agendamento";
+	}
 }
