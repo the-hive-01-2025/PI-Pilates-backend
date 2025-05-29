@@ -1,4 +1,4 @@
-package br.studio.pilates.controller;
+package br.studio.pilates.controller.webController;
 
 import java.util.List;
 import java.util.Optional;

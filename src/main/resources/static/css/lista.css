@@ -102,11 +102,11 @@ tbody td {
 }
 
 .btn.ficha {
-    background-color: #4ecdc4;
+    background-color: var(--purple-color);
 }
 
 .btn.ficha:hover {
-    background-color: #3db5ae;
+    background-color: var(--purple-light-color);
 }
 
 .bottom-buttons {
@@ -126,12 +126,13 @@ tbody td {
 }
 
 .btn.voltar {
-    background-color: #666;
+    background-color: var(--purple-light-color);
 }
 
 .btn.voltar:hover {
-    background-color: #444;
+    background-color: var(--purple-color);
 }
+
 
 /* Definir largura mínima e evitar quebra na coluna de CPF */
 td:nth-child(3), th:nth-child(3) {

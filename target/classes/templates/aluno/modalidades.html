@@ -5,21 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modalidades</title>
-    <link rel="stylesheet" href="../static/css/modalidades.css">
+    <link rel="stylesheet" href="../../static/css/modalidades.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
 </head>
 
 <body>
     <header>
-        <a class="logo" th:href="@{home}">Pilates</a>
-        <div id="radius-perfil"></div>
+        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="profile-circle"></div>
     </header>
     <nav>
-        <a th:href="@{/modalidades}">Modalidades</a>
-        <a th:href="@{/aulas}">Aulas</a>
-        <a th:href="@{/planos}">Planos</a>
-        <a th:href="@{/evolucao}">Evolução</a>
-        <a th:href="@{/avaliacoes}">Avaliações</a>
-        <a th:href="@{/pagamentos}">Pagamentos</a>
+        <a th:href="@{/web/dashboard/modalidades}">Modalidades</a>
+        <a th:href="@{/web/dashboard/aulas}">Aulas</a>
+        <a th:href="@{/web/dashboard/planos}">Planos</a>
+        <a th:href="@{/web/dashboard/evolucao}">Evolução</a>
+        <a th:href="@{/web/dashboard/avaliacoes}">Avaliações</a>
+        <a th:href="@{/web/dashboard/pagamentos}">Pagamentos</a>
     </nav>
 
     <main>
@@ -32,7 +33,7 @@
                         Além de um ambiente super acolhedor, você vai encontrar instrutores incríveis, muito atenciosos
                         e preparados para adaptar as posturas para todos os níveis.
                     </div>
-                    <button>Marcar</button>
+                    <button th:href="@{/web/dashboard/aulas}">Marcar</button>
                 </div>
             </div>
             <div class="card">
@@ -43,7 +44,7 @@
                         fortalecer o corpo e melhorar a postura.
                     </div>
                 </div>
-                <button>Marcar</button>
+                <button th:href="@{/web/dashboard/aulas}">Marcar</button>
             </div>
             <div class="card">
                 <div class="card-header">Cursos</div>
@@ -53,7 +54,7 @@
                         ministradas por profissionais experientes.
                     </div>
                 </div>
-                <button>Marcar</button>
+                <button th:href="@{/web/dashboard/aulas}">Marcar</button>
             </div>
         </div>
     </main>

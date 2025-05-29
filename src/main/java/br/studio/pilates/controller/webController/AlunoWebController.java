@@ -1,4 +1,4 @@
-package br.studio.pilates.controller;
+package br.studio.pilates.controller.webController;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,35 +24,35 @@ public class AlunoWebController {
 	
 	@GetMapping("/home")
 	public String home() {
-		return "front-aluno/home";
+		return "recepcionista/home";
 	}
 
   	@GetMapping("/list")
 	public String listarTodos(Model model) {
 		List<Aluno> alunos = alunoService.listarTodos();
 		model.addAttribute("aluno", alunos);
-		return "front-aluno/consultar-aluno";
+		return "recepcionista/consultar-aluno";
 	}
 
 	@GetMapping("/{id}")
 	public String getById(Model model, @PathVariable String id ) {
 		Optional<Aluno> alunos = alunoService.getById(id);		
 		model.addAttribute("aluno", alunos.get());
-		return "front-aluno/read-aluno";
+		return "recepcionista/read-aluno";
 	}
 
 	@GetMapping("nome/{nome}")
 	public String getByNome(Model model, @PathVariable String nome ) {
 		Aluno alunos = alunoService.getByNome(nome);		
 		model.addAttribute("aluno", alunos);
-		return "front-aluno/read-aluno";
+		return "recepcionista/read-aluno";
 	}
 
 	@GetMapping("cpf/{cpf}")
 	public String getByCpf(Model model, @PathVariable String cpf ) {
 		Aluno alunos = alunoService.getByCpf(cpf);		
 		model.addAttribute("aluno", alunos);
-		return "front-aluno/read-aluno";
+		return "recepcionista/read-aluno";
 	}
 
 	@PostMapping("/save")
@@ -65,7 +65,7 @@ public class AlunoWebController {
 	public String cadastrarAluno(Model model) {
 		model.addAttribute("aluno", new Aluno());
 		model.addAttribute("novo", true);
-		return "front-aluno/cadastrar-aluno";
+		return "recepcionista/cadastrar-aluno";
 	}
 
 @GetMapping("/editar/{id}")
@@ -79,7 +79,7 @@ public String editar(@PathVariable("id") String Id, Model model) {
 
     model.addAttribute("aluno", aluno.get());
     model.addAttribute("novo", false);
-    return "front-aluno/cadastrar-aluno";
+    return "recepcionista/cadastrar-aluno";
 }
 
 
