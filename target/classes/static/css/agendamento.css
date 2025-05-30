@@ -1,33 +1,66 @@
-.calendar-container {
-    margin: 30px 0;
-    display: flex;
-    justify-content: center;
-}
-
-.calendar-table {
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 500px;
-    background: #fff;
+.aulas-marcadas-scroll {
+    position: relative;
+    border: 2px solid #a698f5;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.calendar-table th, .calendar-table td {
-    border: 1px solid #eee;
-    padding: 12px;
-    text-align: center;
-    font-size: 16px;
-}
-
-.aulas-marcadas {
-    margin-top: 40px;
+    height: 320px;           /* Altura fixa */
+    overflow-y: scroll;      /* Barra de rolagem sempre visível */
     background: #fff;
-    border-radius: 12px;
-    padding: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin: 0 auto 40px auto;
     max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    min-width: 320px;
+    scrollbar-width: thin;
+    scrollbar-color: #a698f5 #ede9fa;
+}
+
+.aulas-marcadas-scroll ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.aulas-marcadas-scroll li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    color: #333;
+}
+
+.aulas-marcadas-scroll li:last-child {
+    border-bottom: none;
+}
+
+/* Personalização da barra de rolagem para navegadores Webkit (Chrome, Edge, Safari) */
+.aulas-marcadas-scroll::-webkit-scrollbar {
+    width: 10px;
+    background: #ede9fa;
+    border-radius: 8px;
+}
+
+.aulas-marcadas-scroll::-webkit-scrollbar-thumb {
+    background: #a698f5;
+    border-radius: 8px;
+}
+
+.aulas-marcadas-scroll::-webkit-scrollbar-thumb:hover {
+    background: #7b5df5;
+}
+
+.aulas-marcadas-scroll.show-gradient::after {
+    opacity: 1;
+    transition: opacity 0.4s;
+}
+
+.aulas-marcadas-scroll::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 40px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 90%);
+    border-radius: 0 0 12px 12px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s;
 }
