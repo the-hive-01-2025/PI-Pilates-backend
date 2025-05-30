@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Tela Agenda</title>
-    <link rel="stylesheet" href="../../static/css/instrutor/agenda.css">
+    <link rel="stylesheet" th:href="@{/css/instrutor/agenda.css}">
 </head>
-
 <body>
     <header class="top-bar">
         <div class="logo">Pilates</div>
@@ -32,16 +31,44 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>06/05/2025</td>
+
+                <div th:classappend="${existe} ? 'oculto' : 'visivel'">
+                    <tr>
+                        <td colspan="5">Nenhuma aula marcada</td>
+                    </tr>
+                </div>
+
+                <div th:if="${existe}">
+
+                    <!-- <td>06/05/2025</td>
                     <td>09:00</td>
                     <td>Maria Eduarda</td>
-                    <td>Estúdio Estudio Life</td>
-                    <td>
-                        <button class="btn-cancelar" id="abrirCancelarBtn">Cancelar</button>
-                        <button class="btn-presenca" id="abrirModalBtn">Marcar Presença</button>
-                    </td>
-                </tr>
+                    <td>Estúdio Estudio Life</td> -->
+                    <tr th:each="aula : ${aula}">
+                        <td th:text="${aula.data}"> -- </td>
+                        <td th:text="${aula.hora}"> -- </td>
+                        <td th:text="${aula.alunos}"> -- </td>
+                        <td th:text="${aula.estudio}"> -- </td>
+                        <td>
+                            <form th:action="@{/aulas/presenca/{id}(id=${aula.id})}" method="post" name="marcarPresenca">
+                                <button class="btn-presenca">Marcar Presença</button>
+                            </form>
+
+                            <form th:action="@{/aulas/cancelar/{id}(id=${aula.id})}" method="post" name="cancelarAula">
+                                <button class="btn-cancelar">Cancelar</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form th:action="@{/agenda/marcar-presenca}" method="post">
+                                <input type="hidden" name="idAula" th:value="${aula.id}" />
+                                <input type="hidden" name="idAluno" th:value="${aluno.id}" />
+
+
+                                <button type="submit" class="botao-concluir">Concluído</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tdiv>
             </tbody>
 
             <!-- Modal  botão presença -->
@@ -89,7 +116,7 @@
 
 
             <!-- Modal botão cancelar-->
-            <div id="modalCancelar" class="modal">
+            <div th:if="${aluno}" id="modalCancelar" class="modal">
                 <div class="modal-conteudo">
                     <h2>Cancelar aula</h2>
                     <p>Você gostaria de cancelar a aula de <strong th:text="${aluno.nome}">[nome]</strong>?</p>

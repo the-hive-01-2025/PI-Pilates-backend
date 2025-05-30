@@ -211,3 +211,10 @@ textarea {
 .botao-nao:hover {
     background-color: #aaaaaa;
 }
+
+.oculto {
+    display: none;
+}
+.visivel {
+    display: block;
+}

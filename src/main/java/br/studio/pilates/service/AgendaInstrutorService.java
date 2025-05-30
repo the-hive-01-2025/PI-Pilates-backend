@@ -21,14 +21,18 @@ public class AgendaInstrutorService {
     }
 
     public List<AgendaInstrutorDTO> listarAulasPorInstrutor(String idInstrutor) {
+
         List<Aula> aulas = aulaRepository.findByIdInstrutor(idInstrutor);
+        if (!aulaRepository.existsById(idInstrutor)) {
+            throw new IllegalArgumentException("Instrutor não encontrado.");
+        }
         return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
     }
 
-public List<AgendaInstrutorDTO> listarAulaById(String id) {
-    Optional<Aula> aulas = aulaRepository.findById(id);
-    return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
-}
+    public List<AgendaInstrutorDTO> listarAulaById(String id) {
+        Optional<Aula> aulas = aulaRepository.findById(id);
+        return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
+    }
 
     public void cancelarAula(String id) {
         Aula aula = aulaRepository.findById(id).orElseThrow(() -> new RuntimeException("Aula não encontrada"));
@@ -39,7 +43,31 @@ public List<AgendaInstrutorDTO> listarAulaById(String id) {
     public void atualizarAula(Aula aula) {
         aulaRepository.save(aula);
     }
+
     public Aula getAulaById(String Id) {
         return aulaRepository.findAulaById(Id);
     }
+
+    public void marcarPresenca(String idAula, String idAluno, boolean presente) {
+        Optional<Aula> aulaOpt = aulaRepository.findById(idAula);
+
+        if (aulaOpt.isPresent()) {
+            Aula aula = aulaOpt.get();
+
+            if (presente) {
+                // Adiciona o aluno à lista se ainda não estiver presente
+                if (!aula.getAlunosPresentes().contains(idAluno)) {
+                    aula.getAlunosPresentes().add(idAluno);
+                }
+            } else {
+                // Remove o aluno da lista
+                aula.getAlunosPresentes().remove(idAluno);
+            }
+
+            aulaRepository.save(aula);
+        } else {
+            throw new RuntimeException("Aula não encontrada!");
+        }
+    }
+
 }

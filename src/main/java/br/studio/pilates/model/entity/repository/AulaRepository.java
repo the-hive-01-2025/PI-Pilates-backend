@@ -1,6 +1,7 @@
 package br.studio.pilates.model.entity.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -24,4 +25,6 @@ public interface AulaRepository extends MongoRepository<Aula, String>{
 
 	void deleteAulaById(String Id);
 	
+  
+
 }

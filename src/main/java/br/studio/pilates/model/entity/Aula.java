@@ -29,6 +29,7 @@ public class Aula {
     private String idStudio;
     private String idInstrutor;
     private List<String> alunos;
+    private List<String> alunosPresentes;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
