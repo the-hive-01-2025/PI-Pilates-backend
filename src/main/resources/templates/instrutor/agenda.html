@@ -32,11 +32,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>06/05/2025</td>
-                    <td>09:00</td>
-                    <td>Maria Eduarda</td>
-                    <td>Estúdio Estudio Life</td>
+                <tr th:each="aula : ${aulas}">
+                    <td th:each="${aula.data}">06/05/2025</td>
+                    <td th:each="${aula.horario}">09:00</td>
+                    <td th:each="${aula.alunos}">Maria Eduarda</td>
+                    <td th:each="${aula.status}">status</td>
+                    <td th:each="${aula.observacoes}">obs</td>
+                    <td th:each="${estudioNome}">Estúdio Estudio Life</td>
                     <td>
                         <button class="btn-cancelar" id="abrirCancelarBtn">Cancelar</button>
                         <button class="btn-presenca" id="abrirModalBtn">Marcar Presença</button>

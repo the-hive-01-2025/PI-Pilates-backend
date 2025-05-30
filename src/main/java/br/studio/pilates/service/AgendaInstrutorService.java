@@ -24,13 +24,25 @@ public class AgendaInstrutorService {
         return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
     }
 
-    public void cancelarAula(String id) {
-        Aula aula = aulaRepository.findById(id).orElseThrow(() -> new RuntimeException("Aula não encontrada"));
-        aula.setStatus("Cancelado");
-        aulaRepository.save(aula);
+    public boolean cancelarAula(String id) {
+        try {
+            Aula aula = aulaRepository.findById(id).orElseThrow(() -> new RuntimeException("Aula não encontrada"));
+            aula.setStatus("Cancelado");
+            aulaRepository.save(aula);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public void atualizarAula(Aula aula) {
-        aulaRepository.save(aula);
+    public boolean atualizarAula(Aula aula) {
+        try {
+            aulaRepository.save(aula);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
+
+    
 }

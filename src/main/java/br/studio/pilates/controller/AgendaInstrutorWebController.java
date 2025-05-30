@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.studio.pilates.dto.AgendaInstrutorDTO;
+import br.studio.pilates.model.entity.Aula;
 import br.studio.pilates.service.AgendaInstrutorService;
 
 @Controller
@@ -80,5 +82,26 @@ public class AgendaInstrutorWebController {
 	// agendaInstrutorService.deleteAluno(Id);
 	// return "redirect:/web/aluno/list";
 	// }
+
+
+    @GetMapping("/{instrutorId}")
+    public String listarAulas(@PathVariable String instrutorId, Model model) {
+        List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
+        model.addAttribute("aulas", aulas);
+        return "agendaInstrutor"; // Página Thymeleaf
+    }
+
+	@PostMapping("/cancelar/{id}")
+    public String cancelarAula(@PathVariable String id) {
+        agendaInstrutorService.cancelarAula(id);
+        return "redirect:/agendaInstrutor"; 
+    }
+
+
+    @PostMapping("/atualizar")
+    public String atualizarAula(@ModelAttribute Aula aula) {
+        agendaInstrutorService.atualizarAula(aula);
+        return "redirect:/agendaInstrutor";
+    }
 
 }

@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/agendaInstrutor")
@@ -19,22 +22,20 @@ public class AgendaInstrutorController {
         this.agendaInstrutorService = agendaInstrutorService;
     }
 
+
     @GetMapping("/{instrutorId}")
-    public String listarAulas(@PathVariable String instrutorId, Model model) {
+    public List<AgendaInstrutorDTO> listarAulas(@RequestParam String instrutorId, Model model) {
         List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
-        model.addAttribute("aulas", aulas);
-        return "agendaInstrutor"; // Página Thymeleaf
+        return aulas;
     }
 
     @PostMapping("/cancelar/{id}")
-    public String cancelarAula(@PathVariable String id) {
-        agendaInstrutorService.cancelarAula(id);
-        return "redirect:/agendaInstrutor"; 
+    public boolean cancelarAula(@PathVariable String id){
+        return agendaInstrutorService.cancelarAula(id);
     }
 
     @PostMapping("/atualizar")
-    public String atualizarAula(@ModelAttribute Aula aula) {
-        agendaInstrutorService.atualizarAula(aula);
-        return "redirect:/agendaInstrutor";
+    public boolean atualizarAula(@ModelAttribute Aula aula){
+        return agendaInstrutorService.atualizarAula(aula);
     }
 }
