@@ -29,6 +29,26 @@
         }
     });
 </script>
+<script>
+    function abrirDetalhes(modalidade, data, horario, instrutor, estudio, status) {
+        document.getElementById('detalheModalidade').textContent = modalidade;
+        document.getElementById('detalheData').textContent = data;
+        document.getElementById('detalheHorario').textContent = horario;
+        document.getElementById('detalheInstrutor').textContent = instrutor;
+        document.getElementById('detalheEstudio').textContent = estudio;
+        document.getElementById('detalheStatus').textContent = status;
+        document.getElementById('modalDetalhes').style.display = 'flex';
+    }
+    function fecharDetalhes() {
+        document.getElementById('modalDetalhes').style.display = 'none';
+    }
+    window.onclick = function(event) {
+        const modal = document.getElementById('modalDetalhes');
+        if (event.target === modal) {
+            fecharDetalhes();
+        }
+    }
+</script>
 <body>
     <header>
         <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
@@ -39,13 +59,38 @@
         <h2>Aulas Marcadas</h2>
         <div class="aulas-marcadas aulas-marcadas-scroll">
             <ul>
-                <li th:each="aula : ${aulas}">
-                    <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
-                    <span th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></span> -
-                    <span th:text="${aula.status}"></span>
+                <li th:each="aula, iterStat : ${aulas}">
+                    <div class="aula-card aula-info-row">
+                        <div class="aula-info-col">
+                            <div>
+                                <strong>Data:</strong>
+                                <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
+                            </div>
+                            <div>
+                                <strong>Horário:</strong>
+                                <strong th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></strong>
+                            </div>
+                        </div>
+                        <button type="button"
+                            th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}')|">
+                            Ver Detalhes
+                        </button>
+                    </div>
                 </li>
                 <li th:if="${#lists.isEmpty(aulas)}">Nenhuma aula marcada.</li>
-            </ul>
+            </ul>            
+        </div>
+        <div id="modalDetalhes" class="modal-detalhes">
+            <div class="modal-conteudo">
+                <span class="fechar" onclick="fecharDetalhes()">&times;</span>
+                <h2>Detalhes</h2>
+                <div><strong>Modalidade:</strong> <span id="detalheModalidade"></span></div>
+                <div><strong>Data:</strong> <span id="detalheData"></span></div>
+                <div><strong>Horário:</strong> <span id="detalheHorario"></span></div>
+                <div><strong>Instrutor(a):</strong> <span id="detalheInstrutor"></span></div>
+                <div><strong>Estúdio:</strong> <span id="detalheEstudio"></span></div>
+                <div><strong>Status:</strong> <span id="detalheStatus"></span></div>
+            </div>
         </div>
     </main>
 </body>

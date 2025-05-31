@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.studio.pilates.dto.AulaAgendamentoDTO;
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Aula;
+import br.studio.pilates.model.entity.Estudio;
 import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.AulaService;
+import br.studio.pilates.service.EstudioService;
 
 
 @Controller
@@ -91,11 +94,47 @@ public String editar(@PathVariable("id") String Id, Model model) {
 		return "redirect:/web/aluno/list";
 	}
 	@Autowired
-	private AulaService aulaService;
+	private EstudioService estudioService;
+
+	@Autowired
+	private AulaService aulaService; 
+
 	@GetMapping("/agendamento")
 	public String agendamento(Model model) {
 		List<Aula> aulas = aulaService.getAllAulas();
-		model.addAttribute("aulas", aulas);
+		List<AulaAgendamentoDTO> aulasDTO = aulas.stream().map(aula -> {
+			AulaAgendamentoDTO dto = new AulaAgendamentoDTO();
+			dto.setId(aula.getId());
+			dto.setData(aula.getData());
+			dto.setHorario(aula.getHorario());
+			dto.setStatus(aula.getStatus());
+
+			// Modalidade (ainda não existe)
+			dto.setModalidade("Não informado");
+
+			// Instrutor
+			String instrutorNome = "Não informado";
+			// Se quiser buscar o nome do instrutor, descomente e ajuste:
+			// if (aula.getIdInstrutor() != null) {
+			//     Usuario instrutor = usuarioService.getById(aula.getIdInstrutor());
+			//     if (instrutor != null && instrutor.getNome() != null) {
+			//         instrutorNome = instrutor.getNome();
+			//     }
+			// }
+			dto.setInstrutorNome(instrutorNome);
+
+			// Estúdio
+			String nomeEstudio = "Não informado";
+			if (aula.getIdStudio() != null) {
+				Estudio estudio = estudioService.getEstudioById(aula.getIdStudio());
+				if (estudio != null && estudio.getNome() != null) {
+					nomeEstudio = estudio.getNome();
+				}
+			}
+			dto.setEstudioNome(nomeEstudio);
+			return dto;
+		}).toList();
+		model.addAttribute("aulas", aulasDTO);
 		return "front-aluno/agendamento";
 	}
 }

@@ -1,3 +1,22 @@
+body {
+    background-color: var(--gray-color);
+}
+main {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 40px;
+    background-color: var(--gray-color);
+}
+
+main h2 {
+    font-size: 24px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    color: var(--black-gray-color);
+    align-self: flex-start;
+}
 .aulas-marcadas-scroll {
     position: relative;
     border: 2px solid #a698f5;
@@ -26,7 +45,12 @@
     font-size: 16px;
     color: #333;
 }
-
+.aulas-marcadas-scroll li > div {
+    margin-bottom: 2px;
+}
+.aulas-marcadas-scroll li > div:last-child {
+    margin-bottom: 0;
+}
 .aulas-marcadas-scroll li:last-child {
     border-bottom: none;
 }
@@ -49,7 +73,7 @@
 
 .aulas-marcadas-scroll.show-gradient::after {
     opacity: 1;
-    transition: opacity 0.4s;
+    transition: opacity 0.15s;
 }
 
 .aulas-marcadas-scroll::after {
@@ -63,4 +87,92 @@
     z-index: 2;
     opacity: 0;
     transition: opacity 0.4s;
+}
+/* Modal de detalhes */
+.modal-detalhes {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-detalhes .modal-conteudo {
+    background: #fff;
+    padding: 32px 36px;
+    border-radius: 16px;
+    min-width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-detalhes .fechar {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 28px;
+    color: #888;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+.modal-detalhes .fechar:hover {
+    color: #a698f5;
+}
+
+.modal-detalhes h2 {
+    margin-bottom: 10px;
+    color: var(--black-gray-color);
+    font-size: 22px;
+    text-align: center;
+}
+.aula-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 4px;
+}
+
+.aula-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.aula-info-row button {
+    background-color: var(--purple-light-color);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px rgba(143, 131, 229, 0.10);
+    transition: background-color 0.3s;
+    margin-left: 16px;
+    white-space: nowrap;
+}
+
+.aula-info-row button:hover {
+    background-color: var(--purple-color);
+}
+.aula-card {
+    background-color: var(--purple-lighter-color);
+    border: 1.5px solid #222; /* contorno preto fino */
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(143, 131, 229, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
 }
