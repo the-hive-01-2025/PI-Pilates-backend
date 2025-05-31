@@ -56,29 +56,67 @@
     </header>
 
     <main>
-        <h2>Aulas Marcadas</h2>
-        <div class="aulas-marcadas aulas-marcadas-scroll">
-            <ul>
-                <li th:each="aula, iterStat : ${aulas}">
-                    <div class="aula-card aula-info-row">
-                        <div class="aula-info-col">
-                            <div>
-                                <strong>Data:</strong>
-                                <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
-                            </div>
-                            <div>
-                                <strong>Horário:</strong>
-                                <strong th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></strong>
-                            </div>
-                        </div>
-                        <button type="button"
-                            th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}')|">
-                            Ver Detalhes
-                        </button>
+        <h2>Agendamento</h2>
+        <button class="btn-agendar" onclick="abrirModalAgendamento()">Agendar</button>
+        <div id="modalAgendamento" class="modal-detalhes">
+            <div class="modal-conteudo">
+                <span class="fechar" onclick="fecharModalAgendamento()">&times;</span>
+                <h2>Agendamento</h2>
+                <form id="formAgendamento" method="post" action="/web/aula/salvar" onsubmit="return validarAgendamento()">
+                    <div class="campo-form">
+                        <label for="dataAula"><strong>Data:</strong></label>
+                        <input type="date" id="dataAula" name="data" required>
                     </div>
-                </li>
-                <li th:if="${#lists.isEmpty(aulas)}">Nenhuma aula marcada.</li>
-            </ul>            
+                    <div class="campo-form">
+                        <label for="horarioAula"><strong>Horário:</strong></label>
+                        <input type="time" id="horarioAula" name="horario" required>
+                    </div>
+                    <div class="campo-form">
+                        <label for="modalidadeAula"><strong>Modalidade:</strong></label>
+                        <!-- <input type="text" id="modalidadeAula" name="modalidade" required> -->
+                    </div>
+                    <div class="campo-form">
+                        <label for="instrutorAula"><strong>Instrutor(a):</strong></label>
+                        <!-- <input type="text" id="instrutorAula" name="idInstrutor"> -->
+                    </div>
+                    <div class="campo-form">
+                        <label for="estudioAula"><strong>Estúdio:</strong></label>
+                        <input type="text" id="estudioAula" name="idStudio" required>
+                    </div>
+                    <div class="campo-form">
+                        <label for="alunoAula"><strong>ID do Aluno:</strong></label>
+                        <input type="text" id="alunoAula" name="alunos" required>
+                        <!-- O campo "alunos" deve ser uma string (id) ou, se quiser permitir múltiplos, pode ser separado por vírgula -->
+                    </div>
+                    <button type="submit" class="btn-agendar-enviar">Agendar</button>
+                </form>
+            </div>
+        </div>
+        <div class="aulas-marcadas-bloco">
+            <h2 class="titulo-bloco">Aulas Marcadas</h2>
+            <div class="aulas-marcadas aulas-marcadas-scroll">
+                <ul>
+                    <li th:each="aula, iterStat : ${aulas}">
+                        <div class="aula-card aula-info-row">
+                            <div class="aula-info-col">
+                                <div>
+                                    <strong>Data:</strong>
+                                    <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
+                                </div>
+                                <div>
+                                    <strong>Horário:</strong>
+                                    <strong th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></strong>
+                                </div>
+                            </div>
+                            <button type="button"
+                                th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}')|">
+                                Ver Detalhes
+                            </button>
+                        </div>
+                    </li>
+                    <li th:if="${#lists.isEmpty(aulas)}">Nenhuma aula marcada.</li>
+                </ul>
+            </div>
         </div>
         <div id="modalDetalhes" class="modal-detalhes">
             <div class="modal-conteudo">
@@ -93,5 +131,19 @@
             </div>
         </div>
     </main>
+    <script>
+    function abrirModalAgendamento() {
+        document.getElementById('modalAgendamento').style.display = 'flex';
+    }
+    function fecharModalAgendamento() {
+        document.getElementById('modalAgendamento').style.display = 'none';
+    }
+    window.onclick = function(event) {
+        const modal = document.getElementById('modalAgendamento');
+        if (event.target === modal) {
+            fecharModalAgendamento();
+        }
+    }
+    </script>
 </body>
 </html>

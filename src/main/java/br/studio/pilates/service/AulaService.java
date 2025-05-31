@@ -75,11 +75,12 @@ public class AulaService {
             throw new IllegalArgumentException("Estúdio não encontrado.");
         }
         // Valida Instrutor
-        if (aula.getIdInstrutor() != null)
-        {Usuario instrutor = usuarioRepository.findById(aula.getIdInstrutor()).orElse(null);
-        if (instrutor == null || !"instrutor".equalsIgnoreCase(instrutor.getTipo())) {
-            throw new IllegalArgumentException("Instrutor não encontrado ou inválido.");
-        }}
+        if (aula.getIdInstrutor() != null) {
+            Usuario instrutor = usuarioRepository.findById(aula.getIdInstrutor()).orElse(null);
+            if (instrutor == null || !"instrutor".equalsIgnoreCase(instrutor.getTipo())) {
+                throw new IllegalArgumentException("Instrutor não encontrado ou inválido.");
+            }
+        }
         // Valida Alunos
         for (String alunoId : aula.getAlunos()) {
             if (!alunoRepository.existsById(alunoId)) {
