@@ -75,19 +75,14 @@ public class AlunoWebController {
 
 @GetMapping("/editar/{id}")
 public String editar(@PathVariable("id") String Id, Model model) {
-    Optional<Aluno> aluno = alunoService.getById(Id);
-    
+    Optional<Aluno> aluno = alunoService.getById(Id);   
     if (aluno.isEmpty()) {
-        // Se o aluno não existe, redireciona para a tela de cadastro
         return "redirect:/web/aluno/new";
     }
-
     model.addAttribute("aluno", aluno.get());
     model.addAttribute("novo", false);
     return "front-aluno/cadastrar-aluno";
 }
-
-
 	@GetMapping("/deletar/{id}")
 	public String deleteByName(@PathVariable("id") String Id) {
 		alunoService.deleteAluno(Id);
@@ -108,13 +103,9 @@ public String editar(@PathVariable("id") String Id, Model model) {
 			dto.setData(aula.getData());
 			dto.setHorario(aula.getHorario());
 			dto.setStatus(aula.getStatus());
-
 			// Modalidade (ainda não existe)
 			dto.setModalidade("Não informado");
-
-			// Instrutor
 			String instrutorNome = "Não informado";
-			// Se quiser buscar o nome do instrutor, descomente e ajuste:
 			// if (aula.getIdInstrutor() != null) {
 			//     Usuario instrutor = usuarioService.getById(aula.getIdInstrutor());
 			//     if (instrutor != null && instrutor.getNome() != null) {
@@ -122,8 +113,6 @@ public String editar(@PathVariable("id") String Id, Model model) {
 			//     }
 			// }
 			dto.setInstrutorNome(instrutorNome);
-
-			// Estúdio
 			String nomeEstudio = "Não informado";
 			if (aula.getIdStudio() != null) {
 				Estudio estudio = estudioService.getEstudioById(aula.getIdStudio());
@@ -134,6 +123,8 @@ public String editar(@PathVariable("id") String Id, Model model) {
 			dto.setEstudioNome(nomeEstudio);
 			return dto;
 		}).toList();
+		List<Estudio> estudios = estudioService.getAllEstudio();
+		model.addAttribute("estudios", estudios);
 		model.addAttribute("aulas", aulasDTO);
 		return "front-aluno/agendamento";
 	}

@@ -80,8 +80,8 @@ main h2 {
     position: relative;
     border: 1px solid #000000;
     border-radius: 16px;
-    height: 320px;           /* Altura fixa */
-    overflow-y: scroll;      /* Barra de rolagem sempre visível */
+    height: 320px;
+    overflow-y: scroll;
     background: #fff;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     padding: 10px 12px;
@@ -99,7 +99,7 @@ main h2 {
 }
 
 .aulas-marcadas-scroll li {
-    padding: 4px 0;             /* Diminui o espaço vertical de cada li */
+    padding: 4px 0;
     border-bottom: 1px solid #eee;
     font-size: 16px;
     color: #333;
@@ -114,7 +114,7 @@ main h2 {
     border-bottom: none;
 }
 
-/* Personalização da barra de rolagem para navegadores Webkit (Chrome, Edge, Safari) */
+/* Personalização da barra de rolagem para navegadores Webkit */
 .aulas-marcadas-scroll::-webkit-scrollbar {
     width: 10px;
     background: #ede9fa;
@@ -227,13 +227,13 @@ main h2 {
     background-color: var(--purple-lighter-color);
     border: 1.5px solid #222;
     border-radius: 8px;
-    padding: 28px 20px;         /* Diminui o espaço interno */
-    margin-bottom: 10px;        /* Diminui o espaço entre os cards */
+    padding: 28px 20px;
+    margin-bottom: 10px;
     box-shadow: 0 2px 8px rgba(143, 131, 229, 0.06);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;                  /* Diminui o espaço entre colunas */
+    gap: 10px;
 }
 main {
     margin-top: 50px;
@@ -271,5 +271,40 @@ main h2 {
     max-width: none;
     min-width: 0;
     margin: 0;
-    /* mantém altura, padding, etc */
+}
+.botoes-detalhes {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.btn-detalhe {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 2px 2px 4px rgba(143, 131, 229, 0.10);
+}
+
+.btn-desmarcar {
+    background-color: #ff5b5b;
+    color: white;
+}
+
+.btn-desmarcar:hover {
+    background-color: #e24c4c;
+}
+
+.btn-reagendar {
+    background-color: var(--purple-light-color);
+    color: white;
+}
+
+.btn-reagendar:hover {
+    background-color: var(--purple-color);
 }

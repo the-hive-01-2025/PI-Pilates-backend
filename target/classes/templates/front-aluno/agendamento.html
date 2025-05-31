@@ -13,7 +13,6 @@
     function updateGradient() {
         const bloco = document.querySelector('.aulas-marcadas-scroll');
         if (!bloco) return;
-        // Gradiente no fundo: só no topo
         if (bloco.scrollTop === 0 && bloco.scrollHeight > bloco.clientHeight) {
             bloco.classList.add('show-gradient');
         } else {
@@ -30,13 +29,14 @@
     });
 </script>
 <script>
-    function abrirDetalhes(modalidade, data, horario, instrutor, estudio, status) {
+    function abrirDetalhes(modalidade, data, horario, instrutor, estudio, status, aulaId) {
         document.getElementById('detalheModalidade').textContent = modalidade;
         document.getElementById('detalheData').textContent = data;
         document.getElementById('detalheHorario').textContent = horario;
         document.getElementById('detalheInstrutor').textContent = instrutor;
         document.getElementById('detalheEstudio').textContent = estudio;
         document.getElementById('detalheStatus').textContent = status;
+        document.getElementById('detalheAulaId').value = aulaId;
         document.getElementById('modalDetalhes').style.display = 'flex';
     }
     function fecharDetalhes() {
@@ -47,6 +47,31 @@
         if (event.target === modal) {
             fecharDetalhes();
         }
+    }
+    function abrirReagendar() {
+        document.getElementById('dataAula').value = document.getElementById('detalheData').textContent.split('/').reverse().join('-');
+        document.getElementById('horarioAula').value = document.getElementById('detalheHorario').textContent;
+        document.getElementById('formAgendamento').action = '/web/aula/reagendar/' + document.getElementById('detalheAulaId').value;
+        fecharDetalhes();
+        abrirModalAgendamento();
+    }
+    function desmarcarAula() {
+        const aulaId = document.getElementById('detalheAulaId').value;
+        if (!aulaId) return;
+        if (!confirm('Tem certeza que deseja desmarcar esta aula?')) return;
+
+        fetch(`/web/aula/deletar/${aulaId}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Aula desmarcada com sucesso!');
+                location.reload();
+            } else {
+                response.text().then(msg => alert('Erro ao desmarcar: ' + msg));
+            }
+        })
+        .catch(() => alert('Erro ao desmarcar aula.'));
     }
 </script>
 <body>
@@ -81,12 +106,14 @@
                     </div>
                     <div class="campo-form">
                         <label for="estudioAula"><strong>Estúdio:</strong></label>
-                        <input type="text" id="estudioAula" name="idStudio" required>
+                        <select id="estudioAula" name="idStudio" required>
+                            <option value="" disabled selected>Selecione o estúdio</option>
+                            <option th:each="estudio : ${estudios}" th:value="${estudio.id}" th:text="${estudio.nome}"></option>
+                        </select>
                     </div>
                     <div class="campo-form">
                         <label for="alunoAula"><strong>ID do Aluno:</strong></label>
                         <input type="text" id="alunoAula" name="alunos" required>
-                        <!-- O campo "alunos" deve ser uma string (id) ou, se quiser permitir múltiplos, pode ser separado por vírgula -->
                     </div>
                     <button type="submit" class="btn-agendar-enviar">Agendar</button>
                 </form>
@@ -109,7 +136,7 @@
                                 </div>
                             </div>
                             <button type="button"
-                                th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}')|">
+                                th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}', '${aula.id}')|">
                                 Ver Detalhes
                             </button>
                         </div>
@@ -119,16 +146,21 @@
             </div>
         </div>
         <div id="modalDetalhes" class="modal-detalhes">
+            <input type="hidden" id="detalheAulaId">
             <div class="modal-conteudo">
-                <span class="fechar" onclick="fecharDetalhes()">&times;</span>
-                <h2>Detalhes</h2>
-                <div><strong>Modalidade:</strong> <span id="detalheModalidade"></span></div>
-                <div><strong>Data:</strong> <span id="detalheData"></span></div>
-                <div><strong>Horário:</strong> <span id="detalheHorario"></span></div>
-                <div><strong>Instrutor(a):</strong> <span id="detalheInstrutor"></span></div>
-                <div><strong>Estúdio:</strong> <span id="detalheEstudio"></span></div>
-                <div><strong>Status:</strong> <span id="detalheStatus"></span></div>
+            <span class="fechar" onclick="fecharDetalhes()">&times;</span>
+            <h2>Detalhes</h2>
+            <div><strong>Modalidade:</strong> <span id="detalheModalidade"></span></div>
+            <div><strong>Data:</strong> <span id="detalheData"></span></div>
+            <div><strong>Horário:</strong> <span id="detalheHorario"></span></div>
+            <div><strong>Instrutor(a):</strong> <span id="detalheInstrutor"></span></div>
+            <div><strong>Estúdio:</strong> <span id="detalheEstudio"></span></div>
+            <div><strong>Status:</strong> <span id="detalheStatus"></span></div>
+            <div class="botoes-detalhes">
+                <button class="btn-detalhe btn-desmarcar" type="button" onclick="desmarcarAula()">Desmarcar</button>
+                <button class="btn-detalhe btn-reagendar" type="button" onclick="abrirReagendar()">Reagendar</button>
             </div>
+        </div>
         </div>
     </main>
     <script>
