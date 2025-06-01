@@ -126,8 +126,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         </select>
                     </div>
                     <div class="campo-form">
-                        <label for="alunoAula"><strong>ID do Aluno:</strong></label>
-                        <input type="text" id="alunoAula" name="alunos" required>
+                        <label for="alunoAula"><strong>Aluno:</strong></label>
+                        <select id="alunoAula" name="alunos" required>
+                            <option value="" disabled selected>Selecione o aluno</option>
+                            <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
+                        </select>
                     </div>
                     <button type="submit" class="btn-agendar-enviar">Agendar</button>
                 </form>

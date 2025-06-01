@@ -1,8 +1,10 @@
 package br.studio.pilates.controller;
 
 import br.studio.pilates.dto.AulaAgendamentoDTO;
+import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Aula;
 import br.studio.pilates.model.entity.Estudio;
+import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.AulaService;
 import br.studio.pilates.service.EstudioService;
 
@@ -22,12 +24,17 @@ public class AulaWebController {
     private AulaService aulaService;
     @Autowired
     private EstudioService estudioService;
+    @Autowired
+    private AlunoService alunoService;
 
     @GetMapping("/agendamento")
     public String agendamento(Model model) {
         List<Aula> aulas = aulaService.getAllAulas();
         List<Estudio> estudios = estudioService.getAllEstudio();
+        List<Aluno> alunos = alunoService.listarTodos(); // Adicione esta linha
+
         model.addAttribute("estudios", estudios);
+        model.addAttribute("alunos", alunos);
         List<AulaAgendamentoDTO> aulasDTO = aulas.stream().map(aula -> {
             AulaAgendamentoDTO dto = new AulaAgendamentoDTO();
             dto.setId(aula.getId());
@@ -82,9 +89,16 @@ public class AulaWebController {
     }
 
     @PostMapping("/reagendar/{id}")
-    public String reagendarAula(@PathVariable("id") String id, Aula aula) {
-        aula.setId(id);
-        aulaService.saveAula(aula);
+    public String reagendarAula(@PathVariable("id") String id, Aula aula, RedirectAttributes redirectAttributes) {
+        try {
+            aula.setId(id);
+            aulaService.saveAula(aula);
+            redirectAttributes.addFlashAttribute("mensagem", "Aula reagendada com sucesso!");
+            redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagem", "Erro ao reagendar aula: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("mensagemTipo", "erro");
+        }
         return "redirect:/web/aula/agendamento";
     }
 
