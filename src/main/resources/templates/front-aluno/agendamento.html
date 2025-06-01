@@ -74,6 +74,16 @@
         .catch(() => alert('Erro ao desmarcar aula.'));
     }
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const alerta = document.querySelector('.alerta-sucesso, .alerta-erro');
+    if (alerta) {
+        setTimeout(() => {
+            alerta.style.display = 'none';
+        }, 2000); // 2000 ms = 2 segundos
+    }
+});
+</script>
 <body>
     <header>
         <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
@@ -81,6 +91,10 @@
     </header>
 
     <main>
+        <div th:if="${mensagem}" 
+            th:classappend="${mensagemTipo == 'sucesso'} ? 'alerta-sucesso' : 'alerta-erro'">
+            <span th:text="${mensagem}"></span>
+        </div>
         <h2>Agendamento</h2>
         <button class="btn-agendar" onclick="abrirModalAgendamento()">Agendar</button>
         <div id="modalAgendamento" class="modal-detalhes">

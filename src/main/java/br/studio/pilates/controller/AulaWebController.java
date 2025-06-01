@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -47,14 +48,36 @@ public class AulaWebController {
             dto.setEstudioNome(nomeEstudio);
 
             return dto;
-        }).toList();
+        })
+        // Ordena por data e horário (mais próxima primeiro)
+        .sorted((a1, a2) -> {
+            if (a1.getData() == null && a2.getData() == null) return 0;
+            if (a1.getData() == null) return 1;
+            if (a2.getData() == null) return -1;
+            int cmp = a1.getData().compareTo(a2.getData());
+            if (cmp != 0) return cmp;
+            // Se datas iguais, compara horário
+            if (a1.getHorario() == null && a2.getHorario() == null) return 0;
+            if (a1.getHorario() == null) return 1;
+            if (a2.getHorario() == null) return -1;
+            return a1.getHorario().compareTo(a2.getHorario());
+        })
+        .toList();
+
         model.addAttribute("aulas", aulasDTO);
         return "front-aluno/agendamento";
     }
 
     @PostMapping("/salvar")
-    public String salvarAula(Aula aula) {
-        aulaService.saveAula(aula);
+    public String salvarAula(Aula aula, RedirectAttributes redirectAttributes) {
+        try {
+            aulaService.saveAula(aula);
+            redirectAttributes.addFlashAttribute("mensagem", "Aula agendada com sucesso!");
+            redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagem", "Erro ao agendar aula: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("mensagemTipo", "erro");
+        }
         return "redirect:/web/aula/agendamento";
     }
 
