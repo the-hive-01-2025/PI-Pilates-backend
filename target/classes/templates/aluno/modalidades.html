@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modalidades</title>
-    <link rel="stylesheet" href="../../static/css/modalidades.css">
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/modalidades.css}">
 </head>
 
 <body>
@@ -15,12 +15,12 @@
         <div class="profile-circle"></div>
     </header>
     <nav>
-        <a th:href="@{/web/dashboard/modalidades}">Modalidades</a>
-        <a th:href="@{/web/dashboard/aulas}">Aulas</a>
-        <a th:href="@{/web/dashboard/planos}">Planos</a>
-        <a th:href="@{/web/dashboard/evolucao}">Evolução</a>
-        <a th:href="@{/web/dashboard/avaliacoes}">Avaliações</a>
-        <a th:href="@{/web/dashboard/pagamentos}">Pagamentos</a>
+        <a th:href="@{/web/aluno/dashboard/modalidades}">Modalidades</a>
+        <a th:href="@{/web/aluno/dashboard/aulas}">Aulas</a>
+        <a th:href="@{/web/aluno/dashboard/planos}">Planos</a>
+        <a th:href="@{/web/aluno/dashboard/evolucao}">Evolução</a>
+        <a th:href="@{/web/aluno/dashboard/avaliacoes}">Avaliações</a>
+        <a th:href="@{/web/aluno/dashboard/pagamentos}">Pagamentos</a>
     </nav>
 
     <main>

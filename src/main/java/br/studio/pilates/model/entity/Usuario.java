@@ -25,6 +25,11 @@ public class Usuario {
 	private String dataContratacao;
 	private Long cpf;
 	private List<Permissoes> permissoes;
+	
+
+	public Usuario() {
+		
+	}
 
 	public Usuario(String id, String nome, String email, String tipo, String DataNasc, Long contato,
 			String formacao, List<Conselho> conselho, String foto, String dataContratacao, Long cpf,
@@ -43,4 +48,7 @@ public class Usuario {
 		this.cpf = cpf;
 		this.permissoes = permissoes;
 	}
+
 }
+
+

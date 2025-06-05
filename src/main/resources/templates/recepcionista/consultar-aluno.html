@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultar Aluno | Pilates</title>
-    <link rel="stylesheet" href="../../static/css/style.css">
-    <link rel="stylesheet" href="../../static/css/lista.css">
+    <link rel="stylesheet" th:href="@{/css/style.css }">
+    <link rel="stylesheet" th:href="@{/css/recepcionista/lista.css}">
 </head>
 
 <body>
-
     <header>
-        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <a class="logo" th:href="@{/web/recepcionista/home}">Pilates</a>
         <div class="profile-circle"></div>
     </header>
 
@@ -50,9 +49,9 @@
                             <td th:text="${aluno.plano}">Mensal</td>
                             <td>
                                 <div class="actions">
-                                    <a th:href="@{/web/aluno/deletar/{id}(id=${aluno.id})}"
+                                    <a th:href="@{/web/recepcionista/aluno/deletar/{id}(id=${aluno.id})}"
                                         class="btn delete">Excluir</a>
-                                    <a th:href="@{/web/aluno/{id}(id=${aluno.id})}" class="btn ficha">Ficha</a>
+                                    <a th:href="@{/web/recepcionista/aluno/{id}(id=${aluno.id})}" class="btn ficha">Ficha</a>
                                 </div>
                             </td>
                         </tr>
@@ -63,8 +62,8 @@
         </div>
 
         <div class="bottom-buttons">
-            <a id="novo" th:href="@{/web/aluno/new}" class="btn novo">Novo Registro</a>
-            <a id="voltar" th:href="@{/web/aluno/home}" class="btn voltar">Voltar</a>
+            <a id="novo" th:href="@{/web/recepcionista/aluno/new}" class="btn novo">Novo Registro</a>
+            <a id="voltar" th:href="@{/web/recepcionista/home}" class="btn voltar">Voltar</a>
         </div>
 
     </main>

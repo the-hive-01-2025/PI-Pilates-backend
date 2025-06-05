@@ -4,21 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${novo} ? 'Cadastrar Aluno' : 'Editar Aluno'">Cadastro de Aluno</title>
-    <link rel="stylesheet" href="../../static/css/style.css">
-    <link rel="stylesheet" href="../../static/css/cadastro.css">
+    <link rel="stylesheet" th:href="@{/css/recepcionista/cadastro.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
-
     <header>
-        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <a class="logo" th:href="@{/web/recepcionista/home}">Pilates</a>
         <div class="profile-circle"></div>
     </header>
     <main>
         <div class="form-container">
             <h2 class="title" th:text="${novo} ? 'Cadastrar Novo Aluno' : 'Editar Aluno'">Cadastro de Aluno</h2>
 
-            <form class="form-content" th:action="@{/web/aluno/save}" th:object="${aluno}" method="post">
+            <form class="form-content" th:action="@{/web/recepcionista/aluno/save}" th:object="${aluno}" method="post">
 
                 <input type="hidden" th:if="${!novo}" th:field="*{id}" />
 
@@ -53,15 +52,6 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="senha">Senha</label>
-                    <div style="display: flex; align-items: center;">
-                        <input type="password" id="senha" th:field="*{senha}" placeholder="Digite a senha"
-                            th:required="${novo}" style="flex: 1;">
-                        <button type="button" onclick="toggleSenha()" style="margin-left: 8px;">👁️</button>
-                    </div>
-                </div>
-
-                <div class="input-group">
                     <label for="contato">Contato</label>
                     <input type="text" id="contato" th:field="*{contato}" placeholder="00 000000000" required>
                 </div>
@@ -88,18 +78,12 @@
 
                 <div class="button-group">
                     <button class="btn" type="submit" th:text="${novo} ? 'Salvar' : 'Atualizar'">Salvar</button>
-                    <a class="btn cancel" th:href="@{/web/aluno/list}">Cancelar</a>
+                    <a class="btn cancel" th:href="@{/web/recepcionista/aluno/list}">Cancelar</a>
                 </div>
 
             </form>
         </div>
     </main>
-    <script>
-    function toggleSenha() {
-        const senhaInput = document.getElementById("senha");
-        senhaInput.type = senhaInput.type === "password" ? "text" : "password";
-    }
-</script>
 </body>
 
 </html>
