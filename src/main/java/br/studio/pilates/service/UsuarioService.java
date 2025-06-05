@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Usuario;
 import br.studio.pilates.model.entity.repository.UsuarioRepository;
 

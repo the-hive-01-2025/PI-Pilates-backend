@@ -89,14 +89,11 @@ public class RecepcionistaWebController {
 	}
 
 	
-	@GetMapping("/deletar/{id}")
+	@GetMapping("aluno/deletar/{id}")
 	public String deleteByIdAluno(@PathVariable("id") String Id) {
 		alunoService.deleteAluno(Id);
 		return "redirect:/web/aluno/list";
 	}
-
-
-
 
 	// gerenciamento de instrutores (a partir daqui)
 	@GetMapping("/instrutor/list")
@@ -154,7 +151,7 @@ public class RecepcionistaWebController {
 		return "recepcionista/cadastrar-instrutor";
 	}
 
-	@GetMapping("/deletar/{id}")
+	@GetMapping("/instrutor/deletar/{id}")
 	public String deleteByIdUsuario(@PathVariable("id") String Id) {
 		usuarioService.deleteUsuario(Id);
 		return "redirect:/web/instrutor/list";
