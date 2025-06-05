@@ -5,22 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modalidades</title>
-    <link rel="stylesheet" href="../../static/css/modalidades.css">
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/modalidades.css}">
 </head>
 
 <body>
     <header>
-        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+        </div>
         <div class="profile-circle"></div>
     </header>
     <nav>
-        <a th:href="@{/web/dashboard/modalidades}">Modalidades</a>
-        <a th:href="@{/web/dashboard/aulas}">Aulas</a>
-        <a th:href="@{/web/dashboard/planos}">Planos</a>
-        <a th:href="@{/web/dashboard/evolucao}">Evolução</a>
-        <a th:href="@{/web/dashboard/avaliacoes}">Avaliações</a>
-        <a th:href="@{/web/dashboard/pagamentos}">Pagamentos</a>
+        <a th:href="@{/web/aluno/modalidades}">Modalidades</a>
+        <a th:href="@{/web/aluno/aulas}">Aulas</a>
+        <a th:href="@{/web/aluno/planos}">Planos</a>
+        <a th:href="@{/web/aluno/evolucao}">Evolução</a>
+        <a th:href="@{/web/aluno/avaliacoes}">Avaliações</a>
+        <a th:href="@{/web/aluno/pagamentos}">Pagamentos</a>
     </nav>
 
     <main>

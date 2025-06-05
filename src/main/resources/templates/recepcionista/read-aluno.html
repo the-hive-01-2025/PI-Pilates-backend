@@ -4,13 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Ficha do Aluno</title>
-    <link rel="stylesheet" href="../../static/css/style.css">
-    <link rel="stylesheet" href="../../static/css/read.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/recepcionista/read.css}">
+
 </head>
 
 <body>
     <header>
-        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/recepcionista/home}">Pilates</a>
+        </div>
         <div class="profile-circle"></div>
     </header>
     <main>
@@ -107,8 +111,8 @@
             </div>
 
             <div>
-                <a th:href="@{/web/aluno/list}">Voltar à Lista</a>
-                <a th:href="@{/web/aluno/editar/{id}(id=${aluno.id})}">Editar</a>
+                <a th:href="@{/web/recepcionista/aluno/list}">Voltar à Lista</a>
+                <a th:href="@{/web/recepcionista/aluno/editar/{id}(id=${aluno.id})}">Editar</a>
             </div>
         </section>
     </main>
