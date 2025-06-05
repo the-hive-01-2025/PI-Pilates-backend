@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AlunoDashboardController {
     @GetMapping("/home")
 	public String home() {
-		return "dashboard/home";
+		return "aluno/home";
 	}
 
     @GetMapping("/modalidades")
     public String modalidades() {
-        return "dashboard/modalidades";
+        return "aluno/modalidades";
     }
 }

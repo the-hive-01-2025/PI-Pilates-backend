@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/home-aluno.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/home-aluno.css}">
     <title>Home - Pilates</title>
 </head>
 
 <body>
     <header>
-        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+        </div>
         <div class="profile-circle"></div>
     </header>
 
@@ -19,12 +22,12 @@
         <h2>Seja bem-vindo <span th:text="${aluno != null ? aluno.nome : '[Aluno]'}">aluno</span></h2>
 
         <div class="button-grid">
-            <a class="btn-home" th:href="@{/web/aluno/dashboard/modalidades}">Modalidades</a>
-            <a class="btn-home" th:href="@{/web/aluno/dashboard/aulas}">Aulas</a>
-            <a class="btn-home" th:href="@{/web/aluno/dashboard/planos}">Plano e Assinatura</a>
-            <a class="btn-home" th:href="@{/web/aluno/dashboard/evolucao}">Minha Evolução</a>
-            <a class="btn-home" th:href="@{/web/aluno/dashboard/ficha}">Ficha de Avaliação</a>
-            <a class="btn-home" th:href="@{/web/aluno/dashboard/faturas}">Pagamento e Faturas</a>
+            <a class="btn-home" th:href="@{/web/aluno/modalidades}">Modalidades</a>
+            <a class="btn-home" th:href="@{/web/aluno/aulas}">Aulas</a>
+            <a class="btn-home" th:href="@{/web/aluno/planos}">Plano e Assinatura</a>
+            <a class="btn-home" th:href="@{/web/aluno/evolucao}">Minha Evolução</a>
+            <a class="btn-home" th:href="@{/web/aluno/ficha}">Ficha de Avaliação</a>
+            <a class="btn-home" th:href="@{/web/aluno/faturas}">Pagamento e Faturas</a>
         </div>
     </main>
 

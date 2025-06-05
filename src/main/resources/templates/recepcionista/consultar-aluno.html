@@ -11,7 +11,10 @@
 
 <body>
     <header>
-        <a class="logo" th:href="@{/web/recepcionista/home}">Pilates</a>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/recepcionista/home}">Pilates</a>
+        </div>
         <div class="profile-circle"></div>
     </header>
 
@@ -51,7 +54,8 @@
                                 <div class="actions">
                                     <a th:href="@{/web/recepcionista/aluno/deletar/{id}(id=${aluno.id})}"
                                         class="btn delete">Excluir</a>
-                                    <a th:href="@{/web/recepcionista/aluno/{id}(id=${aluno.id})}" class="btn ficha">Ficha</a>
+                                    <a th:href="@{/web/recepcionista/aluno/{id}(id=${aluno.id})}"
+                                        class="btn ficha">Ficha</a>
                                 </div>
                             </td>
                         </tr>
