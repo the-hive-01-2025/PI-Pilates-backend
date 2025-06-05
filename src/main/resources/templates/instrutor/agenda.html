@@ -32,38 +32,36 @@
             </thead>
             <tbody>
 
-                <div th:classappend="${existe} ? 'oculto' : 'visivel'">
+                <div th:classappend="${aulas} ? 'oculto' : 'visivel'">
                     <tr>
                         <td colspan="5">Nenhuma aula marcada</td>
                     </tr>
                 </div>
 
-                <div th:if="${existe}">
+                <div th:if="${aulas}">
 
                     <!-- <td>06/05/2025</td>
                     <td>09:00</td>
                     <td>Maria Eduarda</td>
                     <td>Estúdio Estudio Life</td> -->
-                    <tr th:each="aula : ${aula}">
-                        <td th:text="${aula.data}"> -- </td>
-                        <td th:text="${aula.hora}"> -- </td>
-                        <td th:text="${aula.alunos}"> -- </td>
-                        <td th:text="${aula.estudio}"> -- </td>
+                    <tr th:each="aula : ${aulas}">
+                        <td th:text="${aula.data}"> Data </td>
+                        <td th:text="${aula.hora}"> Hora </td>
+                        <td th:text="${aula.alunos}"> Alunos </td>
+                        <td th:text="${aula.estudio}"> Estúdio </td>
                         <td>
                             <form th:action="@{/aulas/presenca/{id}(id=${aula.id})}" method="post" name="marcarPresenca">
                                 <button class="btn-presenca">Marcar Presença</button>
                             </form>
 
                             <form th:action="@{/aulas/cancelar/{id}(id=${aula.id})}" method="post" name="cancelarAula">
-                                <button class="btn-cancelar">Cancelar</button>
+                                <button class="btn-cancelar"> Desmarcar Aula </button>
                             </form>
                         </td>
                         <td>
                             <form th:action="@{/agenda/marcar-presenca}" method="post">
                                 <input type="hidden" name="idAula" th:value="${aula.id}" />
                                 <input type="hidden" name="idAluno" th:value="${aluno.id}" />
-
-
                                 <button type="submit" class="botao-concluir">Concluído</button>
                             </form>
                         </td>
@@ -94,6 +92,8 @@
             </div>
 
             <script>
+
+
                 const modal = document.getElementById("modalPresenca");
                 const btn = document.getElementById("abrirModalBtn");
                 const span = document.getElementById("fecharModal");
@@ -111,6 +111,7 @@
                         modal.style.display = "none";
                     }
                 }
+
             </script>
 
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.studio.pilates.dto.AgendaInstrutorDTO;
 import br.studio.pilates.service.AgendaInstrutorService;
-import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.AulaService;
 
 @Controller
@@ -31,12 +30,10 @@ public class AgendaInstrutorWebController {
 		return "instrutor/homeInstrutor";
 	}
 
-	@GetMapping("/agenda")
-	public String listarAulas(Model model) {
-		// List<AgendaInstrutorDTO> aulas =
-		// agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
-		// model.addAttribute("aulas", aulas);
-		model.addAttribute("existe", true);
+	@GetMapping("/agenda/{instrutorId}")
+	public String listarAulas(Model model, @PathVariable("instrutorId") String instrutorId) {
+		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
+		model.addAttribute("aulas", aulas);
 		return "instrutor/agenda"; // Remove o "redirect"
 	}
 
