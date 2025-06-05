@@ -17,7 +17,8 @@
         <h2>Seja bem-vindo <span th:text="${nome}">[Nome]</span></h2>
 
         <div class="menu-instrutor">
-            <a th:href="@{/web/agendainstrutor/agenda/{id}(id=${instrutor.id})}" class="menu-button">Agenda de Aulas</a>
+            <a th:if ="${instrutor != null}" th:href="@{/web/agendainstrutor/agenda/{id}(id=${instrutor.id})}" class="menu-button">Agenda de Aulas</a>
+            <a th:href="@{/web/agendainstrutor/agenda}" class="menu-button">Alunos</a>
             <a th:href="@{/evolucao}" class="menu-button">Registro de Evolução</a>
             <a th:href="@{/avaliacao}" class="menu-button">Ficha de Avaliação</a>
         </div>

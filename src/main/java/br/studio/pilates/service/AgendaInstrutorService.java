@@ -20,6 +20,10 @@ public class AgendaInstrutorService {
         this.aulaRepository = aulaRepository;
     }
 
+    public List<AgendaInstrutorDTO> listarTodasAulas() {
+        List<Aula> aulas = aulaRepository.findAll();
+        return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
+    }
     public List<AgendaInstrutorDTO> listarAulasPorInstrutor(String idInstrutor) {
 
         List<Aula> aulas = aulaRepository.findByIdInstrutor(idInstrutor);

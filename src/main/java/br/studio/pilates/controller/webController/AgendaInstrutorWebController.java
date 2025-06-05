@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.studio.pilates.dto.AgendaInstrutorDTO;
 import br.studio.pilates.service.AgendaInstrutorService;
-import br.studio.pilates.service.AulaService;
 
 @Controller
 @RequestMapping("web/agendainstrutor")
@@ -21,9 +20,6 @@ public class AgendaInstrutorWebController {
 
 	@Autowired
 	private AgendaInstrutorService agendaInstrutorService;
-
-	@Autowired
-	private AulaService aulaService;
 
 	@GetMapping("/home")
 	public String homeIntrutor() {
@@ -34,7 +30,15 @@ public class AgendaInstrutorWebController {
 	public String listarAulas(Model model, @PathVariable("instrutorId") String instrutorId) {
 		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
 		model.addAttribute("aulas", aulas);
+		
 		return "instrutor/agenda"; // Remove o "redirect"
+	}
+
+	@GetMapping("/agenda")
+	public String listarTodasAulas(Model model) {
+		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarTodasAulas();
+		model.addAttribute("aulas", aulas);
+		return "instrutor/agenda";
 	}
 
 	// @PostMapping("/save")
