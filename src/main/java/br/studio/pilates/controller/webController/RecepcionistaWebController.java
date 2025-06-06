@@ -106,7 +106,7 @@ public class RecepcionistaWebController {
 	@GetMapping("/instrutor/{id}")
 	public String getByIdInstrutor(Model model, @PathVariable String id) {
 		Usuario instrutores = usuarioService.getById(id);
-		model.addAttribute("Instrutor", instrutores);
+		model.addAttribute("instrutor", instrutores);
 		return "recepcionista/read-instrutor";
 	}
 
@@ -133,7 +133,7 @@ public class RecepcionistaWebController {
 	@GetMapping("instrutor/new")
 	public String cadastrarInstrutor(Model model) {
 		model.addAttribute("instrutor", new Usuario());
-		model.addAttribute("novo", true);
+		model.addAttribute("novoInstrutor", true);
 		return "recepcionista/cadastrar-instrutor";
 	}
 
@@ -147,7 +147,7 @@ public class RecepcionistaWebController {
 		}
 
 		model.addAttribute("instrutor", instrutores);
-		model.addAttribute("novo", false);
+		model.addAttribute("novoInstrutor", false);
 		return "recepcionista/cadastrar-instrutor";
 	}
 
