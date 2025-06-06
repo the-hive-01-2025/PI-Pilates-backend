@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.lang.NonNull;
 
 import br.studio.pilates.model.entity.FichaAvaliacao;
 
 public interface FichaAvaliacaoRepository extends MongoRepository<FichaAvaliacao, String> {
 
-    public Optional<FichaAvaliacao> findById(String Id);
+    @NonNull
+    public Optional<FichaAvaliacao> findById(@NonNull String Id);
 
     public Optional<FichaAvaliacao> findByIdAluno(String idAluno); // busca por id do aluno
 

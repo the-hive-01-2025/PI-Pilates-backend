@@ -27,11 +27,16 @@ public class FichaAvaliacao {
     private String data;
     private String diagnostico;
     private String historicoMedico;
+    @Builder.Default
     private ArrayList<String> patologias = new ArrayList<>();
+    @Builder.Default
     private ArrayList<String> exames = new ArrayList<>();
+    @Builder.Default
     private ArrayList<String> medicamentos = new ArrayList<>();
+    @Builder.Default
     private ArrayList<String> tratamentos = new ArrayList<>();
     private String fotoAvaliacao;
+    @Builder.Default
     private ArrayList<String> objetivos = new ArrayList<>();
     private String dataAvaliacao;
 

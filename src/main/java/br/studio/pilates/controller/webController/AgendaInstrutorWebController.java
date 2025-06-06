@@ -26,8 +26,8 @@ public class AgendaInstrutorWebController {
 	@Autowired
 	private AlunoService alunoService;
 
-	@Autowired
-	private Aluno aluno;
+	// @Autowired
+	// private Aluno aluno;
 
 	@GetMapping("/home")
 	public String homeIntrutor() {
