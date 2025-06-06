@@ -31,7 +31,7 @@ public class AulaWebController {
     public String agendamento(Model model) {
         List<Aula> aulas = aulaService.getAllAulas();
         List<Estudio> estudios = estudioService.getAllEstudio();
-        List<Aluno> alunos = alunoService.listarTodos(); // Adicione esta linha
+        List<Aluno> alunos = alunoService.listarTodos();
 
         model.addAttribute("estudios", estudios);
         model.addAttribute("alunos", alunos);

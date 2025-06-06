@@ -97,22 +97,21 @@ public String editar(@PathVariable("id") String Id, Model model) {
 	@GetMapping("/agendamento")
 	public String agendamento(Model model) {
 		List<Aula> aulas = aulaService.getAllAulas();
+		List<Estudio> estudios = estudioService.getAllEstudio();
+		List<Aluno> alunos = alunoService.listarTodos();
+
+		model.addAttribute("estudios", estudios);
+		model.addAttribute("alunos", alunos);
+
 		List<AulaAgendamentoDTO> aulasDTO = aulas.stream().map(aula -> {
 			AulaAgendamentoDTO dto = new AulaAgendamentoDTO();
 			dto.setId(aula.getId());
 			dto.setData(aula.getData());
 			dto.setHorario(aula.getHorario());
 			dto.setStatus(aula.getStatus());
-			// Modalidade (ainda não existe)
 			dto.setModalidade("Não informado");
-			String instrutorNome = "Não informado";
-			// if (aula.getIdInstrutor() != null) {
-			//     Usuario instrutor = usuarioService.getById(aula.getIdInstrutor());
-			//     if (instrutor != null && instrutor.getNome() != null) {
-			//         instrutorNome = instrutor.getNome();
-			//     }
-			// }
-			dto.setInstrutorNome(instrutorNome);
+			dto.setInstrutorNome("Não informado");
+
 			String nomeEstudio = "Não informado";
 			if (aula.getIdStudio() != null) {
 				Estudio estudio = estudioService.getEstudioById(aula.getIdStudio());
@@ -121,10 +120,22 @@ public String editar(@PathVariable("id") String Id, Model model) {
 				}
 			}
 			dto.setEstudioNome(nomeEstudio);
+
 			return dto;
-		}).toList();
-		List<Estudio> estudios = estudioService.getAllEstudio();
-		model.addAttribute("estudios", estudios);
+		})
+		.sorted((a1, a2) -> {
+			if (a1.getData() == null && a2.getData() == null) return 0;
+			if (a1.getData() == null) return 1;
+			if (a2.getData() == null) return -1;
+			int cmp = a1.getData().compareTo(a2.getData());
+			if (cmp != 0) return cmp;
+			if (a1.getHorario() == null && a2.getHorario() == null) return 0;
+			if (a1.getHorario() == null) return 1;
+			if (a2.getHorario() == null) return -1;
+			return a1.getHorario().compareTo(a2.getHorario());
+		})
+		.toList();
+
 		model.addAttribute("aulas", aulasDTO);
 		return "front-aluno/agendamento";
 	}
