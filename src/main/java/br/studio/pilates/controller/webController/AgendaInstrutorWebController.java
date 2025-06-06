@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.studio.pilates.dto.AgendaInstrutorDTO;
+import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.service.AgendaInstrutorService;
+import br.studio.pilates.service.AlunoService;
 
 @Controller
 @RequestMapping("web/agendainstrutor")
@@ -21,13 +23,19 @@ public class AgendaInstrutorWebController {
 	@Autowired
 	private AgendaInstrutorService agendaInstrutorService;
 
+	@Autowired
+	private AlunoService alunoService;
+
+	@Autowired
+	private Aluno aluno;
+
 	@GetMapping("/home")
 	public String homeIntrutor() {
 		return "instrutor/homeInstrutor";
 	}
 
-	@GetMapping("/agenda/{instrutorId}")
-	public String listarAulas(Model model, @PathVariable("instrutorId") String instrutorId) {
+	@GetMapping("/agenda/{id}")
+	public String listarAulas(Model model, @PathVariable("id") String instrutorId) {
 		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
 		model.addAttribute("aulas", aulas);
 		
@@ -70,4 +78,12 @@ public class AgendaInstrutorWebController {
 		return "redirect:/web/agendainstrutor/agenda";
 	}
 
+
+	@GetMapping("/avaliacao")
+	public String exibirAvaliacao(Model model,@PathVariable("id") String idInstrutor) {
+		List<Aluno> alunos = alunoService.listarTodos();
+		model.addAttribute("alunos", alunos);
+		return new String();
+	}
+	
 }
