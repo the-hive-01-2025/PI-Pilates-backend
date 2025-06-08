@@ -111,7 +111,7 @@ public class RecepcionistaWebController {
 	}
 
 	@GetMapping("instrutor/cpf/{cpf}")
-	public String getByCpfInstrutor(Model model, @PathVariable Long cpf) {
+	public String getByCpfInstrutor(Model model, @PathVariable String cpf) {
 		Usuario instrutores = usuarioService.getByCpf(cpf);
 		model.addAttribute("instrutor", instrutores);
 		return "recepcionista/read-instrutor";

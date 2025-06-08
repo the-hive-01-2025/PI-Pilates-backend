@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar Aluno | Pilates</title>
+    <title>Consultar Instrutor | Pilates</title>
     <link rel="stylesheet" th:href="@{/css/style.css }">
     <link rel="stylesheet" th:href="@{/css/recepcionista/lista.css}">
 </head>
@@ -43,18 +43,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="aluno : ${aluno}">
-                            <td th:text="${aluno.nome}">Maria Eduarda</td>
-                            <td th:text="${aluno.sexo}">Feminino</td>
-                            <td th:text="${aluno.cpf}">123.123.432-32</td>
-                            <td th:text="${aluno.email}">email@teste.com</td>
-                            <td th:text="${aluno.contato}">1199999999999</td>
-                            <td th:text="${aluno.plano}">Mensal</td>
+                        <tr th:each="instrutor : ${instrutor}">
+                            <td th:text="${instrutor.nome}">Cleber Batista</td>
+                            <td th:text="${instrutor.sexo}">Masculino</td>
+                            <td th:text="${instrutor.cpf}">123.123.432-42</td>
+                            <td th:text="${instrutor.email}">email@teste.com</td>
+                            <td th:text="${instrutor.contato}">1199999999999</td>
+                            <td th:text="${instrutor.cref}">CREF</td>
                             <td>
                                 <div class="actions">
-                                    <a th:href="@{/web/recepcionista/aluno/deletar/{id}(id=${aluno.id})}"
+                                    <a th:href="@{/web/recepcionista/instrutor/deletar/{id}(id=${instrutor.id})}"
                                         class="btn delete">Excluir</a>
-                                    <a th:href="@{/web/recepcionista/aluno/{id}(id=${aluno.id})}"
+                                    <a th:href="@{/web/recepcionista/instrutor/{id}(id=${instrutor.id})}"
                                         class="btn ficha">Ficha</a>
                                 </div>
                             </td>
@@ -66,10 +66,13 @@
         </div>
 
         <div class="bottom-buttons">
-            <a id="novo" th:href="@{/web/recepcionista/aluno/new}" class="btn novo">Novo Registro</a>
+            <a id="novo" th:href="@{/web/recepcionista/instrutor/new}" class="btn novo">Novo Registro</a>
             <a id="voltar" th:href="@{/web/recepcionista/home}" class="btn voltar">Voltar</a>
         </div>
 
     </main>
+
+
 </body>
+
 </html>
