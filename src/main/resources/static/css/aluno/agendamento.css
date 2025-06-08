@@ -44,7 +44,6 @@ main h2,
     text-align: center;
 }
 
-/* Botões principais */
 .btn-agendar {
     background-color: var(--purple-light-color);
     color: white;
@@ -81,7 +80,6 @@ main h2,
     background-color: var(--purple-color);
 }
 
-/* Modal de agendamento e detalhes */
 .modal-detalhes {
     display: none;
     position: fixed;
@@ -123,7 +121,6 @@ main h2,
     text-align: center;
 }
 
-/* Formulário do modal */
 #modalAgendamento .campo-form {
     display: flex;
     flex-direction: column;
@@ -139,7 +136,6 @@ main h2,
     font-size: 15px;
 }
 
-/* Bloco de aulas marcadas */
 .aulas-marcadas-bloco {
     width: 100%;
     background: none;
@@ -150,7 +146,9 @@ main h2,
     position: relative;
     border: 1px solid #000;
     border-radius: 16px;
-    height: 320px;
+    height: 60vh;
+    min-height: 320px;
+    max-height: 80vh;
     overflow-y: scroll;
     background: #fff;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -164,7 +162,6 @@ main h2,
     max-width: none;
     min-width: 0;
 }
-
 .aulas-marcadas-scroll ul {
     list-style: none;
     padding: 0;
@@ -185,8 +182,6 @@ main h2,
 .aulas-marcadas-scroll li:last-child {
     border-bottom: none;
 }
-
-/* Scrollbar personalizada */
 .aulas-marcadas-scroll::-webkit-scrollbar {
     width: 10px;
     background: #ede9fa;
@@ -199,8 +194,6 @@ main h2,
 .aulas-marcadas-scroll::-webkit-scrollbar-thumb:hover {
     background: #7b5df5;
 }
-
-/* Gradiente no final da lista */
 .aulas-marcadas-scroll.show-gradient::after {
     opacity: 1;
     transition: opacity 0.15s;
@@ -218,7 +211,14 @@ main h2,
     transition: opacity 0.4s;
 }
 
-/* Card de aula */
+.aula-card,
+.aula-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 70px;
+}
 .aula-card {
     background-color: var(--purple-lighter-color);
     border: 1.5px solid #222;
@@ -226,27 +226,18 @@ main h2,
     padding: 28px 20px;
     margin-bottom: 10px;
     box-shadow: 0 2px 8px rgba(143, 131, 229, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-.aula-info-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding-bottom: 4px;
 }
 .aula-info-col {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    justify-content: center;
+    gap: 4px;
+    height: 100%;
 }
 .aula-info-row button {
     background-color: var(--purple-light-color);
     color: #000;
-    border-color: black;
+    border: 2px solid black;      /* <-- contorno preto simples */
     border-radius: 8px;
     padding: 14px 8px;
     font-weight: bold;
@@ -256,12 +247,15 @@ main h2,
     transition: background-color 0.3s;
     margin-left: 16px;
     white-space: nowrap;
+    align-self: center;
+    height: 40px;
+    display: flex;
+    align-items: center;
 }
 .aula-info-row button:hover {
     background-color: var(--purple-color);
 }
 
-/* Botões do modal de detalhes */
 .botoes-detalhes {
     display: flex;
     justify-content: space-between;

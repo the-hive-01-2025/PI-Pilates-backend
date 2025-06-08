@@ -1,13 +1,12 @@
 package br.studio.pilates.model.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.List;
 
 @Document(collection = "Alunos")
 @EntityScan
@@ -24,9 +23,10 @@ public class Aluno {
 	private LocalDate data;
 
 	private String cpf;
+	private String rg;
 	private String email;
 	private String senha;
-	private Long contato;
+	private String contato;
 	private String endereco;
 	private String cep;
 	private String profissao;
@@ -40,7 +40,7 @@ public class Aluno {
 
 	}
 
-	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String email, String senha, Long contato, String endereco, String cep, String profissao,
+	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String rg, String email, String senha, String contato, String endereco, String cep, String profissao,
 			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
 			List<String> fotos) {
 		super();
@@ -49,6 +49,7 @@ public class Aluno {
 		this.sexo = sexo;
 		this.data = data;
 		this.cpf = cpf;
+		this.rg = rg;
 		this.email = email;
 		this.senha = senha;
 		this.contato = contato;
@@ -102,6 +103,14 @@ public class Aluno {
 		this.cpf = cpf;
 	}
 
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -118,11 +127,11 @@ public class Aluno {
 		this.senha = senha;
 	}
 
-	public Long getContato() {
+	public String getContato() {
 		return contato;
 	}
 
-	public void setContato(Long contato) {
+	public void setContato(String contato) {
 		this.contato = contato;
 	}
 

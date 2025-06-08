@@ -6,11 +6,14 @@
     <title>Agendamento de Aulas</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/home-aluno.css}">
-    <link rel="stylesheet" th:href="@{/css/agendamento.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/agendamento.css}">
 </head>
 <body>
     <header>
-        <a class="logo" th:href="@{/web/aluno/home}">Pilates</a>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+        </div>
         <div class="profile-circle"></div>
     </header>
 

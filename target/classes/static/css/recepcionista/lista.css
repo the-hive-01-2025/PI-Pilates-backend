@@ -1,10 +1,18 @@
+.container {
+    padding: 30px;
+    background-color: #d6d6d6;
+    min-height: 100vh;
+}
+
 .container-table {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    max-width: 1200px;
+    width: 95%;
     padding: 20px;
+
 }
+
 .profile-circle {
     width: 40px;
     height: 40px;
@@ -32,7 +40,7 @@
     border-radius: 20px;
     border: 1px solid #ccc;
     background-color: white;
-    width: 250px;
+    width: 100%;
 }
 
 .btn-search {
@@ -52,7 +60,10 @@
 
 table {
     width: 100%;
+    background: white;
     border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 thead {

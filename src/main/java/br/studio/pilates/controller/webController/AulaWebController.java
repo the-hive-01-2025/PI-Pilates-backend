@@ -1,4 +1,4 @@
-package br.studio.pilates.controller;
+package br.studio.pilates.controller.webController;
 
 import br.studio.pilates.dto.AulaAgendamentoDTO;
 import br.studio.pilates.model.entity.Aluno;
@@ -72,7 +72,7 @@ public class AulaWebController {
             .toList();
 
         model.addAttribute("aulas", aulasDTO);
-        return "front-aluno/agendamento";
+        return "aluno/aulas";
     }
 
     @PostMapping("/salvar")
