@@ -36,10 +36,10 @@
                         Além de um ambiente super acolhedor, você vai encontrar instrutores incríveis, muito atenciosos
                         e preparados para adaptar as posturas para todos os níveis.
                         <div class="card-image">
-                            <img th:src=@{/images/yoga.png}  alt="Imagem de Yoga">
+                            <img th:src=@{/images/yoga.png} alt="Imagem de Yoga">
                         </div>
                     </div>
-                    <button th:href="@{/web/dashboard/aulas}">Marcar</button>
+                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
                 </div>
             </div>
             <div class="card">
@@ -49,11 +49,12 @@
                         Aulas de pilates com instrutores atenciosos, equipamentos de ponta e um ambiente perfeito para
                         fortalecer o corpo e melhorar a postura.
                         <div class="card-image">
-                            <img th:src=@{/images/pilates.png}  alt="Imagem de pilates">
+                            <img th:src=@{/images/pilates.png} alt="Imagem de pilates">
                         </div>
                     </div>
+                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
                 </div>
-                <button th:href="@{/web/dashboard/aulas}">Marcar</button>
+
             </div>
             <div class="card">
                 <div class="card-header">Cursos</div>
@@ -62,13 +63,12 @@
                         Cursos focados em saúde, alimentação consciente e bem-estar, com aulas práticas e dinâmicas
                         ministradas por profissionais experientes.
                         <div class="card-image">
-                            <img th:src=@{/images/books.png}  alt="Imagem de Cursos">
+                            <img th:src=@{/images/books.png} alt="Imagem de Cursos">
                         </div>
                     </div>
-                    </div>
-                    <button th:href="@{/web/dashboard/aulas}">Marcar</button>
+                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
+                </div>
             </div>
-
         </div>
         </div>
     </main>

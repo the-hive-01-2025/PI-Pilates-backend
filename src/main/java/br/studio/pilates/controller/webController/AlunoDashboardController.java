@@ -38,6 +38,7 @@ public class AlunoDashboardController {
     public String modalidades() {
         return "aluno/modalidades";
     }
+
     @GetMapping("/aulas")
     public String agendamento(Model model) {
         List<Aula> aulas = aulaService.getAllAulas();

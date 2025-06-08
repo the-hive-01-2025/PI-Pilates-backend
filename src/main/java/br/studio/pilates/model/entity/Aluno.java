@@ -23,7 +23,6 @@ public class Aluno {
 	private LocalDate data;
 
 	private String cpf;
-	private String rg;
 	private String email;
 	private String senha;
 	private String contato;
@@ -40,7 +39,7 @@ public class Aluno {
 
 	}
 
-	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String rg, String email, String senha, String contato, String endereco, String cep, String profissao,
+	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String email, String senha, String contato, String endereco, String cep, String profissao,
 			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
 			List<String> fotos) {
 		super();
@@ -49,7 +48,6 @@ public class Aluno {
 		this.sexo = sexo;
 		this.data = data;
 		this.cpf = cpf;
-		this.rg = rg;
 		this.email = email;
 		this.senha = senha;
 		this.contato = contato;
@@ -101,14 +99,6 @@ public class Aluno {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
 	}
 
 	public String getEmail() {

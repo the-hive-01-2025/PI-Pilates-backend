@@ -66,12 +66,14 @@ h2 {
 }
 
 #card-body-container {
+    align-items: center;
     padding: 10px 20px;
+    height: 250px;
 }
 
 .card-body {
     font-size: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 }
 
 .card-image {
@@ -79,20 +81,18 @@ h2 {
     align-items: center;
 }
 
-
-
-button {
+.btn-marcar {
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-decoration: none;
     background-color: #a698f5;
     color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
 }
 
-button:hover {
+.btn-marcar:hover {
     background-color: #b3a6f2;
 }
+
