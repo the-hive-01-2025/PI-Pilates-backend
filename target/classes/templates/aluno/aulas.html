@@ -16,6 +16,14 @@
         </div>
         <div class="profile-circle"></div>
     </header>
+    <nav>
+        <a th:href="@{/web/aluno/modalidades}" class="nav-item">Modalidades</a>
+        <a th:href="@{/web/aluno/aulas}" class="nav-item active">Aulas</a>
+        <a th:href="@{/web/aluno/planos}" class="nav-item">Planos</a>
+        <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
+        <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
+        <a th:href="@{/web/aluno/pagamentos}" class="nav-item">Pagamentos</a>
+    </nav>
 
     <main>
         <div th:if="${mensagem}" th:classappend="${mensagemTipo == 'sucesso'} ? 'alerta-sucesso' : 'alerta-erro'">
