@@ -20,10 +20,10 @@
 
     <main class="container">
 
-        <h2 class="page-title">Lista de Alunos</h2>
+        <h2 class="page-title">Lista de Instrutores</h2>
         <div class="container-table">
             <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Procurar Aluno">
+                <input type="text" id="search-input" placeholder="Procurar Instrutor">
                 <button class="btn-search">
                     <img th:src="@{/images/search.png}" alt="Pesquisar" width="15" height="15">
                 </button>
@@ -37,8 +37,7 @@
                             <th>Sexo</th>
                             <th>CPF</th>
                             <th>Email</th>
-                            <th>Contato</th>
-                            <th>Plano</th>
+                            <th>CREF</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -48,7 +47,6 @@
                             <td th:text="${instrutor.sexo}">Masculino</td>
                             <td th:text="${instrutor.cpf}">123.123.432-42</td>
                             <td th:text="${instrutor.email}">email@teste.com</td>
-                            <td th:text="${instrutor.contato}">1199999999999</td>
                             <td th:text="${instrutor.cref}">CREF</td>
                             <td>
                                 <div class="actions">

@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Usuario;
@@ -42,8 +44,10 @@ public class RecepcionistaWebController {
 
 	@GetMapping("/aluno/{id}")
 	public String getByIdAluno(Model model, @PathVariable String id) {
-		Optional<Aluno> alunos = alunoService.getById(id);
-		model.addAttribute("aluno", alunos.get());
+		Aluno aluno = alunoService.getById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
+
+		model.addAttribute("aluno", aluno);
 		return "recepcionista/read-aluno";
 	}
 
@@ -64,7 +68,7 @@ public class RecepcionistaWebController {
 	@PostMapping("aluno/save")
 	public String saveAluno(Aluno aluno) {
 		alunoService.saveAluno(aluno);
-		return "redirect:/web/recepcionista/aluno/list";
+		return "redirect:/web/recepcionista/aluno/" + aluno.getId();
 	}
 
 	@GetMapping("aluno/new")
@@ -88,11 +92,10 @@ public class RecepcionistaWebController {
 		return "recepcionista/cadastrar-aluno";
 	}
 
-	
 	@GetMapping("aluno/deletar/{id}")
 	public String deleteByIdAluno(@PathVariable("id") String Id) {
 		alunoService.deleteAluno(Id);
-		return "redirect:/web/aluno/list";
+		return "redirect:/web/recepcionista/aluno/list";
 	}
 
 	// gerenciamento de instrutores (a partir daqui)
@@ -105,8 +108,14 @@ public class RecepcionistaWebController {
 
 	@GetMapping("/instrutor/{id}")
 	public String getByIdInstrutor(Model model, @PathVariable String id) {
-		Usuario instrutores = usuarioService.getById(id);
-		model.addAttribute("instrutor", instrutores);
+		Usuario instrutor = usuarioService.getById(id);
+
+		if (instrutor == null || instrutor.getId() == null) {
+			// Redireciona para a listagem de instrutores se não encontrado
+			return "redirect:/web/recepcionista/instrutor/list";
+		}
+
+		model.addAttribute("instrutor", instrutor);
 		return "recepcionista/read-instrutor";
 	}
 
@@ -127,7 +136,7 @@ public class RecepcionistaWebController {
 	@PostMapping("instrutor/save")
 	public String saveInstrutor(Usuario usuario) {
 		usuarioService.saveUsuario(usuario);
-		return "redirect:/web/recepcionista/instrutor/list";
+		return "redirect:/web/recepcionista/instrutor/" + usuario.getId();
 	}
 
 	@GetMapping("instrutor/new")
@@ -154,6 +163,6 @@ public class RecepcionistaWebController {
 	@GetMapping("/instrutor/deletar/{id}")
 	public String deleteByIdUsuario(@PathVariable("id") String Id) {
 		usuarioService.deleteUsuario(Id);
-		return "redirect:/web/instrutor/list";
+		return "redirect:/web/recepcionista/instrutor/list";
 	}
 }
