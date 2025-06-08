@@ -20,8 +20,8 @@
 
     <main class="container">
         <div class="top-table-container">
-        <h2 class="page-title">Lista de Alunos</h2>
-        <div class="container-table">
+            <h2 class="page-title">Lista de Alunos</h2>
+
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="Procurar Aluno">
                 <button class="btn-search">
@@ -29,7 +29,7 @@
                 </button>
             </div>
         </div>
-
+        <div class="container-table">
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -65,7 +65,7 @@
 
             </div>
         </div>
-
+        </div>
         <div class="bottom-buttons">
             <a id="novo" th:href="@{/web/recepcionista/aluno/new}" class="btn novo">Novo Registro</a>
             <a id="voltar" th:href="@{/web/recepcionista/home}" class="btn voltar">Voltar</a>
@@ -73,4 +73,5 @@
 
     </main>
 </body>
+
 </html>

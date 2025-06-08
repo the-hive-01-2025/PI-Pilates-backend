@@ -1,3 +1,4 @@
+
 .container {
     padding: 30px;
     background-color: #d6d6d6;
@@ -10,6 +11,7 @@
     margin: 0 auto;
     width: 95%;
     padding: 20px;
+    margin-top: 15px;
 
 }
 
@@ -20,9 +22,15 @@
     border-radius: 50%;
 }
 
+.top-table-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px;
+}
+
 .page-title {
-    margin-top: 50px;
-    margin-left: 95px;
+    margin-left: 60px;
     font-size: 26px;
     color: var(--black-gray-color);
 }
@@ -32,7 +40,7 @@
     justify-content: flex-end;
     align-items: center;
     gap: 8px;
-    margin-bottom: 20px;
+    margin-right: 55px;
 }
 
 #search-input {
@@ -40,7 +48,7 @@
     border-radius: 20px;
     border: 1px solid #ccc;
     background-color: white;
-    width: 100%;
+    width: 250px;
 }
 
 .btn-search {
@@ -53,21 +61,21 @@
 
 .table-wrapper {
     background-color: white;
-    border-radius: 8px;
     overflow-x: auto;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px 10px 0 0;
 }
 
 table {
     width: 100%;
-    background: white;
+    background: var(--white-color);
     border-collapse: collapse;
-    border-radius: 10px;
     overflow: hidden;
 }
 
 thead {
-    background-color: var(--gray-color);
+    background-color: var(--white-color);
+    border-bottom: 0.1px solid var(--black-gray-color);
 }
 
 thead th {
@@ -78,7 +86,7 @@ thead th {
 
 tbody td {
     padding: 12px 16px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--black-gray-color);
 }
 
 .actions {
@@ -89,6 +97,7 @@ tbody td {
 .btn {
     padding: 6px 14px;
     border-radius: 8px;
+    border: solid var(--black-gray-color) 1px;
     text-decoration: none;
     color: white;
     font-weight: 500;

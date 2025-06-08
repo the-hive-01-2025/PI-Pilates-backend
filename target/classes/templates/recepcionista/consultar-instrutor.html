@@ -20,15 +20,16 @@
 
     <main class="container">
 
-        <h2 class="page-title">Lista de Instrutores</h2>
-        <div class="container-table">
+        <div class="top-table-container">
+            <h2 class="page-title">Lista de Instrutores</h2>
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="Procurar Instrutor">
                 <button class="btn-search">
                     <img th:src="@{/images/search.png}" alt="Pesquisar" width="15" height="15">
                 </button>
             </div>
-
+        </div>
+        <div class="container-table">
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -59,15 +60,13 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
 
+            <div class="bottom-buttons">
+                <a id="novo" th:href="@{/web/recepcionista/instrutor/new}" class="btn novo">Novo Registro</a>
+                <a id="voltar" th:href="@{/web/recepcionista/home}" class="btn voltar">Voltar</a>
             </div>
         </div>
-
-        <div class="bottom-buttons">
-            <a id="novo" th:href="@{/web/recepcionista/instrutor/new}" class="btn novo">Novo Registro</a>
-            <a id="voltar" th:href="@{/web/recepcionista/home}" class="btn voltar">Voltar</a>
-        </div>
-
     </main>
 
 
