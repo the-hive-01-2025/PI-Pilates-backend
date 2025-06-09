@@ -51,7 +51,8 @@
                             <td th:text="${instrutor.cref}">CREF</td>
                             <td>
                                 <div class="actions">
-                                    <a th:href="@{/web/recepcionista/instrutor/deletar/{id}(id=${instrutor.id})}"
+                                    <a href="#"
+                                        th:attr="data-url=@{/web/recepcionista/instrutor/deletar/{id}(id=${instrutor.id})}"
                                         class="btn delete">Excluir</a>
                                     <a th:href="@{/web/recepcionista/instrutor/{id}(id=${instrutor.id})}"
                                         class="btn ficha">Ficha</a>
@@ -67,8 +68,53 @@
                 <a id="voltar" th:href="@{/web/recepcionista/home}" class="btn voltar">Voltar</a>
             </div>
         </div>
+
+        <div id="modalexclusao" class="modal">
+            <div class="modal-conteudo">
+                <span class="fechar" id="fecharModal">&times;</span>
+                <h2>Tem certeza que deseja excluir esse Instrutor?</h2>
+                <button class="botao-cancelar">Cancelar</button>
+                <button class="botao-concluir" id="confirmarExclusao">Confirmar</button>
+
+            </div>
+        </div>
     </main>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("modalexclusao");
+            const fecharModal = document.getElementById("fecharModal");
+            const botaoCancelar = document.querySelector(".botao-cancelar");
+            const botaoConfirmar = document.getElementById("confirmarExclusao");
+            let urlParaExcluir = "";
+
+            
+            document.querySelectorAll(".btn.delete").forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    e.preventDefault(); 
+                    urlParaExcluir = btn.getAttribute("data-url");
+                    modal.style.display = "block";
+                });
+            });
+
+            
+            fecharModal.onclick = () => modal.style.display = "none";
+            botaoCancelar.onclick = () => modal.style.display = "none";
+
+            
+            botaoConfirmar.onclick = () => {
+                window.location.href = urlParaExcluir;
+            };
+
+            
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+        });
+        
+    </script>
 
 </body>
 

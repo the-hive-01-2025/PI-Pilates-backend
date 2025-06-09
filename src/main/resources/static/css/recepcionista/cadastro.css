@@ -1,5 +1,6 @@
 body {
     background-color: var(--gray-color);
+    height: 100vh;
 }
 
 .form-container {
@@ -9,7 +10,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     margin: 40px auto;
     display: flex;
     flex-direction: column;
@@ -17,20 +18,21 @@ body {
 }
 
 .title {
-    text-align: center;
+    text-align: start;
     color: var(--black-gray-color);
-    font-size: 24px;
+    font-size: 18px;
+    margin-bottom: 14px;
 }
 
 label {
-    font-size: 15px;
-    font-weight: normal;
+    font-size: 14px;
+    font-weight: lighter;
     color: var(--black-gray-color);
 }
 
 .form-content {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     gap: 15px;
 }
 
@@ -65,9 +67,10 @@ label {
 }
 
 .button-group {
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
 }
 
 .btn {

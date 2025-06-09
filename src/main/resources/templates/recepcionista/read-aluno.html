@@ -1,80 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <title>Ficha do Aluno</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/recepcionista/read.css}">
-
 </head>
-
 <body>
-    <header>
-        <div class="top-bar">
-            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
-            <a class="logo-name" th:href="@{/web/recepcionista/home}">Pilates</a>
-        </div>
-        <div class="profile-circle"></div>
-    </header>
-    <main>
+<header>
+    <div class="top-bar">
+        <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+        <a class="logo-name" th:href="@{/web/recepcionista/home}">Pilates</a>
+    </div>
+    <div class="profile-circle"></div>
+</header>
+<main>
+    
+    <section class="ficha-container">
         <h2>Ficha do Aluno</h2>
-
-        <section>
-            <div>
-                <strong>Nome:</strong>
-                <span th:text="${aluno.nome}">Nome</span>
-            </div>
-
-            <div>
-                <strong>Sexo:</strong>
-                <span th:text="${aluno.sexo}">Sexo</span>
-            </div>
-
-            <div>
-                <strong>Data de Nascimento:</strong>
-                <span th:text="${aluno.data}">01/01/2000</span>
-            </div>
-
-            <div>
-                <strong>CPF:</strong>
-                <span th:text="${aluno.cpf}">000.000.000-00</span>
-            </div>
-
-            <div>
-                <strong>Email:</strong>
-                <span th:text="${aluno.email}">email@exemplo.com</span>
-            </div>
-
-            <div>
-                <strong>Contato:</strong>
-                <span th:text="${aluno.contato}">(11) 99999-9999</span>
-            </div>
-
-            <div>
-                <strong>Endereço:</strong>
-                <span th:text="${aluno.endereco}">Endereço</span>
-            </div>
-
-            <div>
-                <strong>CEP:</strong>
-                <span th:text="${aluno.cep}">00000-000</span>
-            </div>
-
-            <div>
-                <strong>Profissão:</strong>
-                <span th:text="${aluno.profissao}">Profissão</span>
-            </div>
-
-            <div th:if="${aluno.plano != null}">
-                <strong>Plano:</strong>
-                <span th:text="${aluno.plano.nome}">Nome do Plano</span>
-            </div>
-            <div th:if="${aluno.plano == null}">
-                <strong>Plano:</strong>
-                <span>Não informado</span>
-            </div>
-
+        <div class="aluno-info">
+            <div><strong>Nome:</strong> <span th:text="${aluno.nome}">Nome</span></div>
+            <div><strong>Data de Nascimento:</strong> <span th:text="${aluno.data}">01/01/2000</span></div>
+            <div><strong>Email:</strong> <span th:text="${aluno.email}">email@exemplo.com</span></div>
+            <div><strong>Endereço:</strong> <span th:text="${aluno.endereco}">Endereço</span></div>
+            <div><strong>Profissão:</strong> <span th:text="${aluno.profissao}">Profissão</span></div>
             <div th:if="${aluno.fichaAvaliacao != null}">
                 <strong>Ficha de Avaliação:</strong>
                 <span th:text="${aluno.fichaAvaliacao.descricao}">Descrição da ficha</span>
@@ -83,7 +32,16 @@
                 <strong>Ficha de Avaliação:</strong>
                 <span>Não informado</span>
             </div>
-
+            <div><strong>Sexo:</strong> <span th:text="${aluno.sexo}">Sexo</span></div>
+            <div><strong>CPF:</strong> <span th:text="${aluno.cpf}">000.000.000-00</span></div>
+            <div><strong>Contato:</strong> <span th:text="${aluno.contato}">(11) 99999-9999</span></div>
+            <div><strong>CEP:</strong> <span th:text="${aluno.cep}">00000-000</span></div>
+            <div th:if="${aluno.plano != null}">
+                <strong>Plano:</strong> <span th:text="${aluno.plano.nome}">Nome do Plano</span>
+            </div>
+            <div th:if="${aluno.plano == null}">
+                <strong>Plano:</strong> <span>Não informado</span>
+            </div>
             <div th:if="${aluno.aulasMarcadas != null and #lists.size(aluno.aulasMarcadas) > 0}">
                 <strong>Aulas Marcadas:</strong>
                 <ul>
@@ -95,27 +53,26 @@
                 <strong>Aulas Marcadas:</strong>
                 <span>Nenhuma aula marcada</span>
             </div>
-
+    
+        <div class="historico">
+            <strong>Histórico de Pagamento:</strong>
             <div th:if="${aluno.historicoPagamento != null and #lists.size(aluno.historicoPagamento) > 0}">
-                <strong>Histórico de Pagamento:</strong>
                 <ul>
                     <li th:each="pagamento : ${aluno.historicoPagamento}">
-                        <span
-                            th:text="'R$ ' + ${pagamento.valor} + ' - ' + ${#dates.format(pagamento.dataPagamento, 'dd/MM/yyyy')}">Pagamento</span>
+                        <span th:text="'R$ ' + ${pagamento.valor} + ' - ' + ${#dates.format(pagamento.dataPagamento, 'dd/MM/yyyy')}">Pagamento</span>
                     </li>
                 </ul>
             </div>
             <div th:if="${aluno.historicoPagamento == null or #lists.size(aluno.historicoPagamento) == 0}">
-                <strong>Histórico de Pagamento:</strong>
                 <span>Sem registros</span>
             </div>
-
-            <div>
-                <a th:href="@{/web/recepcionista/aluno/list}">Voltar à Lista</a>
-                <a th:href="@{/web/recepcionista/aluno/editar/{id}(id=${aluno.id})}">Editar</a>
-            </div>
-        </section>
-    </main>
+        </div>
+        </div>
+        <div class="botoes">
+            <a th:href="@{/web/recepcionista/aluno/list}">Voltar à Lista</a>
+            <a th:href="@{/web/recepcionista/aluno/editar/{id}(id=${aluno.id})}">Editar</a>
+        </div>
+    </section>
+</main>
 </body>
-
 </html>
