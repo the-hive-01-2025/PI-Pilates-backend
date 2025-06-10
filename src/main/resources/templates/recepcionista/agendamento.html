@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Aulas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/home-recepcionista.css}">
+    <link rel="stylesheet" th:href="@{/css/recepcionista/agendamento.css}">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+        </div>
+        <div class="profile-circle"></div>
+    </header>
+
+    <main>
+        <div th:if="${mensagem}" th:classappend="${mensagemTipo == 'sucesso'} ? 'alerta-sucesso' : 'alerta-erro'">
+            <span th:text="${mensagem}"></span>
+        </div>
+        <h2>Agenda de Aulas</h2>
+        <button class="btn-agendar" onclick="abrirModalAgendamento()">Agendar</button>
+
+        <div id="modalAgendamento" class="modal-detalhes">
+            <div class="modal-conteudo">
+                <span class="fechar" onclick="fecharModalAgendamento()">&times;</span>
+                <h2>Agendamento</h2>
+                <form id="formAgendamento" method="post" action="/web/recepcionista/agendamento/salvar" ...>
+                    <div class="campo-form">
+                        <label for="dataAula"><strong>Data:</strong></label>
+                        <input type="date" id="dataAula" name="data" required>
+                    </div>
+                    <div class="campo-form">
+                        <label for="horarioAula"><strong>Horário:</strong></label>
+                        <input type="time" id="horarioAula" name="horario" required>
+                    </div>
+                    <!-- <div class="campo-form">
+                        <label for="modalidadeAula"><strong>Modalidade:</strong></label>
+                        <input type="text" id="modalidadeAula" name="modalidade">
+                    </div> -->
+                    <!-- <div class="campo-form">
+                        <label for="instrutorAula"><strong>Instrutor(a):</strong></label>
+                        <input type="text" id="instrutorAula" name="idInstrutor">
+                    </div> -->
+                    <div class="campo-form">
+                        <label for="estudioAula"><strong>Estúdio:</strong></label>
+                        <select id="estudioAula" name="idStudio" required>
+                            <option value="" disabled selected>Selecione o estúdio</option>
+                            <option th:each="estudio : ${estudios}" th:value="${estudio.id}" th:text="${estudio.nome}"></option>
+                        </select>
+                    </div>
+                    <div class="campo-form">
+                        <label for="alunoAula"><strong>Aluno:</strong></label>
+                        <select id="alunoAula" name="alunos" required>
+                            <option value="" disabled selected>Selecione o aluno</option>
+                            <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-agendar-enviar">Agendar</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="aulas-marcadas aulas-marcadas-scroll">
+            <ul>
+                <li th:each="aula : ${aulas}">
+                    <div class="aula-card">
+                        <div class="aula-info-col">
+                            <span>
+                                <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
+                                <strong th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}" style="margin-left: 12px;"></strong>
+                            </span>
+                        </div>
+                        <div class="aula-botoes">
+                            <form th:action="@{/web/recepcionista/agendamento/deletar/{id}(id=${aula.id})}" method="post" style="display:inline;">
+                                <button type="submit" onclick="return confirm('Tem certeza que deseja cancelar esta aula?')">Cancelar</button>
+                            </form>
+                            <button type="button">Marcar Presença</button>
+                        </div>
+                    </div>
+                </li>
+                <li th:if="${#lists.isEmpty(aulas)}">Nenhuma aula marcada.</li>
+                </ul>
+            </div>
+    </main>
+
+    <script>
+        function updateGradient() {
+            const bloco = document.querySelector('.aulas-marcadas-scroll');
+            if (!bloco) return;
+            if (bloco.scrollTop === 0 && bloco.scrollHeight > bloco.clientHeight) {
+                bloco.classList.add('show-gradient');
+            } else {
+                bloco.classList.remove('show-gradient');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const bloco = document.querySelector('.aulas-marcadas-scroll');
+            if (bloco) {
+                updateGradient();
+                bloco.addEventListener('scroll', updateGradient);
+                window.addEventListener('resize', updateGradient);
+            }
+            const alerta = document.querySelector('.alerta-sucesso, .alerta-erro');
+            if (alerta) {
+                setTimeout(() => {
+                    alerta.style.display = 'none';
+                }, 2000);
+            }
+        });
+        function abrirModalAgendamento() {
+        document.getElementById('modalAgendamento').style.display = 'flex';
+        }
+        function fecharModalAgendamento() {
+            document.getElementById('modalAgendamento').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            const modalAgendamento = document.getElementById('modalAgendamento');
+            if (event.target === modalAgendamento) fecharModalAgendamento();
+        }
+    </script>
+</body>
+</html>
