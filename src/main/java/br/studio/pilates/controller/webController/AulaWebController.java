@@ -1,24 +1,23 @@
 package br.studio.pilates.controller.webController;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import br.studio.pilates.dto.AulaAgendamentoDTO;
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Aula;
 import br.studio.pilates.model.entity.Estudio;
+import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.AulaService;
 import br.studio.pilates.service.EstudioService;
-import br.studio.pilates.service.AlunoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("web/aluno")
-public class AlunoDashboardController {
+@RequestMapping("/web/aula")
+public class AulaWebController {
 
     @Autowired
     private AulaService aulaService;
@@ -29,17 +28,7 @@ public class AlunoDashboardController {
     @Autowired
     private AlunoService alunoService;
 
-    @GetMapping("/home")
-	public String home() {
-		return "aluno/home";
-	}
-
-    @GetMapping("/modalidades")
-    public String modalidades() {
-        return "aluno/modalidades";
-    }
-
-    @GetMapping("/aulas")
+    @GetMapping("/agendamento")
     public String agendamento(Model model) {
         List<Aula> aulas = aulaService.getAllAulas();
         List<Estudio> estudios = estudioService.getAllEstudio();
@@ -84,5 +73,38 @@ public class AlunoDashboardController {
 
         model.addAttribute("aulas", aulasDTO);
         return "aluno/aulas";
+    }
+
+    @PostMapping("/salvar")
+    public String salvarAula(Aula aula, RedirectAttributes redirectAttributes) {
+        try {
+            aulaService.saveAula(aula);
+            redirectAttributes.addFlashAttribute("mensagem", "Aula agendada com sucesso!");
+            redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagem", "Erro ao agendar aula: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("mensagemTipo", "erro");
+        }
+        return "redirect:/web/aula/agendamento";
+    }
+
+    @PostMapping("/reagendar/{id}")
+    public String reagendarAula(@PathVariable("id") String id, Aula aula, RedirectAttributes redirectAttributes) {
+        try {
+            aula.setId(id);
+            aulaService.saveAula(aula);
+            redirectAttributes.addFlashAttribute("mensagem", "Aula reagendada com sucesso!");
+            redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensagem", "Erro ao reagendar aula: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("mensagemTipo", "erro");
+        }
+        return "redirect:/web/aula/agendamento";
+    }
+
+    @PostMapping("/deletar/{id}")
+    public String deletarAula(@PathVariable("id") String id) {
+        aulaService.deleteAula(id);
+        return "redirect:/web/aula/agendamento";
     }
 }

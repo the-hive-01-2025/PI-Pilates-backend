@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento de Aulas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/home-aluno.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/agendamento.css}">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+        </div>
+        <div class="profile-circle"></div>
+    </header>
+    <nav>
+        <a th:href="@{/web/aluno/modalidades}" class="nav-item">Modalidades</a>
+        <a th:href="@{/web/aluno/aulas}" class="nav-item active">Aulas</a>
+        <a th:href="@{/web/aluno/planos}" class="nav-item">Planos</a>
+        <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
+        <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
+        <a th:href="@{/web/aluno/pagamentos}" class="nav-item">Pagamentos</a>
+    </nav>
+
+    <main>
+        <div th:if="${mensagem}" th:classappend="${mensagemTipo == 'sucesso'} ? 'alerta-sucesso' : 'alerta-erro'">
+            <span th:text="${mensagem}"></span>
+        </div>
+        <h2>Agendamento</h2>
+        <button class="btn-agendar" onclick="abrirModalAgendamento()">Agendar</button>
+
+        <div id="modalAgendamento" class="modal-detalhes">
+            <div class="modal-conteudo">
+                <span class="fechar" onclick="fecharModalAgendamento()">&times;</span>
+                <h2>Agendamento</h2>
+                <form id="formAgendamento" method="post" action="/web/aula/salvar" onsubmit="return validarAgendamento()">
+                    <div class="campo-form">
+                        <label for="dataAula"><strong>Data:</strong></label>
+                        <input type="date" id="dataAula" name="data" required>
+                    </div>
+                    <div class="campo-form">
+                        <label for="horarioAula"><strong>Horário:</strong></label>
+                        <input type="time" id="horarioAula" name="horario" required>
+                    </div>
+                    <!-- <div class="campo-form">
+                        <label for="modalidadeAula"><strong>Modalidade:</strong></label>
+                        <input type="text" id="modalidadeAula" name="modalidade">
+                    </div> -->
+                    <!-- <div class="campo-form">
+                        <label for="instrutorAula"><strong>Instrutor(a):</strong></label>
+                        <input type="text" id="instrutorAula" name="idInstrutor">
+                    </div> -->
+                    <div class="campo-form">
+                        <label for="estudioAula"><strong>Estúdio:</strong></label>
+                        <select id="estudioAula" name="idStudio" required>
+                            <option value="" disabled selected>Selecione o estúdio</option>
+                            <option th:each="estudio : ${estudios}" th:value="${estudio.id}" th:text="${estudio.nome}"></option>
+                        </select>
+                    </div>
+                    <div class="campo-form">
+                        <label for="alunoAula"><strong>Aluno:</strong></label>
+                        <select id="alunoAula" name="alunos" required>
+                            <option value="" disabled selected>Selecione o aluno</option>
+                            <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-agendar-enviar">Agendar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="aulas-marcadas-bloco">
+            <h2 class="titulo-bloco">Aulas Marcadas</h2>
+            <div class="aulas-marcadas aulas-marcadas-scroll">
+                <ul>
+                    <li th:each="aula : ${aulas}">
+                        <div class="aula-card aula-info-row">
+                            <div class="aula-info-col">
+                                <div>
+                                    <strong>Data:</strong>
+                                    <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
+                                </div>
+                                <div>
+                                    <strong>Horário:</strong>
+                                    <strong th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></strong>
+                                </div>
+                            </div>
+                            <button type="button"
+                                th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}', '${aula.id}')|">
+                                Ver Detalhes
+                            </button>
+                        </div>
+                    </li>
+                    <li th:if="${#lists.isEmpty(aulas)}">Nenhuma aula marcada.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="modalDetalhes" class="modal-detalhes">
+            <input type="hidden" id="detalheAulaId">
+            <div class="modal-conteudo">
+                <span class="fechar" onclick="fecharDetalhes()">&times;</span>
+                <h2>Detalhes</h2>
+                <!-- <div><strong>Modalidade:</strong> <span id="detalheModalidade"></span></div> -->
+                <div><strong>Data:</strong> <span id="detalheData"></span></div>
+                <div><strong>Horário:</strong> <span id="detalheHorario"></span></div>
+                <!-- <div><strong>Instrutor(a):</strong> <span id="detalheInstrutor"></span></div> -->
+                <div><strong>Estúdio:</strong> <span id="detalheEstudio"></span></div>
+                <div><strong>Status:</strong> <span id="detalheStatus"></span></div>
+                <div class="botoes-detalhes">
+                    <button class="btn-detalhe btn-desmarcar" type="button" onclick="desmarcarAula()">Desmarcar</button>
+                    <button class="btn-detalhe btn-reagendar" type="button" onclick="abrirReagendar()">Reagendar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updateGradient() {
+            const bloco = document.querySelector('.aulas-marcadas-scroll');
+            if (!bloco) return;
+            if (bloco.scrollTop === 0 && bloco.scrollHeight > bloco.clientHeight) {
+                bloco.classList.add('show-gradient');
+            } else {
+                bloco.classList.remove('show-gradient');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const bloco = document.querySelector('.aulas-marcadas-scroll');
+            if (bloco) {
+                updateGradient();
+                bloco.addEventListener('scroll', updateGradient);
+                window.addEventListener('resize', updateGradient);
+            }
+            const alerta = document.querySelector('.alerta-sucesso, .alerta-erro');
+            if (alerta) {
+                setTimeout(() => {
+                    alerta.style.display = 'none';
+                }, 2000);
+            }
+        });
+
+        function abrirDetalhes(modalidade, data, horario, instrutor, estudio, status, aulaId) {
+            // document.getElementById('detalheModalidade').textContent = modalidade;
+            document.getElementById('detalheData').textContent = data;
+            document.getElementById('detalheHorario').textContent = horario;
+            // document.getElementById('detalheInstrutor').textContent = instrutor;
+            document.getElementById('detalheEstudio').textContent = estudio;
+            document.getElementById('detalheStatus').textContent = status;
+            document.getElementById('detalheAulaId').value = aulaId;
+            document.getElementById('modalDetalhes').style.display = 'flex';
+        }
+        function fecharDetalhes() {
+            document.getElementById('modalDetalhes').style.display = 'none';
+        }
+        function abrirModalAgendamento() {
+            document.getElementById('modalAgendamento').style.display = 'flex';
+        }
+        function fecharModalAgendamento() {
+            document.getElementById('modalAgendamento').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            const modalDetalhes = document.getElementById('modalDetalhes');
+            const modalAgendamento = document.getElementById('modalAgendamento');
+            if (event.target === modalDetalhes) fecharDetalhes();
+            if (event.target === modalAgendamento) fecharModalAgendamento();
+        }
+        function abrirReagendar() {
+            document.getElementById('dataAula').value = document.getElementById('detalheData').textContent.split('/').reverse().join('-');
+            document.getElementById('horarioAula').value = document.getElementById('detalheHorario').textContent;
+            document.getElementById('formAgendamento').action = '/web/aula/reagendar/' + document.getElementById('detalheAulaId').value;
+            fecharDetalhes();
+            abrirModalAgendamento();
+        }
+        function desmarcarAula() {
+            const aulaId = document.getElementById('detalheAulaId').value;
+            if (!aulaId) return;
+            if (!confirm('Tem certeza que deseja desmarcar esta aula?')) return;
+            fetch(`/web/aula/deletar/${aulaId}`, { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Aula desmarcada com sucesso!');
+                        location.reload();
+                    } else {
+                        response.text().then(msg => alert('Erro ao desmarcar: ' + msg));
+                    }
+                })
+                .catch(() => alert('Erro ao desmarcar aula.'));
+        }
+    </script>
+</body>
+</html>

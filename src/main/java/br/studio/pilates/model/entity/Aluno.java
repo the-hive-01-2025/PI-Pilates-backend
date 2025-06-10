@@ -25,7 +25,7 @@ public class Aluno {
 	private String cpf;
 	private String email;
 	private String senha;
-	private Long contato;
+	private String contato;
 	private String endereco;
 	private String cep;
 	private String profissao;
@@ -39,7 +39,7 @@ public class Aluno {
 
 	}
 
-	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String email, String senha, Long contato, String endereco, String cep, String profissao,
+	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String email, String senha, String contato, String endereco, String cep, String profissao,
 			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
 			List<String> fotos) {
 		super();
@@ -117,11 +117,11 @@ public class Aluno {
 		this.senha = senha;
 	}
 
-	public Long getContato() {
+	public String getContato() {
 		return contato;
 	}
 
-	public void setContato(Long contato) {
+	public void setContato(String contato) {
 		this.contato = contato;
 	}
 

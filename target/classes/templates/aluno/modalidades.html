@@ -18,12 +18,12 @@
         <div class="profile-circle"></div>
     </header>
     <nav>
-        <a th:href="@{/web/aluno/modalidades}">Modalidades</a>
-        <a th:href="@{/web/aluno/aulas}">Aulas</a>
-        <a th:href="@{/web/aluno/planos}">Planos</a>
-        <a th:href="@{/web/aluno/evolucao}">Evolução</a>
-        <a th:href="@{/web/aluno/avaliacoes}">Avaliações</a>
-        <a th:href="@{/web/aluno/pagamentos}">Pagamentos</a>
+        <a th:href="@{/web/aluno/modalidades}" class="nav-item active">Modalidades</a>
+        <a th:href="@{/web/aluno/aulas}" class="nav-item">Aulas</a>
+        <a th:href="@{/web/aluno/planos}" class="nav-item">Planos</a>
+        <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
+        <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
+        <a th:href="@{/web/aluno/pagamentos}" class="nav-item">Pagamentos</a>
     </nav>
 
     <main>
@@ -35,8 +35,11 @@
                     <div class="card-body">
                         Além de um ambiente super acolhedor, você vai encontrar instrutores incríveis, muito atenciosos
                         e preparados para adaptar as posturas para todos os níveis.
+                        <div class="card-image">
+                            <img th:src=@{/images/yoga.png} alt="Imagem de Yoga">
+                        </div>
                     </div>
-                    <button th:href="@{/web/dashboard/aulas}">Marcar</button>
+                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
                 </div>
             </div>
             <div class="card">
@@ -45,9 +48,13 @@
                     <div class="card-body">
                         Aulas de pilates com instrutores atenciosos, equipamentos de ponta e um ambiente perfeito para
                         fortalecer o corpo e melhorar a postura.
+                        <div class="card-image">
+                            <img th:src=@{/images/pilates.png} alt="Imagem de pilates">
+                        </div>
                     </div>
+                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
                 </div>
-                <button th:href="@{/web/dashboard/aulas}">Marcar</button>
+
             </div>
             <div class="card">
                 <div class="card-header">Cursos</div>
@@ -55,10 +62,14 @@
                     <div class="card-body">
                         Cursos focados em saúde, alimentação consciente e bem-estar, com aulas práticas e dinâmicas
                         ministradas por profissionais experientes.
+                        <div class="card-image">
+                            <img th:src=@{/images/books.png} alt="Imagem de Cursos">
+                        </div>
                     </div>
+                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
                 </div>
-                <button th:href="@{/web/dashboard/aulas}">Marcar</button>
             </div>
+        </div>
         </div>
     </main>
 </body>

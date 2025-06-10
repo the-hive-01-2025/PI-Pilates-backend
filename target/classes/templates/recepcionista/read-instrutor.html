@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha do Instrutor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/recepcionista/read.css}">
+</head>
+<body>
+<header>
+    <div class="top-bar">
+        <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+        <a class="logo-name" th:href="@{/web/recepcionista/home}">Pilates</a>
+    </div>
+    <div class="profile-circle"></div>
+</header>
+<main>
+    <section class="ficha-container">
+         <h2>Ficha do Instrutor</h2>
+        <div class="aluno-info">
+            <div><strong>Nome Completo:</strong> <span th:text="${instrutor.nome}">Eduardo Leite</span></div>
+            <div><strong>Data da Admissão:</strong> <span th:text="${instrutor.dataContratacao}">24/06/2024</span></div>
+            <div><strong>Email:</strong> <span th:text="${instrutor.email}">maria.eduarda12@gmail.com</span></div>
+            <div><strong>Data de Nascimento:</strong> <span th:text="${instrutor.dataNasc}">24/04/1998</span></div>
+            <div><strong>CPF:</strong> <span th:text="${instrutor.cpf}">123.124.432-35</span></div>
+            <div><strong>RG:</strong> <span th:text="${instrutor.rg}">45.183.255-8</span></div>
+            <div><strong>Telefone:</strong> <span th:text="${instrutor.contato}">(11) 94329-5435</span></div>
+            <div><strong>Formação:</strong> <span th:text="${instrutor.formacao}">Educação Física</span></div>
+            <div><strong>CREF:</strong> <span th:text="${instrutor.cref}">145546</span></div>
+            <div><strong>Estúdio:</strong> <span th:text="${instrutor.estudio}">Pilates Life</span></div>
+        </div>
+        <div class="botoes">
+            <a th:href="@{/web/recepcionista/instrutor/list}">Voltar à Lista</a>
+            <a th:href="@{/web/recepcionista/instrutor/editar/{id}(id=${instrutor.id})}">Editar</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <title th:text="${novo} ? 'Cadastrar Aluno' : 'Editar Aluno'">Cadastro de Aluno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/recepcionista/cadastro.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+    <title>Home - Pilates</title>
 </head>
 
 <body>
@@ -18,11 +21,13 @@
     </header>
     <main>
         <div class="form-container">
-            <h2 class="title" th:text="${novo} ? 'Cadastrar Novo Aluno' : 'Editar Aluno'">Cadastro de Aluno</h2>
+            <h2 class="title" th:text="${novoInstrutor} ? 'Cadastrar Novo Instrutor' : 'Editar Instrutor'">Cadastro de
+                Instrutor</h2>
 
-            <form class="form-content" th:action="@{/web/recepcionista/aluno/save}" th:object="${aluno}" method="post">
+            <form class="form-content" th:action="@{/web/recepcionista/instrutor/save}" th:object="${instrutor}"
+                method="post">
 
-                <input type="hidden" th:if="${!novo}" th:field="*{id}" />
+                <input type="hidden" th:if="${!novoInstrutor}" th:field="*{id}" />
 
                 <div class="input-group">
                     <label for="nome">Nome completo</label>
@@ -40,8 +45,8 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="data">Data de Nascimento</label>
-                    <input type="date" id="data" th:field="*{data}" required>
+                    <label for="data">Data de Admissão</label>
+                    <input type="date" id="data" th:field="*{dataContratacao}" required>
                 </div>
 
                 <div class="input-group">
@@ -50,18 +55,18 @@
                 </div>
 
                 <div class="input-group">
+                    <label for="formacao">Formação</label>
+                    <input type="text" id="formacao" th:field="*{formacao}" placeholder="Digite a Formação" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="data">Data de Nascimento</label>
+                    <input type="date" id="data" th:field="*{DataNasc}" required>
+                </div>
+
+                <div class="input-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" th:field="*{email}" placeholder="email@exemplo.com" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="contato">Contato</label>
-                    <input type="text" id="contato" th:field="*{contato}" placeholder="00 00000-0000" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="endereco">Endereço</label>
-                    <input type="text" id="endereco" th:field="*{endereco}" placeholder="Digite o endereço" required>
                 </div>
 
                 <div class="input-group">
@@ -70,20 +75,32 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="profissao">Profissão</label>
-                    <input type="text" id="profissao" th:field="*{profissao}" placeholder="Digite a profissão" required>
+                    <label for="estudio">Estúdio</label>
+                    <input type="text" id="estudio" th:field="*{estudio}" placeholder="Digite o estudio contratado"
+                        required>
                 </div>
 
                 <div class="input-group">
-                    <label for="plano">Plano</label>
-                    <input type="text" id="plano" th:field="*{plano}" placeholder="Digite o plano contratado" required>
+                    <label for="cref">CREF</label>
+                    <input type="text" id="cref" th:field="*{cref}" placeholder="145546" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="rg">RG</label>
+                    <input type="text" id="rg" th:field="*{rg}" placeholder="00.000.000-0" required>
+                </div>
+
+
+                <div class="input-group">
+                    <label for="contato">Contato</label>
+                    <input type="text" id="contato" th:field="*{contato}" placeholder="00 000000000" required>
                 </div>
 
                 <div class="button-group">
-                    <button class="btn" type="submit" th:text="${novo} ? 'Salvar' : 'Atualizar'">Salvar</button>
-                    <a class="btn cancel" th:href="@{/web/recepcionista/aluno/list}">Cancelar</a>
+                    <button class="btn" type="submit"
+                        th:text="${novoInstrutor} ? 'Salvar' : 'Atualizar'">Salvar</button>
+                    <a class="btn cancel" th:href="@{/web/recepcionista/instrutor/list}">Cancelar</a>
                 </div>
-
             </form>
         </div>
     </main>
@@ -95,7 +112,7 @@
             { id: "cpf", mask: "000.000.000-00" },
             { id: "cep", mask: "00000-000" },
             { id: "contato", mask: "00 00000-0000" },
-            { id: "rg", mask: "00.000.000-0" }, // RG só existe no form do instrutor
+            { id: "rg", mask: "00.000.000-0" },
         ];
 
         masks.forEach(({ id, mask }) => {
@@ -106,5 +123,6 @@
         });
     });
 </script>
+
 
 </html>

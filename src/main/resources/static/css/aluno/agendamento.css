@@ -1,0 +1,310 @@
+body {
+    background-color: var(--gray-color);
+}
+nav {
+    background-color: #a698f5;
+    display: flex;
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    padding: 11px 0;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--white-color);
+    background-color: #a698f5;
+    transition: background-color 0.2s ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    border-top: solid 0.1px var(--black-gray-color);
+    background-color: var(--purple-color2);
+    color: var(--black-gray-color);
+}
+main {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 40px;
+    background-color: var(--gray-color);
+}
+
+main h2,
+.titulo-bloco {
+    font-size: 28px;
+    margin-bottom: 24px;
+    font-weight: bold;
+    color: var(--black-gray-color);
+    align-self: flex-start;
+}
+
+.titulo-bloco {
+    margin-bottom: 4px;
+}
+
+.alerta-sucesso {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.alerta-erro {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.btn-agendar {
+    background-color: var(--purple-light-color);
+    color: white;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    margin-left: 0;
+    box-shadow: 2px 2px 4px rgba(143, 131, 229, 0.10);
+    transition: background-color 0.3s, border-color 0.3s;
+    align-self: flex-start;
+}
+.btn-agendar:hover {
+    background-color: var(--purple-color);
+}
+
+.btn-agendar-enviar {
+    background-color: var(--purple-light-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+.btn-agendar-enviar:hover {
+    background-color: var(--purple-color);
+}
+
+.modal-detalhes {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+.modal-detalhes .modal-conteudo {
+    background: #fff;
+    padding: 32px 36px;
+    border-radius: 16px;
+    min-width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.modal-detalhes .fechar {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 28px;
+    color: #888;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+.modal-detalhes .fechar:hover {
+    color: #a698f5;
+}
+.modal-detalhes h2 {
+    margin-bottom: 10px;
+    color: var(--black-gray-color);
+    font-size: 22px;
+    text-align: center;
+}
+
+#modalAgendamento .campo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+}
+#modalAgendamento input[type="text"],
+#modalAgendamento input[type="date"],
+#modalAgendamento input[type="time"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.aulas-marcadas-bloco {
+    width: 100%;
+    background: none;
+    margin-bottom: 20px;
+}
+
+.aulas-marcadas-scroll {
+    position: relative;
+    border: 1px solid #000;
+    border-radius: 16px;
+    height: 60vh;
+    min-height: 320px;
+    max-height: 80vh;
+    overflow-y: scroll;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 10px 12px;
+    margin: 0 auto 40px auto;
+    max-width: 500px;
+    min-width: 320px;
+    scrollbar-width: thin;
+    scrollbar-color: #a698f5 #ede9fa;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+}
+.aulas-marcadas-scroll ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.aulas-marcadas-scroll li {
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    color: #333;
+}
+.aulas-marcadas-scroll li > div {
+    margin-bottom: 2px;
+}
+.aulas-marcadas-scroll li > div:last-child {
+    margin-bottom: 0;
+}
+.aulas-marcadas-scroll li:last-child {
+    border-bottom: none;
+}
+.aulas-marcadas-scroll::-webkit-scrollbar {
+    width: 10px;
+    background: #ede9fa;
+    border-radius: 8px;
+}
+.aulas-marcadas-scroll::-webkit-scrollbar-thumb {
+    background: #a698f5;
+    border-radius: 8px;
+}
+.aulas-marcadas-scroll::-webkit-scrollbar-thumb:hover {
+    background: #7b5df5;
+}
+.aulas-marcadas-scroll.show-gradient::after {
+    opacity: 1;
+    transition: opacity 0.15s;
+}
+.aulas-marcadas-scroll::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 40px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 90%);
+    border-radius: 0 0 12px 12px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.aula-card,
+.aula-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 70px;
+}
+.aula-card {
+    background-color: var(--purple-lighter-color);
+    border: 1.5px solid #222;
+    border-radius: 8px;
+    padding: 28px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(143, 131, 229, 0.06);
+}
+.aula-info-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    height: 100%;
+}
+.aula-info-row button {
+    background-color: var(--purple-light-color);
+    color: #000;
+    border: 2px solid black;      /* <-- contorno preto simples */
+    border-radius: 8px;
+    padding: 14px 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px rgba(143, 131, 229, 0.10);
+    transition: background-color 0.3s;
+    margin-left: 16px;
+    white-space: nowrap;
+    align-self: center;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+.aula-info-row button:hover {
+    background-color: var(--purple-color);
+}
+
+.botoes-detalhes {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 18px;
+}
+.btn-detalhe {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 2px 2px 4px rgba(143, 131, 229, 0.10);
+}
+.btn-desmarcar {
+    background-color: #ff5b5b;
+    color: white;
+}
+.btn-desmarcar:hover {
+    background-color: #e24c4c;
+}
+.btn-reagendar {
+    background-color: var(--purple-light-color);
+    color: white;
+}
+.btn-reagendar:hover {
+    background-color: var(--purple-color);
+}

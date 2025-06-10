@@ -19,16 +19,17 @@
     </header>
 
     <main class="container">
+        <div class="top-table-container">
+            <h2 class="page-title">Lista de Alunos</h2>
 
-        <h2 class="page-title">Lista de Alunos</h2>
-        <div class="container-table">
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="Procurar Aluno">
                 <button class="btn-search">
                     <img th:src="@{/images/search.png}" alt="Pesquisar" width="15" height="15">
                 </button>
             </div>
-
+        </div>
+        <div class="container-table">
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -52,7 +53,8 @@
                             <td th:text="${aluno.plano}">Mensal</td>
                             <td>
                                 <div class="actions">
-                                    <a th:href="@{/web/recepcionista/aluno/deletar/{id}(id=${aluno.id})}"
+                                    <a href="#"
+                                        th:attr="data-url=@{/web/recepcionista/aluno/deletar/{id}(id=${aluno.id})}"
                                         class="btn delete">Excluir</a>
                                     <a th:href="@{/web/recepcionista/aluno/{id}(id=${aluno.id})}"
                                         class="btn ficha">Ficha</a>
@@ -64,13 +66,52 @@
 
             </div>
         </div>
-
+        </div>
         <div class="bottom-buttons">
             <a id="novo" th:href="@{/web/recepcionista/aluno/new}" class="btn novo">Novo Registro</a>
             <a id="voltar" th:href="@{/web/recepcionista/home}" class="btn voltar">Voltar</a>
         </div>
 
+        <div id="modalexclusao" class="modal">
+            <div class="modal-conteudo">
+                <span class="fechar" id="fecharModal">&times;</span>
+                <h2>Tem certeza que deseja excluir esse aluno?</h2>
+                <button class="botao-cancelar">Cancelar</button>
+                <button class="botao-concluir" id="confirmarExclusao">Confirmar</button>
+            </div>
+        </div>
     </main>
+
+    <script>
+        const modal = document.getElementById("modalexclusao");
+        const botaoCancelar = document.querySelector(".botao-cancelar");
+        const botaoConfirmar = document.getElementById("confirmarExclusao");
+        const fecharModal = document.getElementById("fecharModal");
+        let urlParaExcluir = "";
+
+        document.querySelectorAll(".btn.delete").forEach(botao => {
+            botao.addEventListener("click", function (e) {
+                e.preventDefault();
+                urlParaExcluir = this.getAttribute("data-url");
+                modal.style.display = "block";
+            });
+        });
+
+        botaoCancelar.onclick = () => modal.style.display = "none";
+        fecharModal.onclick = () => modal.style.display = "none";
+
+        botaoConfirmar.onclick = () => {
+            if (urlParaExcluir) {
+                window.location.href = urlParaExcluir;
+            }
+        };
+
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 
 </body>

@@ -27,7 +27,7 @@ public class UsuarioService {
 		return usuarioRepository.findByNome(nome);
 	}
 
-	public Usuario getByCpf(Long cpf) {
+	public Usuario getByCpf(String cpf) {
 		return usuarioRepository.findByCpf(cpf).orElse(null);
 	}
 

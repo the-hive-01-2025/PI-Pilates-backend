@@ -1,15 +1,24 @@
-
 nav {
-    display: block;
     background-color: #a698f5;
     display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
 }
-nav a {
-    color: rgba(255, 255, 255, 1);;
-    text-decoration: none;
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    padding: 11px 0;
     font-weight: bold;
+    text-decoration: none;
+    color: var(--white-color);
+    background-color: #a698f5;
+    transition: background-color 0.2s ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    border-top: solid 0.1px var(--black-gray-color);
+    background-color: var(--purple-color2);
+    color: var(--black-gray-color);
 }
 
 main {
@@ -17,10 +26,13 @@ main {
 }
 
 .titulo-page {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 40px;
+    font-size: 24px;
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    font-weight: bold;
+    color: var(--black-gray-color);
+
 }
 
 h2 {
@@ -53,26 +65,34 @@ h2 {
     margin-bottom: 10px;
 }
 
-#card-body-container{
+#card-body-container {
+    align-items: center;
     padding: 10px 20px;
+    height: 250px;
 }
+
 .card-body {
     font-size: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 }
 
-button {
+.card-image {
+    margin-top: 20px;
+    align-items: center;
+}
+
+.btn-marcar {
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-decoration: none;
     background-color: #a698f5;
     color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    font-size: 14px;
 }
 
-button:hover {
+.btn-marcar:hover {
     background-color: #b3a6f2;
 }
+

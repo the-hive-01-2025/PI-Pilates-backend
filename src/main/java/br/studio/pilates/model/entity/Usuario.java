@@ -15,28 +15,34 @@ public class Usuario {
 	private String id;
 
 	private String nome;
+	private String sexo;
 	private String email;
 	private String tipo;
 	private String DataNasc;
-	private Long contato;
+	private String contato;
 	private String formacao;
 	private List<Conselho> conselho;
 	private String foto;
 	private String dataContratacao;
-	private Long cpf;
+	private String cpf;
+	private String rg;
+	private String cep;
+	private String cref;
 	private List<Permissoes> permissoes;
+	private Estudio estudio;
 	
 
 	public Usuario() {
 		
 	}
 
-	public Usuario(String id, String nome, String email, String tipo, String DataNasc, Long contato,
-			String formacao, List<Conselho> conselho, String foto, String dataContratacao, Long cpf,
-			List<Permissoes> permissoes) {
+	public Usuario(String id, String nome,String sexo, String email, String tipo, String DataNasc, String contato,
+			String formacao, List<Conselho> conselho, String foto, String dataContratacao, String cpf,
+			String rg, String cep, String cref, List<Permissoes> permissoes, Estudio estudio) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.sexo = sexo;
 		this.email = email;
 		this.tipo = tipo;
 		this.DataNasc = DataNasc;
@@ -46,7 +52,11 @@ public class Usuario {
 		this.foto = foto;
 		this.dataContratacao = dataContratacao;
 		this.cpf = cpf;
+		this.rg = rg;
+		this.cep = cep;
+		this.cref = cref;
 		this.permissoes = permissoes;
+		this.estudio = estudio;
 	}
 
 }
