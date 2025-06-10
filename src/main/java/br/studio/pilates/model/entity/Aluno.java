@@ -1,13 +1,12 @@
 package br.studio.pilates.model.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.List;
 
 @Document(collection = "Alunos")
 @EntityScan
