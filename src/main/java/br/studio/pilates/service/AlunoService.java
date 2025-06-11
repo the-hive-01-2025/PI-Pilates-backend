@@ -63,4 +63,13 @@ public class AlunoService {
     public void deleteAlunoByName(String nome) {
         alunoRepository.deleteByNome(nome);
     }
+
+    public void removerPlano(String cpf) {
+        Aluno aluno = getByCpf(cpf);
+        if (aluno != null) {
+            aluno.setPlano(null);
+            aluno.setHistoricoPagamento(null);
+            saveAluno(aluno);
+        }
+    }
 }

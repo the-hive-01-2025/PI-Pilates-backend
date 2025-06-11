@@ -15,12 +15,17 @@ public class PlanoService {
     @Autowired
     private PlanoRepository planoRepository;
 
-   public List<Plano> getAllPlanos() {
+    public List<Plano> getAllPlanos() {
         return planoRepository.findAll();
     }
 
     public Optional<Plano> getPlanoById(String id) {
         return planoRepository.findById(id);
+    }
+    
+    public Plano getPlanoByNome(String nomePlano) {
+        return planoRepository.findByNomePlano(nomePlano)
+                .orElseThrow(() -> new RuntimeException("Plano com nome '" + nomePlano + "' não encontrado."));
     }
 
     public Plano savePlano(Plano plano) {
@@ -30,4 +35,5 @@ public class PlanoService {
     public void deletePlano(String id) {
         planoRepository.deleteById(id);
     }
+
 }
