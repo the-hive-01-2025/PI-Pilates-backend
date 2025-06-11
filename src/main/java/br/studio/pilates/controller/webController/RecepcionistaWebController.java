@@ -13,25 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.studio.pilates.dto.AulaAgendamentoDTO;
 import br.studio.pilates.model.entity.Aluno;
-import br.studio.pilates.model.entity.Aula;
-import br.studio.pilates.model.entity.Estudio;
 import br.studio.pilates.model.entity.Usuario;
 import br.studio.pilates.service.AlunoService;
-import br.studio.pilates.service.AulaService;
-import br.studio.pilates.service.EstudioService;
 import br.studio.pilates.service.UsuarioService;
 
 @Controller
 @RequestMapping("web/recepcionista")
 public class RecepcionistaWebController {
-
-	@Autowired
-    private AulaService aulaService;
-
-    @Autowired
-    private EstudioService estudioService;
 
 	@Autowired
 	private AlunoService alunoService;
@@ -176,50 +165,4 @@ public class RecepcionistaWebController {
 		usuarioService.deleteUsuario(Id);
 		return "redirect:/web/recepcionista/instrutor/list";
 	}
-	// @GetMapping("/agendamento")
-    // public String agendamento(Model model) {
-    //     List<Aula> aulas = aulaService.getAllAulas();
-    //     List<Estudio> estudios = estudioService.getAllEstudio();
-    //     List<Aluno> alunos = alunoService.listarTodos();
-
-    //     model.addAttribute("estudios", estudios);
-    //     model.addAttribute("alunos", alunos);
-
-    //     List<AulaAgendamentoDTO> aulasDTO = aulas.stream()
-    //         .map(aula -> {
-    //             AulaAgendamentoDTO dto = new AulaAgendamentoDTO();
-    //             dto.setId(aula.getId());
-    //             dto.setData(aula.getData());
-    //             dto.setHorario(aula.getHorario());
-    //             dto.setStatus(aula.getStatus());
-    //             dto.setModalidade("Não informado");
-    //             dto.setInstrutorNome("Não informado");
-
-    //             String nomeEstudio = "Não informado";
-    //             if (aula.getIdStudio() != null) {
-    //                 Estudio estudio = estudioService.getEstudioById(aula.getIdStudio());
-    //                 if (estudio != null && estudio.getNome() != null) {
-    //                     nomeEstudio = estudio.getNome();
-    //                 }
-    //             }
-    //             dto.setEstudioNome(nomeEstudio);
-
-    //             return dto;
-    //         })
-    //         .sorted((a1, a2) -> {
-    //             if (a1.getData() == null && a2.getData() == null) return 0;
-    //             if (a1.getData() == null) return 1;
-    //             if (a2.getData() == null) return -1;
-    //             int cmp = a1.getData().compareTo(a2.getData());
-    //             if (cmp != 0) return cmp;
-    //             if (a1.getHorario() == null && a2.getHorario() == null) return 0;
-    //             if (a1.getHorario() == null) return 1;
-    //             if (a2.getHorario() == null) return -1;
-    //             return a1.getHorario().compareTo(a2.getHorario());
-    //         })
-    //         .toList();
-
-    //     model.addAttribute("aulas", aulasDTO);
-    //     return "recepcionista/agendamento";
-    // }
 }

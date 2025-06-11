@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/web/recepcionista/agendamento")
@@ -44,6 +45,7 @@ public class AgendamentoWebController {
                 dto.setData(aula.getData());
                 dto.setHorario(aula.getHorario());
                 dto.setStatus(aula.getStatus());
+                dto.setPresentes(aula.getPresentes() != null ? aula.getPresentes() : List.of());
                 dto.setModalidade("Não informado");
                 dto.setInstrutorNome("Não informado");
 
@@ -55,6 +57,18 @@ public class AgendamentoWebController {
                     }
                 }
                 dto.setEstudioNome(nomeEstudio);
+
+                if (aula.getAlunos() != null) {
+                    List<String> nomesAlunos = aula.getAlunos().stream()
+                        .map(alunoId -> {
+                            Aluno aluno = alunoService.getById(alunoId).orElse(null);
+                            return aluno != null ? aluno.getNome() : "";
+                        })
+                        .toList();
+                    dto.setAlunos(nomesAlunos);
+                } else {
+                    dto.setAlunos(List.of());
+                }
 
                 return dto;
             })
@@ -78,6 +92,7 @@ public class AgendamentoWebController {
     @PostMapping("/salvar")
     public String salvarAula(Aula aula, RedirectAttributes redirectAttributes) {
         try {
+            aula.setStatus(""); // ou aula.setStatus("Pendente");
             aulaService.saveAula(aula);
             redirectAttributes.addFlashAttribute("mensagem", "Aula agendada com sucesso!");
             redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");
@@ -86,6 +101,24 @@ public class AgendamentoWebController {
             redirectAttributes.addFlashAttribute("mensagemTipo", "erro");
         }
         return "redirect:/web/recepcionista/agendamento";
+    }
+    @PutMapping("/presenca/{id}")
+    @ResponseBody
+    public String marcarPresenca(@PathVariable("id") String aulaId, @RequestBody(required = false) Map<String, List<String>> body) {
+        Aula aula = aulaService.getAulaById(aulaId);
+        if (aula == null) {
+            return "Aula não encontrada";
+        }
+        List<String> presentes = (body != null) ? body.get("presentes") : null;
+        if (presentes == null || presentes.isEmpty()) {
+            aula.setStatus("Ausente");
+            aula.setPresentes(List.of());
+        } else {
+            aula.setStatus("Presente");
+            aula.setPresentes(presentes);
+        }
+        aulaService.saveAula(aula);
+        return "ok";
     }
 
     @PostMapping("/deletar/{id}")
