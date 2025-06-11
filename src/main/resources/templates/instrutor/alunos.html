@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/recepcionista/home-recepcionista.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+    <title>Home - Pilates</title>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/recepcionista/home}">Pilates</a>
+        </div>
+        <div class="profile-circle"></div>
+    </header>
+
+    <main class="container">
+        <h1>Agenda de Aulas</h1>
+
+        <div class="search-box">
+            <input type="text" placeholder="Procurar Aula">
+            <button><i>🔍</i></button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sexo</th>
+                    <th>Contato</th>
+                    <th>plano</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="aluno : ${alunos}">
+                    <td th:text="${aluno.nome}"></td>
+                    <td th:text="${aluno.sexo}"></td>
+                    <td th:text="${aluno.contato}"></td>
+                    <td th:text="${aluno.plano}"></td>
+                    <td>
+                        <button id="abrirModal"> Ficha de Avaliação</button>
+                        <button id="editarModal"> Editar Ficha</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- modal de edição baby -->
+        <div id="modalFicha" class="modal">
+            <div class="modal-conteudo">
+                <span id="fecharModal" class="fechar">&times;</span>
+                <h2>Ficha de Avaliação</h2>
+                <form th:action="@{/avaliacao/editar/{id}(id=${aluno.id})}" method="post">
+                    <label for="nome">Nome do Aluno:</label>
+                    <input type="text" id="nome" name="nome" required>
+
+                    <label for="sexo">Sexo:</label>
+                    <select id="sexo" name="sexo">
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                    <div id="campoTexto" style="display: none;">
+                        <label>Especifique:</label>
+                        <input type="text" name="sexoEspecifico">
+                    </div>
+
+                    <label for="exame">Exame:</label>
+                    <input type="text" id="exame" name="exame" required>
+
+                    <label for="observacoes">Observações:</label>
+                    <textarea id="observacoes" name="observacoes"></textarea>
+
+                    <button type="submit" class="botao-enviar">Salvar</button>
+                </form>
+            </div>
+
+            <!-- Modal para visualização -->
+
+    </main>
+
+    <script>
+    document.getElementById("sexo").addEventListener("change", function() {
+        const campoTexto = document.getElementById("campoTexto");
+        campoTexto.style.display = (this.value === "Outro") ? "block" : "none";
+    });
+</script>
+
+</body>
+
+</html>

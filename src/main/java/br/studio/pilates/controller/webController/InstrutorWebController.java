@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.studio.pilates.dto.AgendaInstrutorDTO;
 import br.studio.pilates.model.entity.Aluno;
+import br.studio.pilates.model.entity.FichaAvaliacao;
 import br.studio.pilates.service.AgendaInstrutorService;
 import br.studio.pilates.service.AlunoService;
+import br.studio.pilates.service.FichaAvaliacaoService;
+import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("web/agendainstrutor")
-public class AgendaInstrutorWebController {
+public class InstrutorWebController {
 
 	@Autowired
 	private AgendaInstrutorService agendaInstrutorService;
@@ -26,6 +29,11 @@ public class AgendaInstrutorWebController {
 	@Autowired
 	private AlunoService alunoService;
 
+	@Autowired
+	private FichaAvaliacao fichaAvaliacao;
+
+	@Autowired
+	private FichaAvaliacaoService fichaAvaliacaoService;
 	// @Autowired
 	// private Aluno aluno;
 
@@ -38,14 +46,16 @@ public class AgendaInstrutorWebController {
 	public String listarAulas(Model model, @PathVariable("id") String instrutorId) {
 		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
 		model.addAttribute("aulas", aulas);
-		
+
 		return "instrutor/agenda"; // Remove o "redirect"
 	}
 
 	@GetMapping("/agenda")
 	public String listarTodasAulas(Model model) {
 		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarTodasAulas();
+		List<Aluno> aluno = alunoService.listarTodos();
 		model.addAttribute("aulas", aulas);
+		model.addAttribute("aluno", aluno);
 		return "instrutor/agenda";
 	}
 
@@ -72,18 +82,23 @@ public class AgendaInstrutorWebController {
 		return "redirect:/web/agendainstrutor/agenda"; // Redireciona para a agenda
 	}
 
-	@PostMapping("/aulas/cancelar/{aulaId}")
-	public String cancelarAula(@RequestParam String aulaId) {
-		agendaInstrutorService.cancelarAula(aulaId);
+	@PostMapping("/aulas/cancelar/{id}")
+	public String cancelarAula(@PathParam("id") String id) {
+		agendaInstrutorService.cancelarAula(id);
 		return "redirect:/web/agendainstrutor/agenda";
 	}
 
-
 	@GetMapping("/avaliacao")
-	public String exibirAvaliacao(Model model,@PathVariable("id") String idInstrutor) {
+	public String exibirAvaliacao(Model model, @PathVariable("id") String idInstrutor) {
 		List<Aluno> alunos = alunoService.listarTodos();
 		model.addAttribute("alunos", alunos);
-		return new String();
+		return "/listarAlunos";
 	}
-	
+
+	@PostMapping("/avaliacao/editar/{id}")
+	public String atualizarAvaliacao(@PathParam("id") String id, FichaAvaliacao fichaAvaliacao) {
+		fichaAvaliacaoService.atualizaFicha(id, fichaAvaliacao);
+		return "redirect:/web/agendainstrutor/avaliacao";
+	}
+
 }
