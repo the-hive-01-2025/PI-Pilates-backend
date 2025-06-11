@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/home/login.css}">
+</head>
+
+<body>
+    <a th:href="@{/web/home}" class="btn-back">← Voltar para Home</a>
+    <div class="login-container">
+        <h2>Bem-vindo a Define Pilates</h2>
+        <h3>Faça login para continuar</h3>
+
+        <form>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+    </div>
+</body>
+
+</html>

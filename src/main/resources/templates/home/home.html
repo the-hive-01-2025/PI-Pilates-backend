@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Studio Pilates | Início</title>
+    <link rel="stylesheet" th:href="@{/css/home/home.css}">
+</head>
+<body>
+
+<header>
+    <h1>Studio Pilates</h1>
+    <a class="btn-login" th:href="@{/web/login}">Entrar</a>
+</header>
+
+<main>
+    <section>
+        <h2>Quem Somos</h2>
+        <p>Somos um estúdio dedicado ao bem-estar físico e mental. Ajudamos nossos alunos a alcançar seus objetivos com aulas personalizadas e ambiente acolhedor.</p>
+    </section>
+
+    <section>
+        <h2>Nossos Planos</h2>
+        <div class="planos">
+            <div class="plano">Plano Básico<br>2x por semana</div>
+            <div class="plano">Plano Intermediário<br>3x por semana</div>
+            <div class="plano">Plano Premium<br>Aulas ilimitadas</div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    &copy; 2025 Studio Pilates. Todos os direitos reservados.
+</footer>
+
+</body>
+</html>
