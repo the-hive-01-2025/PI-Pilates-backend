@@ -1,6 +1,7 @@
 package br.studio.pilates.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,15 @@ public class PlanoService {
         return planoRepository.findAll();
     }
 
-    public Plano getPlanoById(String Id) {
-        return planoRepository.findPlanoById(Id);
+    public Optional<Plano> getPlanoById(String id) {
+        return planoRepository.findById(id);
     }
 
     public Plano savePlano(Plano plano) {
         return planoRepository.save(plano);
     }
 
-    public void deletePlano(String Id) {
-        planoRepository.deleteById(Id);
+    public void deletePlano(String id) {
+        planoRepository.deleteById(id);
     }
 }

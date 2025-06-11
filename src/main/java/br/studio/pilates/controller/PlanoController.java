@@ -27,8 +27,10 @@ public class PlanoController {
 	}
 
 	@GetMapping("plano/{id}")
-	public Plano getById(@PathVariable("id") String Id) {
-		return planoService.getPlanoById(Id);
+	public ResponseEntity<Plano> getById(@PathVariable("id") String id) {
+		return planoService.getPlanoById(id)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PostMapping("plano")
@@ -38,14 +40,14 @@ public class PlanoController {
 	}
 
 	@DeleteMapping("plano/{id}")
-	public String delete(@PathVariable("id") String Id) {
-		if(planoService.getPlanoById(Id) != null){
-
-            planoService.deletePlano(Id);
-		return "Plano Excluido com sucesso!!";
-		} else{
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: recurso não encontrado!").toString();
-	}
+	public ResponseEntity<String> delete(@PathVariable("id") String id) {
+		if (planoService.getPlanoById(id).isPresent()) {
+			planoService.deletePlano(id);
+			return ResponseEntity.ok("Plano excluído com sucesso!");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body("Erro: recurso não encontrado!");
 		}
+	}
 
 }
