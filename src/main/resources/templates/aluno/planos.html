@@ -21,11 +21,36 @@
     <main>
         <h2 class="title-page">Meu Plano</h2>
         <div class="container-infos">
-            <label for="plano">Plano: <span th:text="${plano}">Sem um plano registrado</span"></label>
-            <label for="plano">Vencimento: <span th:text="${diaVencimento}">Sem um plano registrado"></label>
-            <label class="btn-faturas" for="plano">Ver faturas: <a th:href="@{/web/aluno/faturas}"></a></label> <!-- se não
-            tiver faturas, esse botão deve ser substituido por um texto "assine um plano!" -->
+            <!-- Se o aluno tem plano -->
+            <div th:if="${aluno.plano != null}">
+                <label for="plano">
+                    Plano: <span th:text="${aluno.plano.nomePlano}">Sem um plano registrado</span>
+                </label>
+                <label for="vencimento">
+                    Vencimento: <span th:text="${aluno.plano.diaVencimento}">Sem um plano registrado</span>
+                </label>
+            </div>
+
+            <!-- Se não tem plano -->
+            <div th:if="${aluno.plano == null}">
+                <label>Plano: <span>Sem um plano registrado</span></label>
+                <label>Vencimento: <span>Sem um plano registrado</span></label>
+            </div>
+
+            <!-- Botão de faturas ou mensagem -->
+            <div th:if="${aluno.historicoPagamento != null and #lists.size(aluno.historicoPagamento) > 0}">
+                <label class="btn-faturas">
+                    Ver faturas: <a th:href="@{/web/aluno/faturas}">Clique aqui</a>
+                </label>
+            </div>
+
+            <div th:if="${aluno.historicoPagamento == null or #lists.isEmpty(aluno.historicoPagamento)}">
+                <label class="btn-faturas">
+                    <span>Assine um plano!</span>
+                </label>
+            </div>
         </div>
+
         <div class="conitainer-title-planos">
             <h2>Planos</h2>
         </div>
@@ -148,4 +173,5 @@
     </script>
 
 </body>
+
 </html>
