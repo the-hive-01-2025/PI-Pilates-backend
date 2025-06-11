@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/planos.css}">
+    <title>Planos - Pilates</title>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+        </div>
+        <div class="profile-circle"></div>
+    </header>
+
+    <main>
+        <h2 class="title-page">Meu Plano</h2>
+        <div class="container-infos">
+            <!-- Se o aluno tem plano -->
+            <div th:if="${aluno.plano != null}">
+                <label for="plano">
+                    Plano: <span th:text="${aluno.plano.nomePlano}">Sem um plano registrado</span>
+                </label>
+                <label for="vencimento">
+                    Vencimento: <span th:text="${aluno.plano.diaVencimento}">Sem um plano registrado</span>
+                </label>
+            </div>
+
+            <!-- Se não tem plano -->
+            <div th:if="${aluno.plano == null}">
+                <label>Plano: <span>Sem um plano registrado</span></label>
+                <label>Vencimento: <span>Sem um plano registrado</span></label>
+            </div>
+
+            <!-- Botão de faturas ou mensagem -->
+            <div th:if="${aluno.historicoPagamento != null and #lists.size(aluno.historicoPagamento) > 0}">
+                <label class="btn-faturas">
+                    Ver faturas: <a th:href="@{/web/aluno/faturas}">Clique aqui</a>
+                </label>
+            </div>
+
+            <div th:if="${aluno.historicoPagamento == null or #lists.isEmpty(aluno.historicoPagamento)}">
+                <label class="btn-faturas">
+                    <span>Assine um plano!</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="conitainer-title-planos">
+            <h2>Planos</h2>
+        </div>
+        <div class="container-planos">
+            <!-- Plano Mensal -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Mensal</h3>
+                </div>
+                <div class="card-body">
+                    <h3>Benefícios:</h3>
+                    <h6 th:text="${mensal.descricao}"></h6>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn-marcar" th:data-id="${mensal.id}" th:data-nome="${mensal.nomePlano}"
+                        th:data-valor="${mensal.valor}" th:data-descricao="${mensal.descricao}" data-frequencia="2x"
+                        data-modalidades="1">Assinar</a>
+                </div>
+            </div>
+
+            <!-- Plano Trimestral -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Trimestral</h3>
+                </div>
+                <div class="card-body">
+                    <h3>Benefícios:</h3>
+                    <h6 th:text="${trimestral.descricao}"></h6>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn-marcar" th:data-id="${mensal.id}" th:data-nome="${trimestral.nomePlano}"
+                        th:data-valor="${trimestral.valor}" th:data-descricao="${trimestral.descricao}"
+                        data-frequencia="2x" data-modalidades="1">Assinar</a>
+                </div>
+            </div>
+
+            <!-- Plano Anual -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Anual</h3>
+                </div>
+                <div class="card-body">
+                    <h3>Benefícios:</h3>
+                    <h6 th:text="${anual.descricao}"></h6>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn-marcar" th:data-id="${anual.id}" th:data-nome="${anual.nomePlano}"
+                        th:data-valor="${anual.valor}" th:data-descricao="${anual.descricao}" data-frequencia="2x"
+                        data-modalidades="1">Assinar</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-assinatura" class="modal">
+        <span class="fechar" id="fecharModal">&times;</span>
+
+        <div class="modal-conteudo">
+            <h2 id="tituloPlano">Plano</h2>
+
+            <p id="infoPlano"></p>
+
+            <form id="form-assinatura" th:action="@{/web/aluno/assinar}" method="post">
+                <input type="hidden" id="planoId" name="planoId">
+
+                <label for="nome">Nome:</label><br>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome"><br><br>
+
+                <label for="cpf">CPF:</label><br>
+                <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF"><br><br>
+
+                <label for="formaPagamento">Forma de pagamento:</label><br>
+                <select id="formaPagamento" name="formaPagamento">
+                    <option value="cartao">CARTÃO</option>
+                    <option value="boleto">BOLETO</option>
+                    <option value="pix">PIX</option>
+                </select><br><br>
+
+                <div class="botoes">
+                    <button type="button" class="cancelar" id="cancelarModal">Cancelar</button>
+                    <button type="submit" class="pagar">Pagar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll(".btn-marcar").forEach(btn => {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                const planoId = this.dataset.id;
+                const nome = this.dataset.nome;
+                const valor = this.dataset.valor;
+                const descricao = this.dataset.descricao;
+                const frequencia = this.dataset.frequencia;
+                const modalidades = this.dataset.modalidades;
+
+                document.getElementById("planoId").value = planoId;
+                document.getElementById("tituloPlano").textContent = nome;
+                document.getElementById("infoPlano").innerHTML = `
+                Frequência semanal: ${frequencia}<br>
+                ${nome}<br>
+                Valor: R$ ${valor}<br>
+                Modalidades: ${modalidades}<br><br>
+                ${descricao}
+            `;
+
+                document.getElementById("modal-assinatura").style.display = "block";
+            });
+        });
+
+        document.getElementById("fecharModal").addEventListener("click", function () {
+            document.getElementById("modal-assinatura").style.display = "none";
+        });
+
+        document.getElementById("cancelarModal").addEventListener("click", function () {
+            document.getElementById("modal-assinatura").style.display = "none";
+        });
+    </script>
+
+</body>
+
+</html>
