@@ -1,7 +1,5 @@
 package br.studio.pilates.controller.webController;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +17,6 @@ import br.studio.pilates.dto.AulaAgendamentoDTO;
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Aula;
 import br.studio.pilates.model.entity.Estudio;
-import br.studio.pilates.model.entity.Financeiro;
 import br.studio.pilates.model.entity.Plano;
 import br.studio.pilates.service.AulaService;
 import br.studio.pilates.service.EstudioService;
@@ -139,15 +136,15 @@ public class AlunoDashboardController {
 
     // Método auxiliar para criar um pagamento mock
     // private Financeiro createPagamentoMock(Aluno aluno) {
-    //     Financeiro pagamento = new Financeiro();
-    //     pagamento.setId("pag123");
-    //     pagamento.setAluno(aluno);
-    //     pagamento.setValor(aluno.getPlano().getValor());
-    //     pagamento.setDataVencimento(LocalDate.now().plusDays(10));
-    //     pagamento.setDataPagamento(LocalDate.now());
-    //     pagamento.setPaga(true);
-    //     pagamento.setFormaPagamento("Cartão");
-    //     return pagamento;
+    // Financeiro pagamento = new Financeiro();
+    // pagamento.setId("pag123");
+    // pagamento.setAluno(aluno);
+    // pagamento.setValor(aluno.getPlano().getValor());
+    // pagamento.setDataVencimento(LocalDate.now().plusDays(10));
+    // pagamento.setDataPagamento(LocalDate.now());
+    // pagamento.setPaga(true);
+    // pagamento.setFormaPagamento("Cartão");
+    // return pagamento;
     // }
 
     @GetMapping("/planos/lista")
