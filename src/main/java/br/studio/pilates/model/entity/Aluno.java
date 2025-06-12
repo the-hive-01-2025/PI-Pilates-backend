@@ -55,7 +55,7 @@ public class Aluno {
 		this.cep = cep;
 		this.profissao = profissao;
 		// this.fichaAvaliacao = fichaAvaliacao;
-		// this.plano = plano;
+		this.plano = plano;
 		// this.aulasMarcadas = aulasMarcadas;
 		// this.historicoPagamento = historicoPagamento;
 		// this.fotos = fotos;

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/planos.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar-aluno.css}">
+    <title>Planos - Pilates</title>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+        </div>
+        <div class="profile-circle"></div>
+    </header>
+    <nav>
+        <a th:href="@{/web/aluno/modalidades}" class="nav-item ">Modalidades</a>
+        <a th:href="@{/web/aluno/aulas}" class="nav-item">Aulas</a>
+        <a th:href="@{/web/aluno/planos}" class="nav-item active">Planos</a>
+        <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
+        <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
+        <a th:href="@{/web/aluno/pagamentos}" class="nav-item">Pagamentos</a>
+    </nav>
+
+    <main>
+        <div class="card-white">
+            <h2 th:text="${aluno != null ? 'Seu Plano, ' + aluno.nome : 'Seu Plano, [Aluno]'}" class="title-page"></h2>
+
+            <div class="container-infos" th:if="${aluno != null}">
+                <div class="infos" th:if="${aluno.plano != null}">
+                    <label>Plano: <span th:text="${aluno.plano.nomePlano}"></span></label>
+                    <label>Valor: <span th:text="${'R$' +  aluno.plano.valor}"></span></label>
+                    <label>Dia de Vencimento: <span th:text="${aluno.plano.diaVencimento}"></span></label>
+                </div>
+                <div th:if="${aluno.plano == null}">
+                    <label>Plano: <span>Sem um plano registrado</span></label>
+                    <label>Valor: <span>Sem um plano registrado</span></label>
+                    <label>Vencimento: <span>Sem um plano registrado</span></label>
+                </div>
+
+                <div>
+                    <label class="btn-faturas">
+                        Ver faturas: <a th:href="@{/web/aluno/faturas}">Clique aqui</a>
+                    </label>
+                </div>
+                <div th:if="${aluno.plano == null}">
+                    <label class="btn-faturas"><span>Assine um plano!</span></label>
+                </div>
+            </div>
+
+            <!-- Se aluno for null -->
+            <div th:if="${aluno == null}">
+                <p>Aluno não está logado ou não foi carregado. Para testar, use o controlador de teste.</p>
+            </div>
+
+
+            <div class="container-title-planos">
+                <h2>Planos</h2>
+            </div>
+            <div class="container-planos">
+                <!-- Plano Mensal -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Mensal</h3>
+                    </div>
+                    <div class="card-body">
+                        <h3>Benefícios:</h3>
+                        <h6 th:text="${mensal.descricao}"></h6>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn-marcar" th:data-id="${mensal.id}" th:data-nome="${mensal.nomePlano}"
+                            th:data-valor="${mensal.valor}" th:data-descricao="${mensal.descricao}" data-frequencia="2x"
+                            data-modalidades="1"
+                            th:text="${aluno.plano != null ? 'Mudar Plano' : 'Assinar'}">Assinar</a>
+                    </div>
+                </div>
+
+                <!-- Plano Trimestral -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Trimestral</h3>
+                    </div>
+                    <div class="card-body">
+                        <h3>Benefícios:</h3>
+                        <h6 th:text="${trimestral.descricao}"></h6>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn-marcar" th:data-id="${trimestral.id}"
+                            th:data-nome="${trimestral.nomePlano}" th:data-valor="${trimestral.valor}"
+                            th:data-descricao="${trimestral.descricao}" data-frequencia="2x" data-modalidades="1"
+                            th:text="${aluno.plano != null ? 'Mudar Plano' : 'Assinar'}">Assinar</a>
+                    </div>
+                </div>
+
+                <!-- Plano Anual -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Anual</h3>
+                    </div>
+                    <div class="card-body">
+                        <h3>Benefícios:</h3>
+                        <h6 th:text="${anual.descricao}"></h6>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn-marcar" th:data-id="${anual.id}" th:data-nome="${anual.nomePlano}"
+                            th:data-valor="${anual.valor}" th:data-descricao="${anual.descricao}" data-frequencia="2x"
+                            data-modalidades="1"
+                            th:text="${aluno.plano != null ? 'Mudar Plano' : 'Assinar'}">Assinar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-assinatura" class="modal">
+        <span class="fechar" id="fecharModal">&times;</span>
+        <div class="modal-conteudo">
+            <h2 id="tituloPlano">Plano</h2>
+            <p id="infoPlano"></p>
+
+            <form id="form-assinatura" th:action="@{/web/aluno/assinar}" method="post">
+                <input type="hidden" id="planoId" name="planoId">
+
+                <label for="nome">Nome:</label><br>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required><br><br>
+
+                <label for="cpf">CPF:</label><br>
+                <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required><br><br>
+
+                <label for="formaPagamento">Forma de pagamento:</label><br>
+                <select id="formaPagamento" name="formaPagamento" required>
+                    <option value="">Selecione</option>
+                    <option value="cartao">CARTÃO</option>
+                    <option value="boleto">BOLETO</option>
+                    <option value="pix">PIX</option>
+                </select><br><br>
+
+                <div class="botoes">
+                    <button type="button" class="cancelar" id="cancelarModal">Cancelar</button>
+                    <button type="submit" class="pagar">Pagar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("modal-assinatura");
+        const form = document.getElementById("form-assinatura");
+
+        document.querySelectorAll(".btn-marcar").forEach(btn => {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+                document.getElementById("planoId").value = this.dataset.id;
+                document.getElementById("tituloPlano").textContent = this.dataset.nome;
+                document.getElementById("infoPlano").innerHTML = `
+                    Frequência semanal: ${this.dataset.frequencia}<br>
+                    ${this.dataset.nome}<br>
+                    Valor: R$ ${this.dataset.valor}<br>
+                    Modalidades: ${this.dataset.modalidades}<br><br>
+                    ${this.dataset.descricao}
+                `;
+                modal.style.display = "block";
+            });
+        });
+
+        document.getElementById("fecharModal").onclick = () => {
+            modal.style.display = "none";
+            form.reset();
+        };
+        document.getElementById("cancelarModal").onclick = () => {
+            modal.style.display = "none";
+            form.reset();
+        };
+    </script>
+</body>
+
+</html>
