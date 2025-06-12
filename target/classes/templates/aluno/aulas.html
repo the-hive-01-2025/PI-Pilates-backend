@@ -62,7 +62,7 @@
                     </div>
                     <div class="campo-form">
                         <label for="alunoAula"><strong>Aluno:</strong></label>
-                        <select id="alunoAula" name="alunos" required>
+                        <select id="alunoAula" name="alunos" multiple required>
                             <option value="" disabled selected>Selecione o aluno</option>
                             <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
                         </select>
@@ -88,10 +88,10 @@
                                     <strong th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></strong>
                                 </div>
                             </div>
-                            <button type="button"
-                                th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}', '${aula.id}')|">
-                                Ver Detalhes
-                            </button>
+<button type="button"
+    th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Pendente'}', '${aula.id}')|">
+    Ver Detalhes
+</button>
                         </div>
                     </li>
                     <li th:if="${#lists.isEmpty(aulas)}">Nenhuma aula marcada.</li>

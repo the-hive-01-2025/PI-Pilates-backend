@@ -19,4 +19,5 @@ public class AulaAgendamentoDTO {
     private String status;
     private List<String> alunos;
     private List<String> presentes;
+    private String observacoes;
 }

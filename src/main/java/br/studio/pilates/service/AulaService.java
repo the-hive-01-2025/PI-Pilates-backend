@@ -70,6 +70,9 @@ public class AulaService {
     }
 
     public Aula saveAula(Aula aula) {
+        if (aula.getStatus() == null) {
+            aula.setStatus("Pendente");
+        }
         // Valida Estúdio
         if (!estudioRepository.existsById(aula.getIdStudio())) {
             throw new IllegalArgumentException("Estúdio não encontrado.");

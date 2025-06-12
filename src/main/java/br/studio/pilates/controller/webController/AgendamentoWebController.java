@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/web/recepcionista/agendamento")
@@ -46,6 +45,7 @@ public class AgendamentoWebController {
                 dto.setHorario(aula.getHorario());
                 dto.setStatus(aula.getStatus());
                 dto.setPresentes(aula.getPresentes() != null ? aula.getPresentes() : List.of());
+                dto.setObservacoes(aula.getObservacoes());
                 dto.setModalidade("Não informado");
                 dto.setInstrutorNome("Não informado");
 
@@ -92,7 +92,10 @@ public class AgendamentoWebController {
     @PostMapping("/salvar")
     public String salvarAula(Aula aula, RedirectAttributes redirectAttributes) {
         try {
-            aula.setStatus(""); // ou aula.setStatus("Pendente");
+            // Set default status to "Pendente" if null or empty
+            if (aula.getStatus() == null || aula.getStatus().isEmpty()) {
+                aula.setStatus("Pendente");
+            }
             aulaService.saveAula(aula);
             redirectAttributes.addFlashAttribute("mensagem", "Aula agendada com sucesso!");
             redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");
@@ -102,14 +105,14 @@ public class AgendamentoWebController {
         }
         return "redirect:/web/recepcionista/agendamento";
     }
+
     @PutMapping("/presenca/{id}")
     @ResponseBody
-    public String marcarPresenca(@PathVariable("id") String aulaId, @RequestBody(required = false) Map<String, List<String>> body) {
+    public String marcarPresenca(@PathVariable("id") String aulaId, @RequestBody(required = false) List<String> presentes) {
         Aula aula = aulaService.getAulaById(aulaId);
         if (aula == null) {
             return "Aula não encontrada";
         }
-        List<String> presentes = (body != null) ? body.get("presentes") : null;
         if (presentes == null || presentes.isEmpty()) {
             aula.setStatus("Ausente");
             aula.setPresentes(List.of());
@@ -122,8 +125,12 @@ public class AgendamentoWebController {
     }
 
     @PostMapping("/deletar/{id}")
-    public String deletarAula(@PathVariable("id") String id) {
-        aulaService.deleteAula(id);
+    public String cancelarAula(@PathVariable("id") String id) {
+        Aula aula = aulaService.getAulaById(id);
+        if (aula != null) {
+            aula.setStatus("Cancelada");
+            aulaService.saveAula(aula);
+        }
         return "redirect:/web/recepcionista/agendamento";
     }
 }
