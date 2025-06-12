@@ -52,11 +52,11 @@
             </tbody>
         </table>
 
-        <!-- modal de edição baby -->
+        <!-- modal de edição, baby 😎 -->
         <div id="modalFicha" class="modal">
             <div class="modal-conteudo">
                 <span id="fecharModal" class="fechar">&times;</span>
-                <h2>Ficha de Avaliação</h2>
+                <h2> Editar Ficha de Avaliação</h2>
                 <form th:action="@{/avaliacao/editar/{id}(id=${aluno.id})}" method="post">
 
                     <label for="data">Data</label>
@@ -97,12 +97,13 @@
                     <button type="submit" class="botao-enviar">Salvar</button>
                 </form>
             </div>
+        </div>
 
             <!-- Modal para visualização -->
             <div id="modalVisualizacao" class="modal">
                 <div class="modal-conteudo">
                     <span id="fecharModalVisualizacao" class="fechar">&times;</span>
-                    <h2>Ficha de Avaliação</h2>
+                    <h2>Ver Ficha de Avaliação</h2>
 
                     <p><strong>Data:</strong> <span th:text="${ficha.data}"> --/--/----</span></p>
                     <p><strong>Histórico Medico:</strong> <span th:text="${ficha.historicoMedico}"> Histórico</span></p>

@@ -24,6 +24,7 @@ public class AgendaInstrutorService {
         List<Aula> aulas = aulaRepository.findAll();
         return aulas.stream().map(AulaMapper::toDTO).collect(Collectors.toList());
     }
+
     public List<AgendaInstrutorDTO> listarAulasPorInstrutor(String idInstrutor) {
 
         List<Aula> aulas = aulaRepository.findByIdInstrutor(idInstrutor);
@@ -60,12 +61,12 @@ public class AgendaInstrutorService {
 
             if (presente) {
                 // Adiciona o aluno à lista se ainda não estiver presente
-                if (!aula.getAlunosPresentes().contains(idAluno)) {
-                    aula.getAlunosPresentes().add(idAluno);
+                if (!aula.getPresentes().contains(idAluno)) {
+                    aula.getPresentes().add(idAluno);
                 }
             } else {
                 // Remove o aluno da lista
-                aula.getAlunosPresentes().remove(idAluno);
+                aula.getPresentes().remove(idAluno);
             }
 
             aulaRepository.save(aula);
