@@ -71,7 +71,7 @@ public class FichaAvaliacaoService {
 
     // UPDATES
     public FichaAvaliacao atualizaFicha(String id, FichaAvaliacao ficha) {
-       Optional<FichaAvaliacao> fichaExiste = fichaRepository.findByIdAluno(ficha.getIdAluno());
+        Optional<FichaAvaliacao> fichaExiste = fichaRepository.findByIdAluno(ficha.getIdAluno());
 
         if (fichaExiste.isPresent() && !fichaExiste.get().getId().equals(id)) {
             throw new IllegalArgumentException("Já existe um aluno com este id:" + id);
@@ -79,6 +79,51 @@ public class FichaAvaliacaoService {
 
         ficha.setId(id); // garante que estamos atualizando o aluno certo
 
+        return fichaRepository.save(ficha);
+    }
+
+    public FichaAvaliacao addPat(String id, String patologia, FichaAvaliacao ficha) { // addPat
+        Optional<FichaAvaliacao> fichaExiste = fichaRepository.findByIdAluno(ficha.getIdAluno());
+
+        if (fichaExiste.isEmpty()) {
+            throw new IllegalArgumentException("Nao existe um aluno com este id:" + id);
+        }
+
+        ficha.setId(id); // garante que estamos atualizando o aluno certo
+        ficha.getPatologias().add(patologia);
+        return fichaRepository.save(ficha);
+    }
+    public FichaAvaliacao addMed(String id, String medicamento, FichaAvaliacao ficha) { // addPat
+        Optional<FichaAvaliacao> fichaExiste = fichaRepository.findByIdAluno(ficha.getIdAluno());
+
+        if (fichaExiste.isEmpty()) {
+            throw new IllegalArgumentException("Nao existe um aluno com este id:" + id);
+        }
+
+        ficha.setId(id); // garante que estamos atualizando o aluno certo
+        ficha.getMedicamentos().add(medicamento);
+        return fichaRepository.save(ficha);
+    }
+    public FichaAvaliacao addTrat(String id, String tratamento, FichaAvaliacao ficha) { // addPat
+        Optional<FichaAvaliacao> fichaExiste = fichaRepository.findByIdAluno(ficha.getIdAluno());
+
+        if (fichaExiste.isEmpty()) {
+            throw new IllegalArgumentException("Nao existe um aluno com este id:" + id);
+        }
+
+        ficha.setId(id); // garante que estamos atualizando o aluno certo
+        ficha.getTratamentos().add(tratamento);
+        return fichaRepository.save(ficha);
+    }
+    public FichaAvaliacao addObj(String id, String objetivo, FichaAvaliacao ficha) { // addPat
+        Optional<FichaAvaliacao> fichaExiste = fichaRepository.findByIdAluno(ficha.getIdAluno());
+
+        if (fichaExiste.isEmpty()) {
+            throw new IllegalArgumentException("Nao existe um aluno com este id:" + id);
+        }
+
+        ficha.setId(id); // garante que estamos atualizando o aluno certo
+        ficha.getObjetivos().add(objetivo);
         return fichaRepository.save(ficha);
     }
 

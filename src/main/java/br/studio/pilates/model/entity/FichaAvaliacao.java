@@ -39,5 +39,5 @@ public class FichaAvaliacao {
     @Builder.Default
     private ArrayList<String> objetivos = new ArrayList<>();
     private String dataAvaliacao;
-
+    private String fotos;
 }

@@ -1,6 +1,7 @@
 package br.studio.pilates.controller.webController;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,15 +90,42 @@ public class InstrutorWebController {
 	}
 
 	@GetMapping("/avaliacao")
-	public String exibirAvaliacao(Model model, @PathVariable("id") String idInstrutor) {
+	public String exibirAvaliacao(Model model, @PathVariable("id") String idInstrutor, FichaAvaliacao ficha) {
+		// Optional<FichaAvaliacao> fichaAtual = fichaAvaliacaoService.getByAluno(id);
 		List<Aluno> alunos = alunoService.listarTodos();
+
 		model.addAttribute("alunos", alunos);
 		return "/listarAlunos";
 	}
 
 	@PostMapping("/avaliacao/editar/{id}")
-	public String atualizarAvaliacao(@PathParam("id") String id, FichaAvaliacao fichaAvaliacao) {
-		fichaAvaliacaoService.atualizaFicha(id, fichaAvaliacao);
+	public String atualizarAvaliacao(@PathParam("id") String id, FichaAvaliacao ficha) {
+		Optional<FichaAvaliacao> fichaAtual = fichaAvaliacaoService.getByAluno(id);
+		fichaAvaliacaoService.atualizaFicha(id, fichaAtual.get());
+		return "redirect:/web/agendainstrutor/avaliacao";
+	}
+
+	@PostMapping("/avaliacao/pat/{id}")
+	public String addPat(@PathParam("id") String id, String patologia, FichaAvaliacao ficha) {
+		fichaAvaliacaoService.addPat(id, patologia, ficha);
+		return "redirect:/web/agendainstrutor/avaliacao";
+	}
+
+	@PostMapping("/avaliacao/med/{id}")
+	public String addMed(@PathParam("id") String id, String medicamentos, FichaAvaliacao ficha) {
+		fichaAvaliacaoService.addMed(id, medicamentos, ficha);
+		return "redirect:/web/agendainstrutor/avaliacao";
+	}
+
+	@PostMapping("/avaliacao/trat/{id}")
+	public String addTratamentos(@PathParam("id") String id, String tratamento, FichaAvaliacao ficha) {
+		fichaAvaliacaoService.addTrat(id, tratamento, ficha);
+		return "redirect:/web/agendainstrutor/avaliacao";
+	}
+
+	@PostMapping("/avaliacao/obj/{id}")
+	public String addObjetivo(@PathParam("id") String id, String objetivo, FichaAvaliacao ficha) {
+		fichaAvaliacaoService.addObj(id, objetivo, ficha);
 		return "redirect:/web/agendainstrutor/avaliacao";
 	}
 
