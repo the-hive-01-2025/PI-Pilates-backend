@@ -14,9 +14,20 @@
         <h2>Bem-vindo a Define Pilates</h2>
         <h3>Faça login para continuar</h3>
 
-        <form>
+        <!-- MENSAGEM DE ERRO -->
+        <div th:if="${param.error}" class="error-message">
+            <p>Email ou senha inválidos!</p>
+        </div>
+
+        <!-- MENSAGEM DE LOGOUT -->
+        <div th:if="${param.logout}" class="logout-message">
+            <p>Logout realizado com sucesso!</p>
+        </div>
+
+        <!-- FORMULÁRIO DE LOGIN AJUSTADO -->
+        <form method="post" action="/perform_login">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="username" required>
 
             <label for="password">Senha:</label>
             <input type="password" id="password" name="password" required>

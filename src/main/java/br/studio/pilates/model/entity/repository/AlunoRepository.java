@@ -7,17 +7,19 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import br.studio.pilates.model.entity.Aluno;
 
-public interface AlunoRepository extends MongoRepository<Aluno, String>{
+public interface AlunoRepository extends MongoRepository<Aluno, String> {
 
-	public Aluno findByNome(String nome);
+    public Aluno findByNome(String nome);
 
-	public List<Aluno> findByNomeStartsWith(String nome);
+    public List<Aluno> findByNomeStartsWith(String nome);
 
-	public Optional<Aluno> findAlunoById(String Id);
+    public Optional<Aluno> findAlunoById(String Id);
 
-	Optional<Aluno> findByCpf(String cpf);
+    Optional<Aluno> findByCpf(String cpf);
 
-	void deleteAlunoById(String Id);
+    void deleteAlunoById(String Id);
 
-	void deleteByNome(String Id);
+    void deleteByNome(String Id);
+
+    Aluno findByEmail(String email);
 }

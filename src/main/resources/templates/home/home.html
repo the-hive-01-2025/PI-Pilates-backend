@@ -9,21 +9,44 @@
 
 <header>
     <h1>Studio Pilates</h1>
+    <nav>
+        <a href="#quem-somos">Quem Somos</a>
+        <a href="#planos">Planos</a>
+        <a href="#depoimentos">Depoimentos</a>
+    </nav>
     <a class="btn-login" th:href="@{/web/login}">Entrar</a>
 </header>
 
 <main>
-    <section>
+    <section id="quem-somos" class="fade-in">
         <h2>Quem Somos</h2>
         <p>Somos um estúdio dedicado ao bem-estar físico e mental. Ajudamos nossos alunos a alcançar seus objetivos com aulas personalizadas e ambiente acolhedor.</p>
     </section>
 
-    <section>
+    <section id="planos" class="fade-in">
         <h2>Nossos Planos</h2>
         <div class="planos">
             <div class="plano">Plano Básico<br>2x por semana</div>
             <div class="plano">Plano Intermediário<br>3x por semana</div>
             <div class="plano">Plano Premium<br>Aulas ilimitadas</div>
+        </div>
+    </section>
+
+    <section id="depoimentos" class="fade-in">
+        <h2>Depoimentos de Alunos</h2>
+        <div class="depoimentos">
+            <div class="depoimento">
+                <p>"Desde que comecei no Studio Pilates, minha postura e disposição melhoraram muito!"</p>
+                <span>- Ana Souza</span>
+            </div>
+            <div class="depoimento">
+                <p>"Adoro a atenção dos instrutores e o ambiente acolhedor. Super recomendo!"</p>
+                <span>- João Oliveira</span>
+            </div>
+            <div class="depoimento">
+                <p>"Me sinto mais leve, ativa e feliz depois das aulas. Melhor escolha que fiz!"</p>
+                <span>- Carla Mendes</span>
+            </div>
         </div>
     </section>
 </main>
@@ -32,5 +55,6 @@
     &copy; 2025 Studio Pilates. Todos os direitos reservados.
 </footer>
 
+<script th:src="@{/js/home/home.js}" defer></script>
 </body>
 </html>
