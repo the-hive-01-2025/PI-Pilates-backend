@@ -48,14 +48,14 @@ public class InstrutorWebController {
 		return "instrutor/agenda"; // Remove o "redirect"
 	}
 
-	@GetMapping("/agenda")
-	public String listarTodasAulas(Model model) {
-		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarTodasAulas();
-		List<Aluno> aluno = alunoService.listarTodos();
-		model.addAttribute("aulas", aulas);
-		model.addAttribute("aluno", aluno);
-		return "instrutor/agenda";
-	}
+	// @GetMapping("/agenda")
+	// public String listarTodasAulas(Model model) {
+	// 	List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarTodasAulas();
+	// 	List<Aluno> aluno = alunoService.listarTodos();
+	// 	model.addAttribute("aulas", aulas);
+	// 	model.addAttribute("aluno", aluno);
+	// 	return "instrutor/agenda";
+	// }
 
 	// @PostMapping("/save")
 	// public String saveAluno(Aluno aluno) {
