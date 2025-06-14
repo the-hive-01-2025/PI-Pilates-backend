@@ -20,4 +20,6 @@ public interface UsuarioRepository extends MongoRepository<Usuario, String>{
 	void deleteUsuarioById(String Id);
 
 	void deleteByNome(String Id);
+
+	Usuario findByEmail(String email);
 }

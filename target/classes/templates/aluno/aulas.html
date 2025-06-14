@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,36 @@
     <link rel="stylesheet" th:href="@{/css/home-aluno.css}">
     <link rel="stylesheet" th:href="@{/css/aluno/agendamento.css}">
 </head>
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById("profileMenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Fechar o menu se clicar fora dele
+    document.addEventListener('click', function (event) {
+        const isClickInside = document.querySelector('.profile-container').contains(event.target);
+        if (!isClickInside) {
+            document.getElementById("profileMenu").style.display = "none";
+        }
+    });
+</script>
+
 <body>
     <header>
         <div class="top-bar">
             <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
             <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
         </div>
-        <div class="profile-circle"></div>
+        <div class="profile-container">
+            <div class="profile-circle" onclick="toggleMenu()"></div>
+            <div class="profile-menu" id="profileMenu">
+                <p><strong th:text="${aluno.nome}">Nome do Aluno</strong></p>
+                <p th:text="${aluno.email}">email@example.com</p>
+                <hr>
+                <a th:href="@{/perform_logout}">Sair</a>
+            </div>
+        </div>
     </header>
     <nav>
         <a th:href="@{/web/aluno/modalidades}" class="nav-item">Modalidades</a>
@@ -36,7 +60,8 @@
             <div class="modal-conteudo">
                 <span class="fechar" onclick="fecharModalAgendamento()">&times;</span>
                 <h2>Agendamento</h2>
-                <form id="formAgendamento" method="post" action="/web/aula/salvar" onsubmit="return validarAgendamento()">
+                <form id="formAgendamento" method="post" action="/web/aula/salvar"
+                    onsubmit="return validarAgendamento()">
                     <div class="campo-form">
                         <label for="dataAula"><strong>Data:</strong></label>
                         <input type="date" id="dataAula" name="data" required>
@@ -57,7 +82,8 @@
                         <label for="estudioAula"><strong>Estúdio:</strong></label>
                         <select id="estudioAula" name="idStudio" required>
                             <option value="" disabled selected>Selecione o estúdio</option>
-                            <option th:each="estudio : ${estudios}" th:value="${estudio.id}" th:text="${estudio.nome}"></option>
+                            <option th:each="estudio : ${estudios}" th:value="${estudio.id}" th:text="${estudio.nome}">
+                            </option>
                         </select>
                     </div>
                     <div class="campo-form">
@@ -81,11 +107,13 @@
                             <div class="aula-info-col">
                                 <div>
                                     <strong>Data:</strong>
-                                    <strong th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
+                                    <strong
+                                        th:text="${aula.data != null ? #temporals.format(aula.data, 'dd/MM/yyyy') : ''}"></strong>
                                 </div>
                                 <div>
                                     <strong>Horário:</strong>
-                                    <strong th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></strong>
+                                    <strong
+                                        th:text="${aula.horario != null ? #temporals.format(aula.horario, 'HH:mm') : ''}"></strong>
                                 </div>
                             </div>
                             <button type="button"
@@ -112,7 +140,8 @@
                 <div><strong>Status:</strong> <span id="detalheStatus"></span></div>
                 <div class="botoes-detalhes">
                     <button class="btn-detalhe btn-desmarcar" type="button" onclick="desmarcarAula()">Desmarcar</button>
-                    <button class="btn-detalhe btn-reagendar" type="button" onclick="abrirReagendar()">Reagendar</button>
+                    <button class="btn-detalhe btn-reagendar" type="button"
+                        onclick="abrirReagendar()">Reagendar</button>
                 </div>
             </div>
         </div>
@@ -128,7 +157,7 @@
                 bloco.classList.remove('show-gradient');
             }
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const bloco = document.querySelector('.aulas-marcadas-scroll');
             if (bloco) {
                 updateGradient();
@@ -162,7 +191,7 @@
         function fecharModalAgendamento() {
             document.getElementById('modalAgendamento').style.display = 'none';
         }
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             const modalDetalhes = document.getElementById('modalDetalhes');
             const modalAgendamento = document.getElementById('modalAgendamento');
             if (event.target === modalDetalhes) fecharDetalhes();
@@ -192,4 +221,5 @@
         }
     </script>
 </body>
+
 </html>

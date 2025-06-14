@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.studio.pilates.model.entity.Usuario;
 import br.studio.pilates.model.entity.repository.UsuarioRepository;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
@@ -63,4 +66,13 @@ public class UsuarioService {
 	public void deleteUsuarioByName(String nome) {
 		usuarioRepository.deleteByNome(nome);
 	}
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuário não encontrado com email: " + email);
+        }
+        return usuario;
+    }
 }

@@ -1,5 +1,6 @@
 package br.studio.pilates.controller.webController;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,30 @@ public class AlunoDashboardController {
     private AlunoService alunoService;
 
     @GetMapping("/home")
-	public String home() {
-		return "aluno/home";
-	}
+    public String home(Model model, Principal principal) {
+        String email = principal.getName(); // pega o email do aluno logado
+        Aluno aluno = alunoService.getByEmail(email); // cria esse método no service
+
+        model.addAttribute("aluno", aluno);
+        return "aluno/home";
+    }
 
     @GetMapping("/modalidades")
-    public String modalidades() {
+    public String modalidades(Model model, Principal principal) {
+        String email = principal.getName(); // pega o email do aluno logado
+        Aluno aluno = alunoService.getByEmail(email); // cria esse método no service
+
+        model.addAttribute("aluno", aluno);
         return "aluno/modalidades";
     }
 
     @GetMapping("/aulas")
-    public String agendamento(Model model) {
+    public String agendamento(Model model, Principal principal) {
+        String email = principal.getName(); // pega o email do aluno logado
+        Aluno aluno = alunoService.getByEmail(email); // cria esse método no service
+
+        model.addAttribute("aluno", aluno);
+        // Obtém todas as aulas, estudos e alunos para exibir na página
         List<Aula> aulas = aulaService.getAllAulas();
         List<Estudio> estudios = estudioService.getAllEstudio();
         List<Aluno> alunos = alunoService.listarTodos();

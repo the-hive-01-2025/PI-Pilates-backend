@@ -51,9 +51,98 @@ header {
     margin-right: 10px;
 }
 
-.profile-circle{
+/* 🔵 Profile Circle */
+.profile-circle {
     width: 40px;
     height: 40px;
+    background-color: #8b5cf6; /* roxo */
     border-radius: 50%;
-    background: #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.profile-circle:hover {
+    background-color: #7c3aed; /* tom mais forte no hover */
+}
+
+/* Menu do perfil */
+.profile-menu {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.profile-menu p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+}
+
+.profile-menu a {
+    text-decoration: none;
+    color: #8b5cf6;
+    font-weight: bold;
+}
+
+.profile-menu a:hover {
+    text-decoration: underline;
+}
+
+.profile-container {
+    position: relative;
+}/* 🔵 Profile Circle */
+.profile-circle {
+    width: 40px;
+    height: 40px;
+    background-color: #8b5cf6; /* roxo */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.profile-circle:hover {
+    background-color: #7c3aed; /* tom mais forte no hover */
+}
+
+/* Menu do perfil */
+.profile-menu {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.profile-menu p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+}
+
+.profile-menu a {
+    text-decoration: none;
+    color: #8b5cf6;
+    font-weight: bold;
+}
+
+.profile-menu a:hover {
+    text-decoration: underline;
+}
+
+.profile-container {
+    position: relative;
 }

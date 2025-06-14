@@ -8,6 +8,20 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/aluno/modalidades.css}">
 </head>
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById("profileMenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Fechar o menu se clicar fora dele
+    document.addEventListener('click', function (event) {
+        const isClickInside = document.querySelector('.profile-container').contains(event.target);
+        if (!isClickInside) {
+            document.getElementById("profileMenu").style.display = "none";
+        }
+    });
+</script>
 
 <body>
     <header>
@@ -15,7 +29,15 @@
             <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
             <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
         </div>
-        <div class="profile-circle"></div>
+        <div class="profile-container">
+            <div class="profile-circle" onclick="toggleMenu()"></div>
+            <div class="profile-menu" id="profileMenu">
+                <p><strong th:text="${aluno.nome}">Nome do Aluno</strong></p>
+                <p th:text="${aluno.email}">email@example.com</p>
+                <hr>
+                <a th:href="@{/perform_logout}">Sair</a>
+            </div>
+        </div>
     </header>
     <nav>
         <a th:href="@{/web/aluno/modalidades}" class="nav-item active">Modalidades</a>
@@ -36,7 +58,7 @@
                         Além de um ambiente super acolhedor, você vai encontrar instrutores incríveis, muito atenciosos
                         e preparados para adaptar as posturas para todos os níveis.
                         <div class="card-image">
-                            <img th:src=@{/images/yoga.png} alt="Imagem de Yoga">
+                            <img th:src="@{/images/yoga.png}" alt="Imagem de Yoga">
                         </div>
                     </div>
                     <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
@@ -49,7 +71,7 @@
                         Aulas de pilates com instrutores atenciosos, equipamentos de ponta e um ambiente perfeito para
                         fortalecer o corpo e melhorar a postura.
                         <div class="card-image">
-                            <img th:src=@{/images/pilates.png} alt="Imagem de pilates">
+                            <img th:src="@{/images/pilates.png}" alt="Imagem de pilates">
                         </div>
                     </div>
                     <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
@@ -63,7 +85,7 @@
                         Cursos focados em saúde, alimentação consciente e bem-estar, com aulas práticas e dinâmicas
                         ministradas por profissionais experientes.
                         <div class="card-image">
-                            <img th:src=@{/images/books.png} alt="Imagem de Cursos">
+                            <img th:src="@{/images/books.png}" alt="Imagem de Cursos">
                         </div>
                     </div>
                     <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>

@@ -8,6 +8,20 @@
     <link rel="stylesheet" th:href="@{/css/aluno/home-aluno.css}">
     <title>Home - Pilates</title>
 </head>
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById("profileMenu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Fechar o menu se clicar fora dele
+    document.addEventListener('click', function (event) {
+        const isClickInside = document.querySelector('.profile-container').contains(event.target);
+        if (!isClickInside) {
+            document.getElementById("profileMenu").style.display = "none";
+        }
+    });
+</script>
 
 <body>
     <header>
@@ -15,11 +29,23 @@
             <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
             <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
         </div>
-        <div class="profile-circle"></div>
+        <div class="profile-container">
+            <div class="profile-circle" onclick="toggleMenu()"></div>
+            <div class="profile-menu" id="profileMenu">
+                <p><strong th:text="${aluno.nome}">Nome do Aluno</strong></p>
+                <p th:text="${aluno.email}">email@example.com</p>
+                <hr>
+                <a th:href="@{/perform_logout}">Sair</a>
+            </div>
+        </div>
     </header>
 
     <main>
-        <h2>Seja bem-vindo <span th:text="${aluno != null ? aluno.nome : '[Aluno]'}">aluno</span></h2>
+        <h2>
+            Seja bem-vindo(a)
+            <span th:text="${aluno != null ? aluno.nome : 'Aluno'}">Aluno</span>
+        </h2>
+
 
         <div class="button-grid">
             <a class="btn-home" th:href="@{/web/aluno/modalidades}">Modalidades</a>

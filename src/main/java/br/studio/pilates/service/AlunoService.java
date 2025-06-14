@@ -22,6 +22,8 @@ public class AlunoService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder; // adicionamos o encoder
 
+    public UserDetailsService usuarioService;
+
     public List<Aluno> listarTodos() {
         return alunoRepository.findAll();
     }
@@ -86,5 +88,9 @@ public class AlunoService implements UserDetailsService {
             throw new UsernameNotFoundException("Aluno não encontrado com o email: " + email);
         }
         return aluno;
+    }
+
+    public Aluno getByEmail(String email) {
+        return alunoRepository.findByEmail(email);
     }
 }
