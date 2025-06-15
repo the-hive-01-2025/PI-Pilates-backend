@@ -126,7 +126,10 @@ main {
 
 /* Modal */
 .modal {
-    display: flex;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     position: fixed;
     z-index: 999;
     left: 0;
@@ -150,7 +153,7 @@ main {
 }
 
 .modal-conteudo h2 {
-    color: var(--purple-dark-color);
+    color: var(--black-gray-color);
     margin-bottom: 1rem;
 }
 

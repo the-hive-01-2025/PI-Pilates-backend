@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.studio.pilates.dto.AulaAgendamentoDTO;
@@ -48,13 +50,26 @@ public class AlunoDashboardController {
     @Autowired
     private AlunoMockFactory alunoMockFactory;
 
+    @ModelAttribute("aluno")
+    public Aluno setMockAluno() {
+        return alunoMockFactory.criarAlunoMock();
+    }
+
     @GetMapping("/home")
     public String home() {
         return "aluno/home";
     }
 
     @GetMapping("/modalidades")
-    public String modalidades() {
+    public String modalidades(Model model) {
+        // Recupera ou mock o aluno
+        Aluno alunoMock = alunoService.getByCpf("000.000.000-00");
+
+        if (alunoMock == null) {
+            alunoMock = alunoMockFactory.criarAlunoMock();
+        }
+
+        model.addAttribute("aluno", alunoMock);
         return "aluno/modalidades";
     }
 
@@ -136,29 +151,26 @@ public class AlunoDashboardController {
     }
 
     @PostMapping("/{id}/plano")
-    public String assignPlanoToAluno(
-            @PathVariable("id") String alunoId,
+    public String assignPlanoToAluno(@PathVariable("id") String alunoId,
             @RequestParam("id") String planoId,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            @ModelAttribute("aluno") Aluno aluno) {
 
-        Optional<Aluno> alunoOpt = alunoService.getById(alunoId);
         Optional<Plano> planoOpt = planoService.getPlanoById(planoId);
 
-        if (alunoOpt.isPresent() && planoOpt.isPresent()) {
-            Aluno aluno = alunoOpt.get();
+        if (planoOpt.isPresent()) {
             aluno.setPlano(planoOpt.get());
             alunoService.saveAluno(aluno);
             redirectAttributes.addFlashAttribute("success", "Plano vinculado com sucesso!");
-            return "redirect:/web/aluno/planos";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Erro ao vincular plano.");
         }
 
-        redirectAttributes.addFlashAttribute("error", "Erro ao vincular plano.");
         return "redirect:/web/aluno/planos";
     }
 
     @PostMapping("/assinar")
-    public String assinarPlano(
-            @RequestParam("planoId") String planoId,
+    public String assinarPlano(@RequestParam("planoId") String planoId,
             @RequestParam("nome") String nome,
             @RequestParam("cpf") String cpf,
             @RequestParam("formaPagamento") String formaPagamento,
@@ -182,10 +194,10 @@ public class AlunoDashboardController {
         }
     }
 
-    @GetMapping("/{id}/faturas")
-    public String visualizarFaturas(@RequestParam("cpf") String cpf, Model model,
+    @GetMapping("/faturas")
+    public String visualizarFaturas(@ModelAttribute("aluno") Aluno aluno,
+            Model model,
             RedirectAttributes redirectAttributes) {
-        Aluno aluno = alunoService.getByCpf(cpf);
 
         if (aluno == null) {
             redirectAttributes.addFlashAttribute("erro", "Aluno não encontrado.");
@@ -206,10 +218,7 @@ public class AlunoDashboardController {
                 .sorted(Comparator.comparing(Financeiro::getDataVencimento).reversed())
                 .collect(Collectors.toList());
 
-        // Última fatura paga (mais recente)
         Financeiro ultimaPaga = pagas.isEmpty() ? null : pagas.get(0);
-
-        // Próximo vencimento (primeira em aberto)
         Financeiro proxima = emAberto.isEmpty() ? null : emAberto.get(0);
 
         model.addAttribute("aluno", aluno);
@@ -219,7 +228,6 @@ public class AlunoDashboardController {
         model.addAttribute("proximaFatura", proxima);
         model.addAttribute("qtdAtrasadas", emAberto.size());
 
-        return "aluno/faturas"; // <- nome do arquivo HTML (exemplo)
+        return "aluno/faturas";
     }
-
 }
