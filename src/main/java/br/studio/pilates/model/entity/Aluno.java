@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Document(collection = "Alunos")
@@ -30,8 +32,12 @@ public class Aluno {
 	private String cep;
 	private String profissao;
 	private FichaAvaliacao fichaAvaliacao;
+	
+	@DBRef
 	private Plano plano;
 	private List<Aula> aulasMarcadas;
+
+	@Field("historico_pagamento")
 	private List<Financeiro> historicoPagamento;
 	private List<String> fotos;
 

@@ -24,7 +24,7 @@
         <a th:href="@{/web/aluno/planos}" class="nav-item active">Planos</a>
         <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
         <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
-        <a th:href="@{/web/aluno/pagamentos}" class="nav-item">Pagamentos</a>
+        <a th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}" class="nav-item">Pagamentos</a>
     </nav>
 
     <main>
@@ -44,9 +44,7 @@
                 </div>
 
                 <div>
-                    <label class="btn-faturas">
-                        Ver faturas: <a th:href="@{/web/aluno/faturas}">Clique aqui</a>
-                    </label>
+                    Ver faturas: <a class="btn-faturas" th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}">Clique aqui</a>
                 </div>
                 <div th:if="${aluno.plano == null}">
                     <label class="btn-faturas"><span>Assine um plano!</span></label>

@@ -27,7 +27,7 @@
             <a class="btn-home" th:href="@{/web/aluno/planos}">Plano e Assinatura</a>
             <a class="btn-home" th:href="@{/web/aluno/evolucao}">Minha Evolução</a>
             <a class="btn-home" th:href="@{/web/aluno/ficha}">Ficha de Avaliação</a>
-            <a class="btn-home" th:href="@{/web/aluno/faturas}">Pagamento e Faturas</a>
+            <a class="btn-home" th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}">Pagamento e Faturas</a>
         </div>
     </main>
 

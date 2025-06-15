@@ -1,7 +1,11 @@
 package br.studio.pilates.controller.webController;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +21,13 @@ import br.studio.pilates.dto.AulaAgendamentoDTO;
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Aula;
 import br.studio.pilates.model.entity.Estudio;
+import br.studio.pilates.model.entity.Financeiro;
 import br.studio.pilates.model.entity.Plano;
 import br.studio.pilates.service.AulaService;
 import br.studio.pilates.service.EstudioService;
 import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.PlanoService;
+import br.studio.pilates.mock.AlunoMockFactory;
 
 @Controller
 @RequestMapping("web/aluno")
@@ -38,6 +44,9 @@ public class AlunoDashboardController {
 
     @Autowired
     private PlanoService planoService;
+
+    @Autowired
+    private AlunoMockFactory alunoMockFactory;
 
     @GetMapping("/home")
     public String home() {
@@ -105,47 +114,19 @@ public class AlunoDashboardController {
 
     @GetMapping("/planos")
     public String planos(Model model) {
-        // Carrega os planos disponíveis (você já faz isso)
         model.addAttribute("mensal", planoService.getPlanoByNome("Mensal"));
         model.addAttribute("trimestral", planoService.getPlanoByNome("Trimestral"));
         model.addAttribute("anual", planoService.getPlanoByNome("Anual"));
 
-        // Buscar ou criar um aluno mock para testes
+        // Recupera ou gera o aluno mock de forma desacoplada
         Aluno alunoMock = alunoService.getByCpf("000.000.000-00");
         if (alunoMock == null) {
-            alunoMock = new Aluno();
-            alunoMock.setId("mock123");
-            alunoMock.setNome("Guilherme Souza");
-            alunoMock.setCpf("000.000.000-00");
-            alunoMock.setPlano(planoService.getPlanoByNome("Mensal"));
-            // alunoMock.setHistoricoPagamento(List.of(createPagamentoMock(alunoMock)));
-            // Outros dados do aluno mock se precisar
-        } else {
-            if (alunoMock.getPlano() == null) {
-                alunoMock.setPlano(planoService.getPlanoByNome("Mensal"));
-            }
-            if (alunoMock.getHistoricoPagamento() == null || alunoMock.getHistoricoPagamento().isEmpty()) {
-                // alunoMock.setHistoricoPagamento(List.of(createPagamentoMock(alunoMock)));
-            }
+            alunoMock = alunoMockFactory.criarAlunoMock();
         }
 
         model.addAttribute("aluno", alunoMock);
-
         return "aluno/planos";
     }
-
-    // Método auxiliar para criar um pagamento mock
-    // private Financeiro createPagamentoMock(Aluno aluno) {
-    // Financeiro pagamento = new Financeiro();
-    // pagamento.setId("pag123");
-    // pagamento.setAluno(aluno);
-    // pagamento.setValor(aluno.getPlano().getValor());
-    // pagamento.setDataVencimento(LocalDate.now().plusDays(10));
-    // pagamento.setDataPagamento(LocalDate.now());
-    // pagamento.setPaga(true);
-    // pagamento.setFormaPagamento("Cartão");
-    // return pagamento;
-    // }
 
     @GetMapping("/planos/lista")
     public String listAllPlanos(Model model) {
@@ -181,44 +162,64 @@ public class AlunoDashboardController {
             @RequestParam("nome") String nome,
             @RequestParam("cpf") String cpf,
             @RequestParam("formaPagamento") String formaPagamento,
-            Model model,
             RedirectAttributes redirectAttributes) {
 
-        Aluno aluno = alunoService.getByCpf(cpf);
-        if (aluno == null) {
-            redirectAttributes.addFlashAttribute("erro", "Aluno não encontrado.");
-            return "redirect:/web/aluno/planos";
-        }
-
         Optional<Plano> planoOpt = planoService.getPlanoById(planoId);
+
         if (planoOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("erro", "Plano não encontrado.");
             return "redirect:/web/aluno/planos";
         }
 
-        Plano plano = planoOpt.get();
-        aluno.setPlano(plano);
+        try {
+            planoService.assinarPlano(cpf, planoOpt.get(), formaPagamento);
+            redirectAttributes.addFlashAttribute("success", "Plano assinado com sucesso!");
+            return "redirect:/web/aluno/faturas";
 
-        // Criação de fatura - IMPLEMENTAR FUTURAMENTE
-        /*
-         * Financeiro fatura = new Financeiro();
-         * fatura.setPlano(plano);
-         * fatura.setAluno(aluno);
-         * fatura.setValor(plano.getValor());
-         * fatura.setDataVencimento(LocalDate.now());
-         * fatura.setDataPagamento(LocalDate.now());
-         * fatura.setPaga(true);
-         * fatura.setFormaPagamento(formaPagamento);
-         * 
-         * if (aluno.getHistoricoPagamento() == null) {
-         * aluno.setHistoricoPagamento(new ArrayList<>());
-         * }
-         * 
-         * aluno.getHistoricoPagamento().add(fatura);
-         */
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+            return "redirect:/web/aluno/planos";
+        }
+    }
 
-        alunoService.saveAluno(aluno);
-        return "redirect:/web/aluno/faturas";
+    @GetMapping("/faturas")
+    public String visualizarFaturas(@RequestParam("cpf") String cpf, Model model,
+            RedirectAttributes redirectAttributes) {
+        Aluno aluno = alunoService.getByCpf(cpf);
+
+        if (aluno == null) {
+            redirectAttributes.addFlashAttribute("erro", "Aluno não encontrado.");
+            return "redirect:/web/aluno/planos";
+        }
+
+        List<Financeiro> faturas = aluno.getHistoricoPagamento();
+        if (faturas == null)
+            faturas = new ArrayList<>();
+
+        List<Financeiro> pagas = faturas.stream()
+                .filter(f -> Boolean.TRUE.equals(f.getPaga()))
+                .sorted(Comparator.comparing(Financeiro::getDataPagamento).reversed())
+                .collect(Collectors.toList());
+
+        List<Financeiro> emAberto = faturas.stream()
+                .filter(f -> !Boolean.TRUE.equals(f.getPaga()))
+                .sorted(Comparator.comparing(Financeiro::getDataVencimento).reversed())
+                .collect(Collectors.toList());
+
+        // Última fatura paga (mais recente)
+        Financeiro ultimaPaga = pagas.isEmpty() ? null : pagas.get(0);
+
+        // Próximo vencimento (primeira em aberto)
+        Financeiro proxima = emAberto.isEmpty() ? null : emAberto.get(0);
+
+        model.addAttribute("aluno", aluno);
+        model.addAttribute("faturasPagas", pagas);
+        model.addAttribute("faturasEmAberto", emAberto);
+        model.addAttribute("ultimaFatura", ultimaPaga);
+        model.addAttribute("proximaFatura", proxima);
+        model.addAttribute("qtdAtrasadas", emAberto.size());
+
+        return "aluno/faturas"; // <- nome do arquivo HTML (exemplo)
     }
 
 }
