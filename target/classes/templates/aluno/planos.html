@@ -44,7 +44,8 @@
                 </div>
 
                 <div>
-                    Ver faturas: <a class="btn-faturas" th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}">Clique aqui</a>
+                    Ver faturas: <a class="btn-faturas" th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}">Clique
+                        aqui</a>
                 </div>
                 <div th:if="${aluno.plano == null}">
                     <label class="btn-faturas"><span>Assine um plano!</span></label>
@@ -116,8 +117,8 @@
     </main>
 
     <div id="modal-assinatura" class="modal">
-        <span class="fechar" id="fecharModal">&times;</span>
         <div class="modal-conteudo">
+            <span class="fechar" id="fecharModal">&times;</span>
             <h2 id="tituloPlano">Plano</h2>
             <p id="infoPlano"></p>
 
@@ -146,6 +147,7 @@
         </div>
     </div>
 
+
     <script>
         const modal = document.getElementById("modal-assinatura");
         const form = document.getElementById("form-assinatura");
@@ -167,11 +169,11 @@
         });
 
         document.getElementById("fecharModal").onclick = () => {
-            modal.style.display = "none";
+            modal.style.display = "flex";
             form.reset();
         };
         document.getElementById("cancelarModal").onclick = () => {
-            modal.style.display = "none";
+            modal.style.display = "flex";
             form.reset();
         };
     </script>

@@ -182,7 +182,7 @@ public class AlunoDashboardController {
         }
     }
 
-    @GetMapping("/faturas")
+    @GetMapping("/{id}/faturas")
     public String visualizarFaturas(@RequestParam("cpf") String cpf, Model model,
             RedirectAttributes redirectAttributes) {
         Aluno aluno = alunoService.getByCpf(cpf);

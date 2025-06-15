@@ -126,7 +126,7 @@ main {
 
 /* Modal */
 .modal {
-    display: none;
+    display: flex;
     position: fixed;
     z-index: 999;
     left: 0;
