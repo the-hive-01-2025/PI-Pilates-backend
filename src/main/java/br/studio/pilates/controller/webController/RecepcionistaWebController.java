@@ -30,9 +30,12 @@ public class RecepcionistaWebController {
 
 	// home de recepcionista
 	@GetMapping("/home")
-	public String home() {
-		return "/recepcionista/home";
-	}
+	public String home(Model model) {
+    Usuario usuario = usuarioService.getUsuarioLogado();
+    model.addAttribute("usuario", usuario);
+    return "recepcionista/home";
+}
+
 
 	// gerenciamento de alunos
 	@GetMapping("/aluno/list")

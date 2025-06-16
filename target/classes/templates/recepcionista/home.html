@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/recepcionista/home-recepcionista.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-
-
+    <link rel="stylesheet" th:href="@{/css/aluno/home-aluno.css}">
     <title>Home - Pilates</title>
 </head>
 
@@ -17,12 +15,22 @@
             <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
             <a class="logo-name" th:href="@{/web/recepcionista/home}">Pilates</a>
         </div>
-        <div class="profile-circle"></div>
+        <div class="profile-container">
+            <div class="profile-circle" onclick="toggleMenu()"></div>
+            <div class="profile-menu" id="profileMenu">
+                <p><strong th:text="${usuario.nome}">Nome do Recepcionista</strong></p>
+                <p th:text="${usuario.email}">email@exemplo.com</p>
+                <hr>
+                <a th:href="@{/perform_logout}">Sair</a>
+            </div>
+        </div>
     </header>
 
     <main>
-        <h2>Seja bem-vindo <span th:text="${usuario != null ? usuario.nome : '[usuário]'}">usuário</span></h2>
-
+        <h2>
+            Seja bem-vindo(a)
+            <span th:text="${usuario != null ? usuario.nome : 'Recepcionista'}">Recepcionista</span>
+        </h2>
         <div class="button-grid">
             <a class="btn-home" th:href="@{/web/recepcionista/aluno/new}">Cadastrar Aluno</a>
             <a class="btn-home" th:href="@{/web/recepcionista/instrutor/new}">Cadastrar Instrutor</a>
@@ -31,10 +39,22 @@
         </div>
 
         <div class="button-center">
-            <a class="btn-home" th:href="@{/web/agendainstrutor/agenda}">Agendamento</a>
+            <a class="btn-home" th:href="@{/web/recepcionista/agendamento}">Agendamento</a>
         </div>
     </main>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("profileMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
 
+        document.addEventListener('click', function (event) {
+            const isClickInside = document.querySelector('.profile-container').contains(event.target);
+            if (!isClickInside) {
+                document.getElementById("profileMenu").style.display = "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

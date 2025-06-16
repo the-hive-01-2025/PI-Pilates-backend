@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -75,4 +76,23 @@ public class UsuarioService implements UserDetailsService {
         }
         return usuario;
     }
+
+	  public Usuario getUsuarioLogado() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String email;
+
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername(); // normalmente o username é o email
+        } else {
+            email = principal.toString(); // fallback
+        }
+
+        return usuarioRepository.findByEmail(email);
+    }
+
+    public Usuario getByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
 }

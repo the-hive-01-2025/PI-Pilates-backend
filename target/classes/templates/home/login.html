@@ -9,32 +9,86 @@
 </head>
 
 <body>
-    <a th:href="@{/web/home}" class="btn-back">← Voltar para Home</a>
+    <!-- Botão Voltar -->
+    <a th:href="@{/web/home}" class="btn-back">Voltar para Home</a>
+
+
+    <!-- Interruptor de tema -->
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch">
+            <input type="checkbox" id="toggle-theme">
+            <span class="slider"></span>
+        </label>
+        <span id="theme-label">Light Mode</span>
+    </div>
+
+
+    <!-- Container Login -->
     <div class="login-container">
         <h2>Bem-vindo a Define Pilates</h2>
         <h3>Faça login para continuar</h3>
 
-        <!-- MENSAGEM DE ERRO -->
+        <!-- Mensagem de erro -->
         <div th:if="${param.error}" class="error-message">
             <p>Email ou senha inválidos!</p>
         </div>
 
-        <!-- MENSAGEM DE LOGOUT -->
+        <!-- Mensagem de logout -->
         <div th:if="${param.logout}" class="logout-message">
             <p>Logout realizado com sucesso!</p>
         </div>
 
-        <!-- FORMULÁRIO DE LOGIN -->
+        <!-- Formulário de login -->
         <form method="post" action="/perform_login">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="username" required>
+            <input type="email" id="email" name="username" placeholder="Escreva seu email" required>
 
             <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" placeholder="Escreva sua senha" required>
 
             <button type="submit" class="btn-login">Entrar</button>
         </form>
     </div>
+
+    <!-- SCRIPT DO TEMA -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleCheckbox = document.getElementById("toggle-theme");
+            const themeLabel = document.getElementById("theme-label");
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            const savedTheme = localStorage.getItem('theme');
+
+            function setTheme(isDark) {
+                if (isDark) {
+                    document.documentElement.classList.add('dark-mode');
+                    toggleCheckbox.checked = true;
+                    themeLabel.textContent = 'Dark Mode';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark-mode');
+                    toggleCheckbox.checked = false;
+                    themeLabel.textContent = 'Light Mode';
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            // Aplicar tema salvo ou preferência do sistema
+            if (savedTheme === 'dark') {
+                setTheme(true);
+            } else if (savedTheme === 'light') {
+                setTheme(false);
+            } else if (prefersDark) {
+                setTheme(true);
+            }
+
+            // Evento de clique no interruptor
+            toggleCheckbox.addEventListener('change', function () {
+                setTheme(this.checked);
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -1,60 +1,107 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Studio Pilates | Início</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Pilates</title>
+    <link rel="stylesheet" th:href="@{/css/home/style.css}">
     <link rel="stylesheet" th:href="@{/css/home/home.css}">
 </head>
 <body>
 
-<header>
-    <h1>Studio Pilates</h1>
-    <nav>
-        <a href="#quem-somos">Quem Somos</a>
-        <a href="#planos">Planos</a>
-        <a href="#depoimentos">Depoimentos</a>
-    </nav>
-    <a class="btn-login" th:href="@{/web/login}">Entrar</a>
-</header>
+    <header>
+        <h1>Studio Pilates</h1>
+        <nav>
+            <a href="#quem-somos">Quem Somos</a>
+            <a href="#planos">Planos</a>
+            <a href="#depoimentos">Depoimentos</a>
+        </nav>
+        <div class="header-right">
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch">
+                    <input type="checkbox" id="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <a class="btn-login" th:href="@{/web/login}">Entrar</a>
+        </div>
+    </header>
 
-<main>
-    <section id="quem-somos" class="fade-in">
-        <h2>Quem Somos</h2>
-        <p>Somos um estúdio dedicado ao bem-estar físico e mental. Ajudamos nossos alunos a alcançar seus objetivos com aulas personalizadas e ambiente acolhedor.</p>
-    </section>
-
-    <section id="planos" class="fade-in">
-        <h2>Nossos Planos</h2>
-        <div class="planos">
-            <div class="plano">Plano Básico<br>2x por semana</div>
-            <div class="plano">Plano Intermediário<br>3x por semana</div>
-            <div class="plano">Plano Premium<br>Aulas ilimitadas</div>
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Transforme sua vida com o Pilates</h2>
+            <p>Equilíbrio, força e bem-estar em um só lugar</p>
+            <a href="#planos" class="btn-cta">Escolha seu Plano</a>
         </div>
     </section>
 
-    <section id="depoimentos" class="fade-in">
-        <h2>Depoimentos de Alunos</h2>
+    <section id="quem-somos">
+        <h2>Quem Somos</h2>
+        <p>Somos um estúdio dedicado à sua saúde e bem-estar. Através do Pilates, ajudamos nossos alunos a conquistarem mais qualidade de vida, aliviando dores, melhorando a postura e fortalecendo o corpo de forma equilibrada.</p>
+    </section>
+
+    <section id="planos" class="planos-section">
+        <h2>Planos</h2>
+        <div class="planos">
+            <div class="plano">
+                <h3>Plano Básico</h3>
+                <p>2 aulas por semana</p>
+                <p>R$ 199/mês</p>
+            </div>
+            <div class="plano">
+                <h3>Plano Intermediário</h3>
+                <p>3 aulas por semana</p>
+                <p>R$ 279/mês</p>
+            </div>
+            <div class="plano">
+                <h3>Plano Ilimitado</h3>
+                <p>Aulas ilimitadas</p>
+                <p>R$ 399/mês</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos">
+        <h2>Depoimentos</h2>
         <div class="depoimentos">
             <div class="depoimento">
-                <p>"Desde que comecei no Studio Pilates, minha postura e disposição melhoraram muito!"</p>
-                <span>- Ana Souza</span>
+                <p>"O Studio mudou minha vida! Minhas dores nas costas sumiram e me sinto muito mais disposta."</p>
+                <strong>- Camila S.</strong>
             </div>
             <div class="depoimento">
-                <p>"Adoro a atenção dos instrutores e o ambiente acolhedor. Super recomendo!"</p>
-                <span>- João Oliveira</span>
+                <p>"Profissionais incríveis e ambiente maravilhoso. Recomendo demais!"</p>
+                <strong>- Lucas R.</strong>
             </div>
             <div class="depoimento">
-                <p>"Me sinto mais leve, ativa e feliz depois das aulas. Melhor escolha que fiz!"</p>
-                <span>- Carla Mendes</span>
+                <p>"Nunca pensei que Pilates pudesse fazer tanta diferença no meu dia a dia. Amei!"</p>
+                <strong>- Juliana P.</strong>
             </div>
         </div>
     </section>
-</main>
 
-<footer>
-    &copy; 2025 Studio Pilates. Todos os direitos reservados.
-</footer>
+    <footer>
+        <p>&copy; 2025 Studio Pilates - Todos os direitos reservados</p>
+    </footer>
 
-<script th:src="@{/js/home/home.js}" defer></script>
+    <script th:inline="javascript">
+        const toggleSwitch = document.querySelector('#checkbox');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleSwitch.checked = true;
+        }
+
+        toggleSwitch.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+
 </body>
 </html>

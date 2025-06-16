@@ -86,6 +86,7 @@ public class SecurityConfig {
                 // 🔐 Restringe acesso conforme roles para telas web
                 .requestMatchers("/web/aluno/**").hasRole("ALUNO")
                 .requestMatchers("/web/recepcionista/**").hasRole("RECEPCAO")
+                .requestMatchers("/web/recepcionista/aluno/**").hasRole("RECEPCAO")
                 .requestMatchers("/agendaInstrutor/**").hasRole("INSTRUTOR")
 
                 // 🔒 Qualquer outra rota precisa estar autenticado
