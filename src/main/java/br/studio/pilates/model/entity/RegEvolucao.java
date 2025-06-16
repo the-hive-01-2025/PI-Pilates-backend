@@ -20,6 +20,6 @@ public class RegEvolucao{
     private String instrutor;
     private String nomeAula;
     private String obs; //obersações
-    private Aluno aluno;
+    private String aluno;
     
 }
