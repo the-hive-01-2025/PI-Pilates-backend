@@ -171,7 +171,6 @@ public class AlunoDashboardController {
 
     @PostMapping("/assinar")
     public String assinarPlano(@RequestParam("planoId") String planoId,
-            @RequestParam("nome") String nome,
             @RequestParam("cpf") String cpf,
             @RequestParam("formaPagamento") String formaPagamento,
             RedirectAttributes redirectAttributes) {
@@ -193,11 +192,12 @@ public class AlunoDashboardController {
             return "redirect:/web/aluno/planos";
         }
     }
+@GetMapping("/faturas")
+    public String visualizarFaturas(Model model,
+                                   RedirectAttributes redirectAttributes) {
 
-    @GetMapping("/faturas")
-    public String visualizarFaturas(@ModelAttribute("aluno") Aluno aluno,
-            Model model,
-            RedirectAttributes redirectAttributes) {
+        // Cria o aluno mockado
+        Aluno aluno = alunoMockFactory.criarAlunoMock();
 
         if (aluno == null) {
             redirectAttributes.addFlashAttribute("erro", "Aluno não encontrado.");
@@ -207,15 +207,15 @@ public class AlunoDashboardController {
         List<Financeiro> faturas = aluno.getHistoricoPagamento();
         if (faturas == null)
             faturas = new ArrayList<>();
-
+        
         List<Financeiro> pagas = faturas.stream()
                 .filter(f -> Boolean.TRUE.equals(f.getPaga()))
-                .sorted(Comparator.comparing(Financeiro::getDataPagamento).reversed())
+                .sorted(Comparator.comparing(Financeiro::getDataPagamento).reversed()) 
                 .collect(Collectors.toList());
 
         List<Financeiro> emAberto = faturas.stream()
                 .filter(f -> !Boolean.TRUE.equals(f.getPaga()))
-                .sorted(Comparator.comparing(Financeiro::getDataVencimento).reversed())
+                .sorted(Comparator.comparing(Financeiro::getDataVencimento).reversed()) 
                 .collect(Collectors.toList());
 
         Financeiro ultimaPaga = pagas.isEmpty() ? null : pagas.get(0);
