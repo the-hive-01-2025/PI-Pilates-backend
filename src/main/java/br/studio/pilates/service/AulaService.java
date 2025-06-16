@@ -77,7 +77,7 @@ public class AulaService {
         // Valida Instrutor
         if (aula.getIdInstrutor() != null) {
             Usuario instrutor = usuarioRepository.findById(aula.getIdInstrutor()).orElse(null);
-            if (instrutor == null || !"instrutor".equalsIgnoreCase(instrutor.getTipo())) {
+            if (instrutor == null || !"instrutor".equalsIgnoreCase(instrutor.getRole())) {
                 throw new IllegalArgumentException("Instrutor não encontrado ou inválido.");
             }
         }

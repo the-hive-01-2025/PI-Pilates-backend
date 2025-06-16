@@ -19,7 +19,7 @@ import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.service.AlunoService;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class AlunoController {
 
 

@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.studio.pilates.model.entity.Plano;
 import br.studio.pilates.service.PlanoService;
 
-@RestController
+@RestController("/api")
 public class PlanoController {
 
 	@Autowired
 	private PlanoService planoService;
 
-	@GetMapping("plano")
+	@GetMapping("/plano")
 	public List<Plano> listar() {
 		return planoService.getAllPlanos();
 	}

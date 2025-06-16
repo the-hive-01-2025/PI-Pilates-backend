@@ -2,81 +2,69 @@ package br.studio.pilates.model.entity;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 @Document(collection = "Usuario")
 public class Usuario implements UserDetails {
-	
-	@Id
-	private String id;
 
-	private String nome;
-	private String sexo;
-	private String email;
-	private String senha;          // nova senha para login
-	private String tipo;
-	private String dataNasc;       // camelCase
-	private String contato;
-	private String formacao;
-	private List<Conselho> conselho;
-	private String foto;
-	private String dataContratacao;
-	private String cpf;
-	private String rg;
-	private String cep;
-	private String cref;
-	private List<Permissoes> permissoes;
-	private Estudio estudio;
-	
-	public Usuario() {
-	}
+    @Id
+    private String id;
 
-	public Usuario(String id, String nome, String sexo, String email, String senha, String tipo, String dataNasc, 
-			String contato, String formacao, List<Conselho> conselho, String foto, String dataContratacao, 
-			String cpf, String rg, String cep, String cref, List<Permissoes> permissoes, Estudio estudio) {
-		this.id = id;
-		this.nome = nome;
-		this.sexo = sexo;
-		this.email = email;
-		this.senha = senha;
-		this.tipo = tipo;
-		this.dataNasc = dataNasc;
-		this.contato = contato;
-		this.formacao = formacao;
-		this.conselho = conselho;
-		this.foto = foto;
-		this.dataContratacao = dataContratacao;
-		this.cpf = cpf;
-		this.rg = rg;
-		this.cep = cep;
-		this.cref = cref;
-		this.permissoes = permissoes;
-		this.estudio = estudio;
-	}
+    private String nome;
+    private String sexo;
+    private String email;
+    private String senha;
+    private String dataNasc;
+    private String contato;
+    private String formacao;
+    private List<Conselho> conselho;
+    private String foto;
+    private String dataContratacao;
+    private String cpf;
+    private String rg;
+    private String cep;
+    private String cref;
+    private String role; // <-- Define o tipo de usuário (ADMIN, INSTRUTOR, RECEPCAO)
+    private Estudio estudio;
 
+    public Usuario() {
+    }
+
+    public Usuario(String id, String nome, String sexo, String email, String senha, String dataNasc,
+                   String contato, String formacao, List<Conselho> conselho, String foto, String dataContratacao,
+                   String cpf, String rg, String cep, String cref, String role, Estudio estudio) {
+        this.id = id;
+        this.nome = nome;
+        this.sexo = sexo;
+        this.email = email;
+        this.senha = senha;
+        this.dataNasc = dataNasc;
+        this.contato = contato;
+        this.formacao = formacao;
+        this.conselho = conselho;
+        this.foto = foto;
+        this.dataContratacao = dataContratacao;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.cep = cep;
+        this.cref = cref;
+        this.role = role;
+        this.estudio = estudio;
+    }
+
+    // 🔐 Autoridades com base no role
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		switch (this.tipo.toUpperCase()) {
-			case "INSTRUTOR":
-				return List.of(() -> "ROLE_INSTRUTOR");
-			case "RECEPCAO":
-				return List.of(() -> "ROLE_RECEPCAO");
-			case "ADMIN":
-				return List.of(() -> "ROLE_ADMIN");
-			default:
-				return List.of(() -> "ROLE_USER");
+		if (this.role == null) {
+			return List.of(() -> "ROLE_USER"); // padrão se role nula
 		}
+		return List.of(() -> "ROLE_" + this.role.toUpperCase());
 	}
+
 
     @Override
     public String getPassword() {
@@ -90,7 +78,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;  // pode customizar conforme desejar
+        return true;
     }
 
     @Override
@@ -106,5 +94,143 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    // ✅ Getters e Setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getDataNasc() {
+        return dataNasc;
+    }
+
+    public void setDataNasc(String dataNasc) {
+        this.dataNasc = dataNasc;
+    }
+
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    public String getFormacao() {
+        return formacao;
+    }
+
+    public void setFormacao(String formacao) {
+        this.formacao = formacao;
+    }
+
+    public List<Conselho> getConselho() {
+        return conselho;
+    }
+
+    public void setConselho(List<Conselho> conselho) {
+        this.conselho = conselho;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public String getDataContratacao() {
+        return dataContratacao;
+    }
+
+    public void setDataContratacao(String dataContratacao) {
+        this.dataContratacao = dataContratacao;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getCref() {
+        return cref;
+    }
+
+    public void setCref(String cref) {
+        this.cref = cref;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Estudio getEstudio() {
+        return estudio;
+    }
+
+    public void setEstudio(Estudio estudio) {
+        this.estudio = estudio;
     }
 }

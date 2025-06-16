@@ -19,7 +19,7 @@ import br.studio.pilates.service.UsuarioService;
 
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class UsuarioController {
 
 	@Autowired
@@ -29,10 +29,15 @@ public class UsuarioController {
 	private PasswordEncoder passwordEncoder;
 
 
-	@GetMapping("usuario")
+	@GetMapping("/usuario")
 	public List<Usuario> listar() {
 		return usuarioService.listarTodos();
 	}
+
+	@GetMapping("/teste")
+    public String teste() {
+        return "API funcionando!";
+    }
 
 	@GetMapping("usuario/{id}")
 	public Usuario getById(@PathVariable("id") String Id) {
