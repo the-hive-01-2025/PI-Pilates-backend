@@ -37,5 +37,6 @@ public class Aula {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime horario;
     private String status;
-    private String observacoes;       
+    private String observacoes;
+    private String modalidade;       
 }

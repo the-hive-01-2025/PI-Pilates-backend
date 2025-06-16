@@ -44,7 +44,7 @@ public class AulaWebController {
                 dto.setData(aula.getData());
                 dto.setHorario(aula.getHorario());
                 dto.setStatus(aula.getStatus());
-                dto.setModalidade("Não informado");
+                dto.setModalidade(aula.getModalidade() != null ? aula.getModalidade() : "Não informado");
                 dto.setInstrutorNome("Não informado");
 
                 String nomeEstudio = "Não informado";
