@@ -1,0 +1,137 @@
+.nao-possui-plano{
+    background-color: var(--purple-lighter-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 4rem 5rem;
+    background-color: var(--gray-color);
+    min-height: calc(100vh - 88px);
+}
+
+section {
+    background-color: var(--purple-lighter-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* ==== ESQUERDA - PLANO E RESUMO ==== */
+main section:first-of-type {
+    flex: 1;
+}
+
+main section:first-of-type h2 {
+    font-size: 1.4rem;
+    color: var(--black-gray-color);
+    margin-bottom: 1rem;
+}
+
+main section:first-of-type > div {
+    background-color: var(--white-color);
+    border: 1px solid var(--opaque-black-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+main section:first-of-type h3 {
+    margin-bottom: 1rem;
+    color: var(--black-gray-color);
+}
+
+main section:first-of-type p {
+    margin-bottom: 0.5rem;
+}
+
+/* ==== DIREITA - TABELA DE FATURAS ==== */
+main section:last-of-type {
+    flex: 1.2;
+}
+
+main section:last-of-type h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--black-gray-color);
+}
+
+/* ==== TABELA ==== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: var(--purple-light-color);
+}
+
+th, td {
+    text-align: left;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--gray-color);
+    font-size: 0.95rem;
+}
+
+td form {
+    margin: 0;
+}
+
+/* ==== BOTÃO PAGAR ==== */
+button {
+    background-color: var(--purple-color);
+    color: white;
+    border: none;
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--purple-dark-color);
+}
+
+/* ==== STATUS CORES ==== */
+.status-aberto,
+td[style*="color: orange;"] {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-pago,
+td[style*="color: green;"] {
+    color: green;
+    font-weight: bold;
+}
+
+/* ==== RESPONSIVO ==== */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        padding: 1rem 2rem;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        padding: 0.5rem 2rem;
+    }
+
+    .nav-item {
+        margin-bottom: 0.3rem;
+    }
+}

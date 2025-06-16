@@ -79,11 +79,6 @@
                     <input type="text" id="profissao" th:field="*{profissao}" placeholder="Digite a profissão" required>
                 </div>
 
-                <div class="input-group">
-                    <label for="plano">Plano</label>
-                    <input type="text" id="plano" th:field="*{plano}" placeholder="Digite o plano contratado" required>
-                </div>
-
                 <div class="button-group">
                     <button class="btn" type="submit" th:text="${novo} ? 'Salvar' : 'Atualizar'">Salvar</button>
                     <a class="btn cancel" th:href="@{/web/recepcionista/aluno/list}">Cancelar</a>

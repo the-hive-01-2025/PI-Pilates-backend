@@ -30,7 +30,7 @@ import br.studio.pilates.service.AulaService;
 import br.studio.pilates.service.EstudioService;
 import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.PlanoService;
-import br.studio.pilates.mock.AlunoMockFactory;
+
 
 @Controller
 @RequestMapping("web/aluno")
@@ -48,13 +48,6 @@ public class AlunoDashboardController {
     @Autowired
     private PlanoService planoService;
 
-    @Autowired
-    private AlunoMockFactory alunoMockFactory;
-
-    @ModelAttribute("aluno")
-    public Aluno setMockAluno() {
-        return alunoMockFactory.criarAlunoMock();
-    }
 
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
@@ -132,20 +125,15 @@ public class AlunoDashboardController {
         model.addAttribute("aulas", aulasDTO);
         return "aluno/aulas";
     }
+@GetMapping("/planos")
+    public String planos(Model model, Principal principal, @ModelAttribute("aluno") Aluno aluno) {
+        String email = principal.getName(); // pega o email do aluno logado
+        aluno = alunoService.getByEmail(email); // cria esse método no service
 
-    @GetMapping("/planos")
-    public String planos(Model model) {
+        model.addAttribute("aluno", aluno);
         model.addAttribute("mensal", planoService.getPlanoByNome("Mensal"));
         model.addAttribute("trimestral", planoService.getPlanoByNome("Trimestral"));
         model.addAttribute("anual", planoService.getPlanoByNome("Anual"));
-
-        // Recupera ou gera o aluno mock de forma desacoplada
-        Aluno alunoMock = alunoService.getByCpf("000.000.000-00");
-        if (alunoMock == null) {
-            alunoMock = alunoMockFactory.criarAlunoMock();
-        }
-
-        model.addAttribute("aluno", alunoMock);
         return "aluno/planos";
     }
 
@@ -156,15 +144,16 @@ public class AlunoDashboardController {
         return "aluno/planos";
     }
 
+    // Esse método pode ser útil para admin, mas não precisa de aluno da sessão
     @PostMapping("/{id}/plano")
     public String assignPlanoToAluno(@PathVariable("id") String alunoId,
             @RequestParam("id") String planoId,
-            RedirectAttributes redirectAttributes,
-            @ModelAttribute("aluno") Aluno aluno) {
-
+            RedirectAttributes redirectAttributes) {
+        Optional<Aluno> alunoOpt = alunoService.getById(alunoId);
         Optional<Plano> planoOpt = planoService.getPlanoById(planoId);
 
-        if (planoOpt.isPresent()) {
+        if (alunoOpt.isPresent() && planoOpt.isPresent()) {
+            Aluno aluno = alunoOpt.get();
             aluno.setPlano(planoOpt.get());
             alunoService.saveAluno(aluno);
             redirectAttributes.addFlashAttribute("success", "Plano vinculado com sucesso!");
@@ -176,34 +165,49 @@ public class AlunoDashboardController {
     }
 
     @PostMapping("/assinar")
-    public String assinarPlano(@RequestParam("planoId") String planoId,
-            @RequestParam("cpf") String cpf,
-            @RequestParam("formaPagamento") String formaPagamento,
+    public String assinarPlano(@RequestParam String planoId,
+            @RequestParam String cpf,
+            @RequestParam String formaPagamento,
+            @ModelAttribute("aluno") Aluno aluno,
+            Model model) {
+
+        if (!aluno.getCpf().equals(cpf)) {
+            throw new RuntimeException("CPF inválido.");
+        }
+
+        Plano plano = planoService.getPlanoById(planoId)
+                .orElseThrow(() -> new RuntimeException("Plano não encontrado."));
+
+        aluno.setPlano(plano);
+
+        Financeiro fatura = new Financeiro();
+        fatura.setAluno(aluno);
+        fatura.setPlano(plano);
+        fatura.setDataPagamento(LocalDate.now());
+        fatura.setValor(plano.getValor());
+        fatura.setPaga(true);
+        fatura.setFormaPagamento(formaPagamento.toUpperCase());
+
+        if (aluno.getHistoricoPagamento() == null) {
+            aluno.setHistoricoPagamento(new ArrayList<>());
+        }
+        aluno.getHistoricoPagamento().add(fatura);
+
+        alunoService.saveAluno(aluno); // persistência no Mongo
+        model.addAttribute("aluno", aluno); // atualiza sessão
+
+        return "redirect:/web/aluno/plano";
+    }
+
+    @GetMapping("/faturas")
+    public String visualizarFaturas(@ModelAttribute("aluno") Aluno aluno,
+            Model model, Principal principal,
             RedirectAttributes redirectAttributes) {
 
-        Optional<Plano> planoOpt = planoService.getPlanoById(planoId);
+        String email = principal.getName(); // pega o email do aluno logado
+        aluno = alunoService.getByEmail(email); // cria esse método no service
 
-        if (planoOpt.isEmpty()) {
-            redirectAttributes.addFlashAttribute("erro", "Plano não encontrado.");
-            return "redirect:/web/aluno/planos";
-        }
-
-        try {
-            planoService.assinarPlano(cpf, planoOpt.get(), formaPagamento);
-            redirectAttributes.addFlashAttribute("success", "Plano assinado com sucesso!");
-            return "redirect:/web/aluno/faturas";
-
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("erro", e.getMessage());
-            return "redirect:/web/aluno/planos";
-        }
-    }
-@GetMapping("/faturas")
-    public String visualizarFaturas(Model model,
-                                   RedirectAttributes redirectAttributes) {
-
-        // Cria o aluno mockado
-        Aluno aluno = alunoMockFactory.criarAlunoMock();
+        model.addAttribute("aluno", aluno);
 
         if (aluno == null) {
             redirectAttributes.addFlashAttribute("erro", "Aluno não encontrado.");
@@ -213,25 +217,22 @@ public class AlunoDashboardController {
         List<Financeiro> faturas = aluno.getHistoricoPagamento();
         if (faturas == null)
             faturas = new ArrayList<>();
-        
+
         List<Financeiro> pagas = faturas.stream()
                 .filter(f -> Boolean.TRUE.equals(f.getPaga()))
-                .sorted(Comparator.comparing(Financeiro::getDataPagamento).reversed()) 
+                .sorted(Comparator.comparing(Financeiro::getDataPagamento).reversed())
                 .collect(Collectors.toList());
 
         List<Financeiro> emAberto = faturas.stream()
                 .filter(f -> !Boolean.TRUE.equals(f.getPaga()))
-                .sorted(Comparator.comparing(Financeiro::getDataVencimento).reversed()) 
+                .sorted(Comparator.comparing(Financeiro::getDataVencimento).reversed())
                 .collect(Collectors.toList());
-
-        Financeiro ultimaPaga = pagas.isEmpty() ? null : pagas.get(0);
-        Financeiro proxima = emAberto.isEmpty() ? null : emAberto.get(0);
 
         model.addAttribute("aluno", aluno);
         model.addAttribute("faturasPagas", pagas);
         model.addAttribute("faturasEmAberto", emAberto);
-        model.addAttribute("ultimaFatura", ultimaPaga);
-        model.addAttribute("proximaFatura", proxima);
+        model.addAttribute("ultimaFatura", pagas.isEmpty() ? null : pagas.get(0));
+        model.addAttribute("proximaFatura", emAberto.isEmpty() ? null : emAberto.get(0));
         model.addAttribute("qtdAtrasadas", emAberto.size());
 
         return "aluno/faturas";

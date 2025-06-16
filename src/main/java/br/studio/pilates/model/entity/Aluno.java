@@ -24,7 +24,6 @@ public class Aluno implements UserDetails {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
-
     private String cpf;
     private String email;
     private String senha;
@@ -33,29 +32,16 @@ public class Aluno implements UserDetails {
     private String cep;
     private String profissao;
     private FichaAvaliacao fichaAvaliacao;
-    private Plano plano;
     private List<Aula> aulasMarcadas;
-    private List<Financeiro> historicoPagamento;
     private List<String> fotos;
+    @DBRef
+	private Plano plano;
+	@Field("historico_pagamento")
+	private List<Financeiro> historicoPagamento;
 
     public Aluno() {
     }
-	private String cpf;
-	private String email;
-	private String senha;
-	private String contato;
-	private String endereco;
-	private String cep;
-	private String profissao;
-	private FichaAvaliacao fichaAvaliacao;
 	
-	@DBRef
-	private Plano plano;
-	private List<Aula> aulasMarcadas;
-
-	@Field("historico_pagamento")
-	private List<Financeiro> historicoPagamento;
-	private List<String> fotos;
 
     public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String email, String senha,
             String contato, String endereco, String cep, String profissao, FichaAvaliacao fichaAvaliacao, Plano plano,
@@ -84,28 +70,7 @@ public class Aluno implements UserDetails {
     public String getId() {
         return id;
     }
-	public Aluno(String id, String nome, String sexo, LocalDate data, String cpf, String email, String senha, String contato, String endereco, String cep, String profissao,
-			FichaAvaliacao fichaAvaliacao, Plano plano, List<Aula> aulasMarcadas, List<Financeiro> historicoPagamento,
-			List<String> fotos) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.sexo = sexo;
-		this.data = data;
-		this.cpf = cpf;
-		this.email = email;
-		this.senha = senha;
-		this.contato = contato;
-		this.endereco = endereco;
-		this.cep = cep;
-		this.profissao = profissao;
-		// this.fichaAvaliacao = fichaAvaliacao;
-		this.plano = plano;
-		// this.aulasMarcadas = aulasMarcadas;
-		// this.historicoPagamento = historicoPagamento;
-		// this.fotos = fotos;
-	}
-
+    
     public void setId(String id) {
         this.id = id;
     }

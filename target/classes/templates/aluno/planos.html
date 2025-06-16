@@ -29,7 +29,7 @@
 
     <main>
         <div class="card-white">
-            <h2 th:text="${aluno != null ? 'Seu Plano, ' + aluno.nome : 'Seu Plano, [Aluno]'}" class="title-page"></h2>
+            <h2 class="title-page" th:text="'Seu plano, ' + ${aluno.nome}">Nome do Aluno</h2>
 
             <div class="container-infos" th:if="${aluno != null}">
                 <div class="infos" th:if="${aluno.plano != null}">
@@ -38,17 +38,12 @@
                     <label>Dia de Vencimento: <span th:text="${aluno.plano.diaVencimento}"></span></label>
                 </div>
                 <div th:if="${aluno.plano == null}">
-                    <label>Plano: <span>Sem um plano registrado</span></label>
-                    <label>Valor: <span>Sem um plano registrado</span></label>
-                    <label>Vencimento: <span>Sem um plano registrado</span></label>
+                    Não há um plano assinado, assine um dos planos abaixo para ter acesso às informações.
                 </div>
 
                 <div>
                     Ver faturas: <a class="btn-faturas" th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}">Clique
                         aqui</a>
-                </div>
-                <div th:if="${aluno.plano == null}">
-                    <label class="btn-faturas"><span>Assine um plano!</span></label>
                 </div>
             </div>
 
@@ -144,7 +139,9 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/imask@latest/dist/imask.min.js"></script>
+    <div id="aluno-data" th:data-cpf="${aluno != null ? aluno.cpf : ''}"></div>
+</body>
+<script src="https://unpkg.com/imask@latest/dist/imask.min.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -212,8 +209,4 @@
             });
         });
     </script>
-
-
-</body>
-
 </html>

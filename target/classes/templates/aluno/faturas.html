@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamentos - Faturas</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/aluno/modalidades.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/faturas.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar-aluno.css}">
 </head>
 
 <body>
@@ -26,11 +27,15 @@
     <a th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}" class="nav-item active">Pagamentos</a>
 </nav>
 
-<main>
+    <div class="nao-possui-plano" th:if="${aluno.plano == null}">
+        <p>Você não possui um plano ativo. Assine um plano para acessar as faturas.</p>
+    </div>
+
+<main th:if="${aluno.plano != null}">
     <section>
         <h2>Pagamentos e Faturas</h2>
         <div>
-            <p><strong>Plano Atual:</strong> <span th:text="${aluno.plano.nomePlano}"></span></p>
+            <<p><strong>Plano Atual:</strong> <span th:text="${aluno.plano.nomePlano}"></span></p> 
             <p><strong>Status do Plano:</strong> <span style="color: green;">Ativo</span></p>
         </div>
 

@@ -50,7 +50,7 @@
                             <td th:text="${aluno.cpf}">123.123.432-32</td>
                             <td th:text="${aluno.email}">email@teste.com</td>
                             <td th:text="${aluno.contato}">1199999999999</td>
-                            <td th:text="${aluno.plano}">Mensal</td>
+                            <td th:if="${aluno.plano != null }${aluno.plano}" th:text="${aluno.plano}">Mensal</td>
                             <td>
                                 <div class="actions">
                                     <a href="#"
