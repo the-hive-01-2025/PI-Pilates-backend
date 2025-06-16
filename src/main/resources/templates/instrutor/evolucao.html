@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Alunos</title>
+    <link rel="stylesheet" th:href="@{static/css/instrutor/evolucao.css}">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="logo">Pilates</div>
+        <div class="user-icon"></div>
+    </header>
+
+    <main class="container">
+        <h1>Lista de Alunos</h1>
+
+        <div class="search-box">
+            <input type="text" placeholder="Procurar Aluno">
+            <button><i>🔍</i></button>
+        </div>
+
+        <div class="aluno-card" th:each="">
+            <div class="aluno-info">
+                <span th:text="${aluno.nome}">Maria Eduarda</span>
+                <span>Sexo: <strong th:text="${aluno.sexo}">Feminino</strong></span>
+                <span>CPF: <strong th:text="${aluno.cpf}">123.123.432-32</strong></span>
+            </div>
+            <div class="acoes">
+                <a th:href="@{}" class="btn">Registros</a>
+                <a th:href="@{}" class="btn btn-novo">Novo Registro</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
