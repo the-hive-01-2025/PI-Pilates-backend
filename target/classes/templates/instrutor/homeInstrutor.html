@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Tela Início Instrutor</title>
-    <link rel="stylesheet" href="../../static/css/instrutor/painel.css">
+    <link rel="stylesheet" th:href="@{/css/instrutor/painel.css}">
 </head>
 
 <body>
@@ -17,9 +17,10 @@
         <h2>Seja bem-vindo <span th:text="${nome}">[Nome]</span></h2>
 
         <div class="menu-instrutor">
-            <a th:href="@{/agenda}" class="menu-button">Agenda de Aulas</a>
+            <a th:if ="${instrutor != null}" th:href="@{/web/agendainstrutor/agenda/{id}(id=${instrutor.id})}" class="menu-button">Agenda de Aulas</a>
+            <a th:href="@{/web/instrutor/agenda}" class="menu-button">Alunos</a>
             <a th:href="@{/evolucao}" class="menu-button">Registro de Evolução</a>
-            <a th:href="@{/avaliacao}" class="menu-button">Ficha de Avaliação</a>
+            <a th:href="@{/web/instrutor/avaliacao}" class="menu-button">Ficha de Avaliação</a>
         </div>
     </main>
 </body>

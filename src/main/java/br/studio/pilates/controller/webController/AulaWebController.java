@@ -44,7 +44,7 @@ public class AulaWebController {
                 dto.setData(aula.getData());
                 dto.setHorario(aula.getHorario());
                 dto.setStatus(aula.getStatus());
-                dto.setModalidade("Não informado");
+                dto.setModalidade(aula.getModalidade() != null ? aula.getModalidade() : "Não informado");
                 dto.setInstrutorNome("Não informado");
 
                 String nomeEstudio = "Não informado";
@@ -78,6 +78,9 @@ public class AulaWebController {
     @PostMapping("/salvar")
     public String salvarAula(Aula aula, RedirectAttributes redirectAttributes) {
         try {
+            if (aula.getStatus() == null || aula.getStatus().isEmpty()) {
+                aula.setStatus("Pendente");
+            }
             aulaService.saveAula(aula);
             redirectAttributes.addFlashAttribute("mensagem", "Aula agendada com sucesso!");
             redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");
@@ -92,6 +95,9 @@ public class AulaWebController {
     public String reagendarAula(@PathVariable("id") String id, Aula aula, RedirectAttributes redirectAttributes) {
         try {
             aula.setId(id);
+            if (aula.getStatus() == null) {
+                aula.setStatus("Pendente");
+            }
             aulaService.saveAula(aula);
             redirectAttributes.addFlashAttribute("mensagem", "Aula reagendada com sucesso!");
             redirectAttributes.addFlashAttribute("mensagemTipo", "sucesso");

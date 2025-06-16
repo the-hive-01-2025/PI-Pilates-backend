@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/home-aluno.css}">
     <link rel="stylesheet" th:href="@{/css/aluno/agendamento.css}">
+    <script th:src="@{/js/aulas.js}"></script>
 </head>
 <script>
     function toggleMenu() {
@@ -46,16 +47,14 @@
         <a th:href="@{/web/aluno/planos}" class="nav-item">Planos</a>
         <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
         <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
-        <a th:href="@{/web/aluno/pagamentos}" class="nav-item">Pagamentos</a>
+        <a th:href="@{/web/aluno/faturas}" class="nav-item">Pagamentos</a>
     </nav>
-
     <main>
         <div th:if="${mensagem}" th:classappend="${mensagemTipo == 'sucesso'} ? 'alerta-sucesso' : 'alerta-erro'">
             <span th:text="${mensagem}"></span>
         </div>
         <h2>Agendamento</h2>
         <button class="btn-agendar" onclick="abrirModalAgendamento()">Agendar</button>
-
         <div id="modalAgendamento" class="modal-detalhes">
             <div class="modal-conteudo">
                 <span class="fechar" onclick="fecharModalAgendamento()">&times;</span>
@@ -70,14 +69,15 @@
                         <label for="horarioAula"><strong>Horário:</strong></label>
                         <input type="time" id="horarioAula" name="horario" required>
                     </div>
-                    <!-- <div class="campo-form">
+                    <div class="campo-form">
                         <label for="modalidadeAula"><strong>Modalidade:</strong></label>
-                        <input type="text" id="modalidadeAula" name="modalidade">
-                    </div> -->
-                    <!-- <div class="campo-form">
-                        <label for="instrutorAula"><strong>Instrutor(a):</strong></label>
-                        <input type="text" id="instrutorAula" name="idInstrutor">
-                    </div> -->
+                        <select id="modalidadeAula" name="modalidade" required>
+                            <option value="" disabled selected>Selecione a modalidade</option>
+                            <option value="Yoga">Yoga</option>
+                            <option value="Pilates">Pilates</option>
+                            <option value="Cursos">Cursos</option>
+                        </select>
+                    </div>
                     <div class="campo-form">
                         <label for="estudioAula"><strong>Estúdio:</strong></label>
                         <select id="estudioAula" name="idStudio" required>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="campo-form">
                         <label for="alunoAula"><strong>Aluno:</strong></label>
-                        <select id="alunoAula" name="alunos" required>
+                        <select id="alunoAula" name="alunos" multiple required>
                             <option value="" disabled selected>Selecione o aluno</option>
                             <option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
                         </select>
@@ -97,14 +97,19 @@
                 </form>
             </div>
         </div>
-
         <div class="aulas-marcadas-bloco">
             <h2 class="titulo-bloco">Aulas Marcadas</h2>
             <div class="aulas-marcadas aulas-marcadas-scroll">
                 <ul>
                     <li th:each="aula : ${aulas}">
                         <div class="aula-card aula-info-row">
-                            <div class="aula-info-col">
+                            <!-- Removed modalidade display from left side of card -->
+                            <!-- <div class="aula-info-col" style="flex: 1;">
+                                <div id="modalidade">
+                                    <span th:text="${aula.modalidade}"></span>
+                                </div>
+                            </div> -->
+                            <div class="aula-info-col" style="flex: 3;">
                                 <div>
                                     <strong>Data:</strong>
                                     <strong
@@ -117,7 +122,7 @@
                                 </div>
                             </div>
                             <button type="button"
-                                th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Não informado'}', '${aula.id}')|">
+                                th:attr="onclick=|abrirDetalhes('${aula.modalidade}', '${#temporals.format(aula.data, 'dd/MM/yyyy')}', '${#temporals.format(aula.horario, 'HH:mm')}', '${aula.instrutorNome}', '${aula.estudioNome}', '${aula.status != null ? aula.status : 'Pendente'}', '${aula.id}')|">
                                 Ver Detalhes
                             </button>
                         </div>
@@ -126,13 +131,12 @@
                 </ul>
             </div>
         </div>
-
         <div id="modalDetalhes" class="modal-detalhes">
             <input type="hidden" id="detalheAulaId">
             <div class="modal-conteudo">
                 <span class="fechar" onclick="fecharDetalhes()">&times;</span>
                 <h2>Detalhes</h2>
-                <!-- <div><strong>Modalidade:</strong> <span id="detalheModalidade"></span></div> -->
+                <div><strong>Modalidade:</strong> <span id="detalheModalidade"></span></div>
                 <div><strong>Data:</strong> <span id="detalheData"></span></div>
                 <div><strong>Horário:</strong> <span id="detalheHorario"></span></div>
                 <!-- <div><strong>Instrutor(a):</strong> <span id="detalheInstrutor"></span></div> -->
@@ -146,80 +150,6 @@
             </div>
         </div>
     </main>
-
-    <script>
-        function updateGradient() {
-            const bloco = document.querySelector('.aulas-marcadas-scroll');
-            if (!bloco) return;
-            if (bloco.scrollTop === 0 && bloco.scrollHeight > bloco.clientHeight) {
-                bloco.classList.add('show-gradient');
-            } else {
-                bloco.classList.remove('show-gradient');
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            const bloco = document.querySelector('.aulas-marcadas-scroll');
-            if (bloco) {
-                updateGradient();
-                bloco.addEventListener('scroll', updateGradient);
-                window.addEventListener('resize', updateGradient);
-            }
-            const alerta = document.querySelector('.alerta-sucesso, .alerta-erro');
-            if (alerta) {
-                setTimeout(() => {
-                    alerta.style.display = 'none';
-                }, 2000);
-            }
-        });
-
-        function abrirDetalhes(modalidade, data, horario, instrutor, estudio, status, aulaId) {
-            // document.getElementById('detalheModalidade').textContent = modalidade;
-            document.getElementById('detalheData').textContent = data;
-            document.getElementById('detalheHorario').textContent = horario;
-            // document.getElementById('detalheInstrutor').textContent = instrutor;
-            document.getElementById('detalheEstudio').textContent = estudio;
-            document.getElementById('detalheStatus').textContent = status;
-            document.getElementById('detalheAulaId').value = aulaId;
-            document.getElementById('modalDetalhes').style.display = 'flex';
-        }
-        function fecharDetalhes() {
-            document.getElementById('modalDetalhes').style.display = 'none';
-        }
-        function abrirModalAgendamento() {
-            document.getElementById('modalAgendamento').style.display = 'flex';
-        }
-        function fecharModalAgendamento() {
-            document.getElementById('modalAgendamento').style.display = 'none';
-        }
-        window.onclick = function (event) {
-            const modalDetalhes = document.getElementById('modalDetalhes');
-            const modalAgendamento = document.getElementById('modalAgendamento');
-            if (event.target === modalDetalhes) fecharDetalhes();
-            if (event.target === modalAgendamento) fecharModalAgendamento();
-        }
-        function abrirReagendar() {
-            document.getElementById('dataAula').value = document.getElementById('detalheData').textContent.split('/').reverse().join('-');
-            document.getElementById('horarioAula').value = document.getElementById('detalheHorario').textContent;
-            document.getElementById('formAgendamento').action = '/web/aula/reagendar/' + document.getElementById('detalheAulaId').value;
-            fecharDetalhes();
-            abrirModalAgendamento();
-        }
-        function desmarcarAula() {
-            const aulaId = document.getElementById('detalheAulaId').value;
-            if (!aulaId) return;
-            if (!confirm('Tem certeza que deseja desmarcar esta aula?')) return;
-            fetch(`/web/aula/deletar/${aulaId}`, { method: 'POST' })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Aula desmarcada com sucesso!');
-                        location.reload();
-                    } else {
-                        response.text().then(msg => alert('Erro ao desmarcar: ' + msg));
-                    }
-                })
-                .catch(() => alert('Erro ao desmarcar aula.'));
-        }
-    </script>
 </body>
 
 </html>

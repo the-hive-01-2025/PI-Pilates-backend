@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamentos - Faturas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/aluno/modalidades.css}">
+</head>
+
+<body>
+<header>
+    <div class="top-bar">
+        <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+        <a class="logo-name" th:href="@{/web/aluno/home}">Pilates</a>
+    </div>
+    <div class="profile-circle"></div>
+</header>
+
+<nav>
+    <a th:href="@{/web/aluno/modalidades}" class="nav-item">Modalidades</a>
+    <a th:href="@{/web/aluno/aulas}" class="nav-item">Aulas</a>
+    <a th:href="@{/web/aluno/planos}" class="nav-item">Planos</a>
+    <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
+    <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
+    <a th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}" class="nav-item active">Pagamentos</a>
+</nav>
+
+<main>
+    <section>
+        <h2>Pagamentos e Faturas</h2>
+        <div>
+            <p><strong>Plano Atual:</strong> <span th:text="${aluno.plano.nomePlano}"></span></p>
+            <p><strong>Status do Plano:</strong> <span style="color: green;">Ativo</span></p>
+        </div>
+
+        <div>
+            <h3>Resumo Financeiro</h3>
+            <p><strong>Última fatura paga:</strong> 
+                <span th:if="${ultimaFatura != null}">
+                    R$ <span th:text="${ultimaFatura.valor}"></span> 
+                    (<span th:text="${#temporals.format(ultimaFatura.dataPagamento, 'dd/MM/yyyy')}"></span>)
+                </span>
+                <span th:unless="${ultimaFatura != null}">Nenhuma fatura paga</span>
+            </p>
+
+            <p><strong>Próximo vencimento:</strong> 
+                <span th:if="${proximaFatura != null}">
+                    R$ <span th:text="${proximaFatura.valor}"></span> 
+                    (<span th:text="${#temporals.format(proximaFatura.dataVencimento, 'dd/MM/yyyy')}"></span>)
+                </span>
+                <span th:unless="${proximaFatura != null}">Nenhuma fatura em aberto</span>
+            </p>
+
+            <p><strong>Faturas em atraso:</strong> <span th:text="${qtdAtrasadas}"></span></p>
+        </div>
+    </section>
+
+    <section>
+        <h3>Tabela de Faturas</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mês</th>
+                    <th>Valor</th>
+                    <th>Vencimento</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Faturas em aberto -->
+                <tr th:each="fatura : ${faturasEmAberto}">
+                    <td th:text="${#temporals.format(fatura.dataVencimento, 'MMMM', 'pt')}"></td>
+                    <td>R$ <span th:text="${fatura.valor}"></span></td>
+                    <td th:text="${#temporals.format(fatura.dataVencimento, 'dd/MM/yyyy')}"></td>
+                    <td style="color: orange;">Em Aberto</td>
+                    <td>
+                        <form th:action="@{/web/aluno/pagar}" method="post">
+                            <input type="hidden" name="faturaId" th:value="${fatura.id}" />
+                            <button type="submit">Pagar</button>
+                        </form>
+                    </td>
+                </tr>
+
+                <!-- Faturas pagas -->
+                <tr th:each="fatura : ${faturasPagas}">
+                    <td th:text="${#temporals.format(fatura.dataVencimento, 'MMMM', 'pt')}"></td>
+                    <td>R$ <span th:text="${fatura.valor}"></span></td>
+                    <td th:text="${#temporals.format(fatura.dataVencimento, 'dd/MM/yyyy')}"></td>
+                    <td style="color: green;">Pago</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+</body>
+</html>

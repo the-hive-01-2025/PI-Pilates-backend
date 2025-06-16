@@ -1,0 +1,202 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--gray-color);
+}
+
+.card-white {
+    padding: 2rem;
+    border-radius: 12px;
+    background-color: var(--white-color);
+}
+
+main {
+    background-color: var(--gray-color);
+    padding: 1rem 2rem
+}
+
+/* Título principal */
+.title-page {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    color: var(--purple-dark-color);
+}
+
+/* Informações do plano atual */
+.container-infos {
+    background-color: var(--purple-lighter-color);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    display: grid;
+    flex-direction: column;
+    gap: 0.8rem;
+    color: var(--black-gray-color);
+}
+
+.infos{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem
+}
+
+.container-infos label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.btn-faturas {
+    margin-top: 0.5rem;
+    background-color: var(--purple-color);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.btn-faturas a {
+    color: white;
+    text-decoration: underline;
+}
+
+.container-title-planos{
+    color: var(--purple-dark-color);
+}
+
+/* Cards dos planos */
+.container-planos {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1.0rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background-color: var(--white-color);
+    border: 1px solid var(--gray-color);
+    border-radius: 12px;
+    width: 280px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card-header {
+    background-color: var(--purple-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 12px 12px 0 0;
+    text-align: center;
+}
+
+.card-body {
+    padding: 1rem;
+    text-align: left;
+}
+
+.card-body h6 {
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--black-gray-color);
+}
+
+.card-footer {
+    padding: 1rem;
+    text-align: center;
+}
+
+.btn-marcar {
+    background-color: var(--purple-dark-color);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-marcar:hover {
+    background-color: var(--purple-color);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.modal-conteudo {
+    background-color: var(--white-color);
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
+
+.modal-conteudo h2 {
+    color: var(--black-gray-color);
+    margin-bottom: 1rem;
+}
+
+.modal-conteudo input,
+.modal-conteudo select {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--gray-color);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+button.cancelar {
+    background-color: var(--gray-color);
+    color: var(--black-gray-color);
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button.pagar {
+    background-color: var(--purple-dark-color);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#fecharModal {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--purple-dark-color);
+}

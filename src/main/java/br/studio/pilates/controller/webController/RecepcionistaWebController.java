@@ -154,10 +154,9 @@ public class RecepcionistaWebController {
 		Usuario instrutores = usuarioService.getById(Id);
 
 		if (instrutores.getId() == null) {
-
 			return "redirect:/web/recepcionista/instrutor/new";
 		}
-
+ 
 		model.addAttribute("instrutor", instrutores);
 		model.addAttribute("novoInstrutor", false);
 		return "recepcionista/cadastrar-instrutor";

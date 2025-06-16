@@ -190,7 +190,6 @@ main h2,
 }
 .aulas-marcadas-scroll li {
     padding: 4px 0;
-    border-bottom: 1px solid #eee;
     font-size: 16px;
     color: #333;
 }
@@ -237,7 +236,6 @@ main h2,
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
     min-height: 70px;
 }
 .aula-card {
@@ -258,7 +256,7 @@ main h2,
 .aula-info-row button {
     background-color: var(--purple-light-color);
     color: #000;
-    border: 2px solid black;      /* <-- contorno preto simples */
+    border: 2px solid black;
     border-radius: 8px;
     padding: 14px 8px;
     font-weight: bold;
@@ -275,6 +273,9 @@ main h2,
 }
 .aula-info-row button:hover {
     background-color: var(--purple-color);
+}
+#modalidade{
+    font-size: 26px;
 }
 
 .botoes-detalhes {

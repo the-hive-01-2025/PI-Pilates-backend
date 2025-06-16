@@ -24,4 +24,6 @@ public interface AulaRepository extends MongoRepository<Aula, String>{
 
 	void deleteAulaById(String Id);
 	
+  
+
 }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Avaliação - Pilates</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/recepcionista/agendamento.css}" />
+
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <img th:src="@{/images/lotus.png}" alt="Logo Pilates" class="logo" />
+            <a class="logo-name" th:href="@{/web/instrutor/home}">Pilates</a>
+        </div>
+        <div class="profile-circle"></div>
+    </header>
+
+    <main>
+        <h2>Avaliações</h2>
+
+        <div class="search-box">
+            <input type="text" placeholder="Procurar Aluno">
+            <button><i>🔍</i></button>
+        </div>
+
+        <div class="aulas-marcadas aulas-marcadas-scroll">
+            <ul>
+                <li th:each="aluno : ${alunos}">
+                    <div class="aula-card">
+                        <div class="aula-info-col">
+                            <span>
+                                <strong th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></strong>
+                                <span style="margin-left: 18px;">
+                                    <strong>Aluno(a):</strong>
+                                    <strong th:text="${aluno.nome}"></strong>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="aula-botoes">
+                            <button type="button" class="btn-agendar" th:attr="onclick=|abrirModalAvaliacao('${aluno.id}')|">Ver</button>
+                        </div>
+                    </div>
+                </li>
+                <li th:if="${#lists.isEmpty(alunos)}">Nenhum aluno encontrado.</li>
+            </ul>
+        </div>
+
+        <div id="modalAvaliacao" class="modal-detalhes" style="display:none;">
+            <div class="modal-conteudo">
+                <span class="fechar" onclick="fecharModalAvaliacao()">&times;</span>
+                <h2>Ficha de Avaliação</h2>
+                <form id="formAvaliacao" method="post" th:action="@{/web/instrutor/avaliacao/editar/__id__}">
+                    <label for="data">Data</label>
+                    <input type="date" id="data" name="data" required />
+
+                    <label for="historicoMedico">Histórico Médico</label>
+                    <textarea id="historicoMedico" name="historicoMedico"></textarea>
+
+                    <label for="diagnostico">Diagnóstico:</label>
+                    <input type="text" id="diagnostico" name="diagnostico" required />
+
+                    <label for="patologias">Patologias:</label>
+                    <input type="text" id="patologias" name="patologias" required />
+
+                    <label for="medicamentos">Medicamentos:</label>
+                    <input type="text" id="medicamentos" name="medicamentos" required />
+
+                    <label for="tratamentos">Tratamentos:</label>
+                    <input type="text" id="tratamentos" name="tratamentos" required />
+
+                    <label for="objetivos">Objetivos:</label>
+                    <input type="text" id="objetivos" name="objetivos" required />
+
+                    <label for="observacoes">Observações:</label>
+                    <textarea id="observacoes" name="observacoes"></textarea>
+
+                    <label for="dataAvaliacao">Data da Avaliação:</label>
+                    <input type="date" id="dataAvaliacao" name="dataAvaliacao" />
+
+                    <button type="submit" class="btn-agendar-enviar">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function abrirModalAvaliacao(alunoId) {
+            const modal = document.getElementById('modalAvaliacao');
+            const form = document.getElementById('formAvaliacao');
+            form.action = `/web/instrutor/avaliacao/editar/${alunoId}`;
+
+            // TODO: Fetch ficha data for alunoId via AJAX and populate form fields
+            // For now, just show modal
+            modal.style.display = 'flex';
+        }
+
+        function fecharModalAvaliacao() {
+            const modal = document.getElementById('modalAvaliacao');
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalAvaliacao');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+
+</html>

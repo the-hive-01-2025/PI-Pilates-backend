@@ -29,6 +29,7 @@ public class Aula {
     private String idStudio;
     private String idInstrutor;
     private List<String> alunos;
+    private List<String> presentes;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
@@ -36,5 +37,6 @@ public class Aula {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime horario;
     private String status;
-    private String observacoes;       
+    private String observacoes;
+    private String modalidade;       
 }

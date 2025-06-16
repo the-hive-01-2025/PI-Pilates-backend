@@ -1,0 +1,22 @@
+nav {
+    background-color: #a698f5;
+    display: flex;
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    padding: 11px 0;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--white-color);
+    background-color: #a698f5;
+    transition: background-color 0.2s ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    border-top: solid 0.1px var(--black-gray-color);
+    background-color: var(--purple-color2);
+    color: var(--black-gray-color);
+}

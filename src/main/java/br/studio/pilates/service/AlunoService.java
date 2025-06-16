@@ -93,4 +93,13 @@ public class AlunoService implements UserDetailsService {
     public Aluno getByEmail(String email) {
         return alunoRepository.findByEmail(email);
     }
+    public void removerPlano(String cpf) {
+        Aluno aluno = getByCpf(cpf);
+        if (aluno != null) {
+            aluno.setPlano(null);
+            aluno.setHistoricoPagamento(null);
+            saveAluno(aluno);
+        }
+    }
+
 }

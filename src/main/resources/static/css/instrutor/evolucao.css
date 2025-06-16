@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e3e3e3;
+}
+
+.top-bar {
+    background-color: #9b84d1;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.user-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+}
+
+.container {
+    margin: 2rem auto;
+    padding: 1rem;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
+
+.search-box {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.search-box input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px 0 0 6px;
+}
+
+.search-box button {
+    padding: 5px 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+}
+
+.aluno-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+}
+
+.aluno-info span {
+    margin-right: 20px;
+}
+
+.acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background-color: #9b84d1;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn-novo {
+    background-color: #a48be0;
+}

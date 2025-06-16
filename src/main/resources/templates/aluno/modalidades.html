@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modalidades</title>
+    <title>Modalidades - Pilates</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/aluno/modalidades.css}">
 </head>
@@ -45,7 +45,7 @@
         <a th:href="@{/web/aluno/planos}" class="nav-item">Planos</a>
         <a th:href="@{/web/aluno/evolucao}" class="nav-item">Evolução</a>
         <a th:href="@{/web/aluno/avaliacoes}" class="nav-item">Avaliações</a>
-        <a th:href="@{/web/aluno/pagamentos}" class="nav-item">Pagamentos</a>
+        <a th:href="@{/web/aluno/faturas(cpf=${aluno.cpf})}" class="nav-item">Pagamentos</a>
     </nav>
 
     <main>
@@ -61,7 +61,7 @@
                             <img th:src="@{/images/yoga.png}" alt="Imagem de Yoga">
                         </div>
                     </div>
-                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
+                    <a class="btn-marcar" th:href="@{|/web/aluno/aulas?modalidade=Yoga|}">Marcar</a>
                 </div>
             </div>
             <div class="card">
@@ -74,9 +74,8 @@
                             <img th:src="@{/images/pilates.png}" alt="Imagem de pilates">
                         </div>
                     </div>
-                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
+                    <a class="btn-marcar" th:href="@{|/web/aluno/aulas?modalidade=Pilates|}">Marcar</a>
                 </div>
-
             </div>
             <div class="card">
                 <div class="card-header">Cursos</div>
@@ -88,7 +87,7 @@
                             <img th:src="@{/images/books.png}" alt="Imagem de Cursos">
                         </div>
                     </div>
-                    <a class="btn-marcar" th:href="@{/web/aluno/aulas}">Marcar</a>
+                    <a class="btn-marcar" th:href="@{|/web/aluno/aulas?modalidade=Cursos|}">Marcar</a>
                 </div>
             </div>
         </div>

@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #d9d9d9;
+}
+
+.top-bar {
+    background-color: #9b84d1;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.user-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+h1 {
+    margin-bottom: 1.5rem;
+}
+
+.form-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tamanhos específicos para os campos lado a lado */
+.form-group.instrutor {
+    flex: 1 1 45%;
+}
+
+.form-group.nome-aula {
+    flex: 1 1 40%;
+}
+
+
+.full-width {
+    width: 100%;
+}
+
+.form-footer {
+    justify-content: space-between;
+}
+
+.btn-salvar {
+    background-color: #9b84d1;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+
+.btn-voltar {
+    background-color: #6e6e6e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
