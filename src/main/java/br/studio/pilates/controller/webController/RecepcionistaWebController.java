@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import java.time.format.DateTimeFormatter;
 
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.Usuario;
@@ -45,14 +46,45 @@ public class RecepcionistaWebController {
 		return "recepcionista/consultar-aluno";
 	}
 
+
+
 	@GetMapping("/aluno/{id}")
 	public String getByIdAluno(Model model, @PathVariable String id) {
 		Aluno aluno = alunoService.getById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado"));
 
+		// ✅ Data de nascimento formatada
+		String dataNascimentoFormatada = (aluno.getData() != null) 
+				? aluno.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+				: "Não informado";
+
+		// ✅ Aulas marcadas formatadas
+		List<String> aulasFormatadas = Optional.ofNullable(aluno.getAulasMarcadas())
+				.orElse(List.of())
+				.stream()
+				.map(aula -> aula.getData() != null
+						? aula.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+						: "Data não informada")
+				.toList();
+
+		// ✅ Histórico de pagamentos formatados
+		List<String> pagamentosFormatados = Optional.ofNullable(aluno.getHistoricoPagamento())
+				.orElse(List.of())
+				.stream()
+				.map(pagamento -> pagamento.getDataPagamento() != null
+						? pagamento.getDataPagamento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+						: "Data não informada")
+				.toList();
+
 		model.addAttribute("aluno", aluno);
+		model.addAttribute("dataFormatada", dataNascimentoFormatada);
+		model.addAttribute("aulasFormatadas", aulasFormatadas);
+		model.addAttribute("pagamentosFormatados", pagamentosFormatados);
+
 		return "recepcionista/read-aluno";
 	}
+
+
 
 	@GetMapping("aluno/nome/{nome}")
 	public String getByNomeAluno(Model model, @PathVariable String nome) {

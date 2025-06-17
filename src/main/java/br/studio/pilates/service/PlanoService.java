@@ -30,10 +30,10 @@ public class PlanoService {
         return planoRepository.findById(id);
     }
 
-    public Plano getPlanoByNome(String nomePlano) {
-        return planoRepository.findByNomePlano(nomePlano)
-                .orElseThrow(() -> new RuntimeException("Plano com nome '" + nomePlano + "' não encontrado."));
+    public Plano getPlanoByNome(String nome) {
+    return planoRepository.findByNomePlano(nome).orElse(null);
     }
+
 
     public Plano savePlano(Plano plano) {
         return planoRepository.save(plano);

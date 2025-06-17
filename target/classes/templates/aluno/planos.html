@@ -152,9 +152,8 @@
                 IMask(inputCPF, { mask: "000.000.000-00" });
             }
 
-            // CPF do aluno, injetado pelo Spring directamente:
-            // Se o aluno não estiver logado, essa variável será vazia.
-            const alunoCPF = /*[[${aluno.cpf}]]*/ '';
+            const alunoCPF = document.getElementById("aluno-data").dataset.cpf;
+
 
             // Referências
             const modal = document.getElementById("modal-assinatura");

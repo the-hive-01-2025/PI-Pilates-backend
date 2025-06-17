@@ -74,7 +74,7 @@ public class AlunoDashboardController {
 
         model.addAttribute("aluno", aluno);
         // Obtém todas as aulas, estudos e alunos para exibir na página
-        List<Aula> aulas = aulaService.getAllAulas();
+        List<Aula> aulas = aulaService.getAulasFiltradas(null, null, aluno.getId());
         List<Estudio> estudios = estudioService.getAllEstudio();
         List<Aluno> alunos = alunoService.listarTodos();
 
@@ -125,17 +125,20 @@ public class AlunoDashboardController {
         model.addAttribute("aulas", aulasDTO);
         return "aluno/aulas";
     }
-@GetMapping("/planos")
+
+    @GetMapping("/planos")
     public String planos(Model model, Principal principal, @ModelAttribute("aluno") Aluno aluno) {
-        String email = principal.getName(); // pega o email do aluno logado
-        aluno = alunoService.getByEmail(email); // cria esse método no service
+        String email = principal.getName();
+        aluno = alunoService.getByEmail(email);
 
         model.addAttribute("aluno", aluno);
         model.addAttribute("mensal", planoService.getPlanoByNome("Mensal"));
         model.addAttribute("trimestral", planoService.getPlanoByNome("Trimestral"));
         model.addAttribute("anual", planoService.getPlanoByNome("Anual"));
+
         return "aluno/planos";
     }
+
 
     @GetMapping("/planos/lista")
     public String listAllPlanos(Model model) {
@@ -165,14 +168,24 @@ public class AlunoDashboardController {
     }
 
     @PostMapping("/assinar")
-    public String assinarPlano(@RequestParam String planoId,
+    public String assinarPlano(
+            @RequestParam String planoId,
             @RequestParam String cpf,
             @RequestParam String formaPagamento,
-            @ModelAttribute("aluno") Aluno aluno,
-            Model model) {
+            Principal principal,
+            RedirectAttributes redirectAttributes) {
+
+        String email = principal.getName();
+        Aluno aluno = alunoService.getByEmail(email);
+
+        if (aluno == null) {
+            redirectAttributes.addFlashAttribute("error", "Aluno não encontrado.");
+            return "redirect:/web/aluno/planos";
+        }
 
         if (!aluno.getCpf().equals(cpf)) {
-            throw new RuntimeException("CPF inválido.");
+            redirectAttributes.addFlashAttribute("error", "CPF inválido.");
+            return "redirect:/web/aluno/planos";
         }
 
         Plano plano = planoService.getPlanoById(planoId)
@@ -193,11 +206,13 @@ public class AlunoDashboardController {
         }
         aluno.getHistoricoPagamento().add(fatura);
 
-        alunoService.saveAluno(aluno); // persistência no Mongo
-        model.addAttribute("aluno", aluno); // atualiza sessão
+        alunoService.saveAluno(aluno);
 
-        return "redirect:/web/aluno/plano";
+        redirectAttributes.addFlashAttribute("success", "Plano assinado com sucesso!");
+
+        return "redirect:/web/aluno/planos";
     }
+
 
     @GetMapping("/faturas")
     public String visualizarFaturas(@ModelAttribute("aluno") Aluno aluno,
@@ -206,6 +221,7 @@ public class AlunoDashboardController {
 
         String email = principal.getName(); // pega o email do aluno logado
         aluno = alunoService.getByEmail(email); // cria esse método no service
+       
 
         model.addAttribute("aluno", aluno);
 
