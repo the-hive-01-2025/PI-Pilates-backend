@@ -19,7 +19,7 @@
         <div class="menu-instrutor">
             <a th:if ="${instrutor != null}" th:href="@{/web/agendainstrutor/agenda/{id}(id=${instrutor.id})}" class="menu-button">Agenda de Aulas</a>
             <a th:href="@{/web/instrutor/agenda}" class="menu-button">Alunos</a>
-            <a th:href="@{/evolucao}" class="menu-button">Registro de Evolução</a>
+            <a th:href="@{/web/instrutor/evolucao}" class="menu-button">Registro de Evolução</a>
             <a th:href="@{/web/instrutor/avaliacao}" class="menu-button">Ficha de Avaliação</a>
         </div>
     </main>

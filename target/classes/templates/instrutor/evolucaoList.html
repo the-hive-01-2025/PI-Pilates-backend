@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Alunos</title>
+    <link rel="stylesheet" href="@{/css/instrutor/evolucaoList.css}">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="logo">Pilates</div>
+        <div class="user-icon"></div>
+    </header>
+
+    <main class="container">
+        <span><h1>Registros de evolução </h1><strong>nome</strong></span>
+
+        <p></p>
+        <a href="@{/web/instrutor/home}" class="btn btn-voltar"> Voltar</a>
+        <p></p>
+        <div class="aluno-card" th:each="registro : ${registros}">
+            <div class="aluno-info">
+                <span>data: <strong th:text="${registro.data}">data</strong></span>
+                <span>instrutor: <strong th:text="${registro.instrutor}">instrutor </strong></span>
+                <span>Aula: <strong th:text="${registro.nomeAula}">nome da aula</strong></span>
+                <span>observações: <strong th:text="${registro.obs}">obs</strong></span>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

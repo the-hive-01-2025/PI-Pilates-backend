@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,14 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.studio.pilates.dto.AgendaInstrutorDTO;
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.model.entity.FichaAvaliacao;
+import br.studio.pilates.model.entity.RegEvolucao;
 import br.studio.pilates.service.AgendaInstrutorService;
 import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.FichaAvaliacaoService;
+import br.studio.pilates.service.RegEvolucaoService;
 import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("web/instrutor")
 public class InstrutorWebController {
+
+	@Autowired
+	private RegEvolucaoService regService;
 
 	@Autowired
 	private AgendaInstrutorService agendaInstrutorService;
@@ -125,5 +131,33 @@ public class InstrutorWebController {
 		fichaAvaliacaoService.addObj(id, objetivo, ficha);
 		return "redirect:/web/instrutor/avaliacao";
 	}
+
+	@GetMapping("/evolucao")
+	public String exibirEvolucao(Model model) {
+		List<Aluno> alunos = alunoService.listarTodos();
+		model.addAttribute("alunos", alunos);
+		return "instrutor/evolucao";
+	}
+
+	@GetMapping("/evolucaoAdd")
+	public String exibirEvolucaoAdd(Model model) {
+		model.addAttribute("registro", new RegEvolucao());
+		return "instrutor/evolucaoAdd";
+	}
+
+	// @GetMapping("/evolucaoList/{aluno}")
+	// public String exibirEvolucaoList(Model model,@PathVariable("aluno") String aluno) {
+	// 	List<RegEvolucao> regsAluno = regService.listarPorAluno(aluno);
+	// 	model.addAttribute("registros", regsAluno);
+	// 	return "instrutor/evolucaoList";
+	// }
+	
+
+	@PostMapping("/evolucao/salvar")
+    public String salvarEvolucao(@ModelAttribute("registro") RegEvolucao registro) {
+        regService.salvar(registro);
+        return "redirect:/web/instrutor/evolucao";
+    }
+	
 
 }

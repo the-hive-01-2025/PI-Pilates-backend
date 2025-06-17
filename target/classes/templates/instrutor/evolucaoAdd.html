@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Evolução</title>
-    <link rel="stylesheet" th:href="@{static/css/instrutor/evolucaoAdd.css}">
+    <link rel="stylesheet" th:href="@{/css/instrutor/evolucaoAdd.css}">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
     <main class="container">
         <h1>Evolução</h1>
 
-        <form th:action="@{/evolucoes/salvar}" th:object="${evolucao}" method="post" class="form-card">
+        <form th:action="@{/web/instrutor/evolucao/salvar}" th:object="${registro}" method="post" class="form-card">
             <div class="form-group">
                 <label>Data:</label>
                 <input type="date" th:field="*{data}" required />
@@ -34,11 +34,11 @@
 
             <div class="form-group full-width">
                 <label>Observações:</label>
-                <textarea rows="6" th:field="*{observacoes}"></textarea>
+                <textarea rows="6" th:field="*{obs}"></textarea>
             </div>
 
             <div class="form-footer">
-                <button type="" class="btn-voltar" th:href="@{/evolucao}">Voltar </button>
+                <button class="btn-voltar" onclick="history.back()">Voltar </button>
                 <button type="submit" class="btn-salvar">Salvar</button>
             </div>
         </form>

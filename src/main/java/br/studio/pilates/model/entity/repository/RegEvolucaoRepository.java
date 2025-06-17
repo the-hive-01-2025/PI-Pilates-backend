@@ -11,5 +11,7 @@ import br.studio.pilates.model.entity.RegEvolucao;
 public interface RegEvolucaoRepository extends MongoRepository<RegEvolucao, String>{
 
     List<RegEvolucao> findByAlunoIgnoreCase(String Aluno);
+
+    List<RegEvolucao> findByAlunoId(String alunoId);
     
 }

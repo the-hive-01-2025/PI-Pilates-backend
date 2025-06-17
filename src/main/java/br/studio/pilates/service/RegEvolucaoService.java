@@ -23,6 +23,10 @@ public class RegEvolucaoService {
         return regRepository.findByAlunoIgnoreCase(aluno);
     }
 
+    public List<RegEvolucao> listarPorAlunoId(String alunoId){
+        return regRepository.findByAlunoId(alunoId);
+    }
+
     public String salvar(RegEvolucao registro){
         try {
             regRepository.save(registro);

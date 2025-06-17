@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Alunos</title>
-    <link rel="stylesheet" th:href="@{static/css/instrutor/evolucao.css}">
+    <link rel="stylesheet" th:href="@{/css/instrutor/evolucao.css}">
 </head>
 <body>
 
@@ -20,15 +20,15 @@
             <button><i>🔍</i></button>
         </div>
 
-        <div class="aluno-card" th:each="">
+        <div class="aluno-card" th:each="aluno : ${alunos}">
             <div class="aluno-info">
                 <span th:text="${aluno.nome}">Maria Eduarda</span>
                 <span>Sexo: <strong th:text="${aluno.sexo}">Feminino</strong></span>
                 <span>CPF: <strong th:text="${aluno.cpf}">123.123.432-32</strong></span>
             </div>
             <div class="acoes">
-                <a th:href="@{}" class="btn">Registros</a>
-                <a th:href="@{}" class="btn btn-novo">Novo Registro</a>
+                <a th:href="@{'/web/instrutor/evolucaoList/' + ${aluno.aluno}}" class="btn">Registros</a>
+                <a th:href="@{/web/instrutor/evolucaoAdd}" class="btn btn-novo">Novo Registro</a>
             </div>
         </div>
     </main>
