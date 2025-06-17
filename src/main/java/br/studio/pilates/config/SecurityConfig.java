@@ -46,8 +46,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(
             DaoAuthenticationProvider alunoAuthenticationProvider,
-            DaoAuthenticationProvider usuarioAuthenticationProvider
-    ) {
+            DaoAuthenticationProvider usuarioAuthenticationProvider) {
         return new ProviderManager(List.of(alunoAuthenticationProvider, usuarioAuthenticationProvider));
     }
 
@@ -55,61 +54,58 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             DaoAuthenticationProvider alunoAuthenticationProvider,
-            DaoAuthenticationProvider usuarioAuthenticationProvider
-    ) throws Exception {
+            DaoAuthenticationProvider usuarioAuthenticationProvider) throws Exception {
 
         http
-            .authenticationProvider(alunoAuthenticationProvider)
-            .authenticationProvider(usuarioAuthenticationProvider)
+                .authenticationProvider(alunoAuthenticationProvider)
+                .authenticationProvider(usuarioAuthenticationProvider)
 
-            .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/**"))
 
-            .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((request, response, authException) -> {
-                    if (request.getRequestURI().startsWith("/api/")) {
-                        response.sendError(401, "Unauthorized");
-                    } else {
-                        response.sendRedirect("/web/login");
-                    }
-                })
-            )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            if (request.getRequestURI().startsWith("/api/")) {
+                                response.sendError(401, "Unauthorized");
+                            } else {
+                                response.sendRedirect("/web/login");
+                            }
+                        }))
 
-            .authorizeHttpRequests(auth -> auth
-                // 🔓 Libera acesso total às rotas da API
-                .requestMatchers(
-                    "/api/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
 
+                        // 🔓 Libera acesso total às rotas da API
+                        .requestMatchers("/api/**").permitAll()
 
-                // 🔓 Libera acesso a login, home pública e assets (css, js, imagens)
-                .requestMatchers("/web/login", "/web/home", "/css/**", "/js/**", "/img/**", "/api/**").permitAll()
+                        // 🔓 Libera acesso a login, home pública e assets (css, js, imagens)
+                        .requestMatchers("/web/login", "/web/home", "/css/**", "/js/**", "/img/**", "/api/**")
+                        .permitAll()
 
-                // 🔐 Restringe acesso conforme roles para telas web
-                .requestMatchers("/web/aluno/**").hasRole("ALUNO")
-                .requestMatchers("/web/recepcionista/**").hasRole("RECEPCAO")
-                .requestMatchers("/web/recepcionista/aluno/**").hasRole("RECEPCAO")
-                .requestMatchers("/agendaInstrutor/**").hasRole("INSTRUTOR")
+                        // 🔐 Restringe acesso conforme roles para telas web
+                        .requestMatchers("/web/aluno/**").hasRole("ALUNO")
+                        .requestMatchers("/web/recepcionista/**").hasRole("RECEPCAO")
+                        .requestMatchers("/web/recepcionista/aluno/**").hasRole("RECEPCAO")
+                        .requestMatchers("/agendaInstrutor/**").hasRole("INSTRUTOR")
 
-                // 🔒 Qualquer outra rota precisa estar autenticado
-                .anyRequest().authenticated()
-            )
+                        // 🔒 Qualquer outra rota precisa estar autenticado
+                        .anyRequest().authenticated())
 
-            // 🔑 Configuração do login via formulário web
-            .formLogin(form -> form
-                .loginPage("/web/login")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/web/aluno/home", true)
-                .successHandler(successHandler)
-                .failureUrl("/web/login?error=true")
-                .permitAll()
-            )
+                // 🔑 Configuração do login via formulário web
+                .formLogin(form -> form
+                        .loginPage("/web/login")
+                        .loginProcessingUrl("/perform_login")
+                        .defaultSuccessUrl("/web/aluno/home", true)
+                        .successHandler(successHandler)
+                        .failureUrl("/web/login?error=true")
+                        .permitAll())
 
-            // 🔓 Configuração do logout
-            .logout(logout -> logout
-                .logoutUrl("/perform_logout")
-                .logoutSuccessUrl("/web/login?logout=true")
-                .permitAll()
-            );
+                // 🔓 Configuração do logout
+                .logout(logout -> logout
+                        .logoutUrl("/perform_logout")
+                        .logoutSuccessUrl("/web/login?logout=true")
+                        .permitAll());
 
         return http.build();
+
     }
 }

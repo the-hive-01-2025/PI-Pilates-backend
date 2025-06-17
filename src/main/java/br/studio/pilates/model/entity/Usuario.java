@@ -33,10 +33,19 @@ public class Usuario implements UserDetails {
 
     public Usuario() {
     }
+    public Usuario(String id, String nome, String email, String senha, String role) {
+        super();
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.role = role;
+    }
 
     public Usuario(String id, String nome, String sexo, String email, String senha, String dataNasc,
                    String contato, String formacao, List<Conselho> conselho, String foto, String dataContratacao,
                    String cpf, String rg, String cep, String cref, String role, Estudio estudio) {
+                    super();
         this.id = id;
         this.nome = nome;
         this.sexo = sexo;
