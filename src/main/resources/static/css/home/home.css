@@ -7,12 +7,18 @@
     --sombra: rgba(0, 0, 0, 0.1);
 }
 
+/*Castro mexeu aqui*/
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     background-color: var(--cinza);
     color: var(--roxo-escuro);
     scroll-behavior: smooth;
+    background-image: linear-gradient(to left, var(--roxo-medio), #7B68EE, #6A5ACD);
+    background-size: 500% 100%;
+    animation: degrade-animado 4s infinite alternate;
+    color: var(--roxo-escuro);
+    text-align: center;
 }
 
 /* Header */
@@ -29,14 +35,25 @@ header {
     box-shadow: 0 2px 4px var(--sombra);
 }
 
+/*Castro mexeu aqui*/
 header h1 {
     margin: 0;
     font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, white 0%, var(--roxo-claro) 40%, white 60%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: faixa-pilates 6s linear infinite;
 }
 
+/*Castro mexeu aqui*/
 .btn-login {
-    background-color: var(--roxo-claro);
-    color: var(--roxo-escuro);
+    background-color: var(--cinza);
+    color: var(--roxo-medio);
     padding: 0.6rem 1.2rem;
     border-radius: 10px;
     text-decoration: none;
@@ -44,9 +61,11 @@ header h1 {
     transition: background-color 0.3s ease;
 }
 
+/*Castro mexeu aqui*/
 .btn-login:hover {
-    background-color: var(--roxo-medio);
-    color: var(--branco);
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+    color: white;
 }
 
 /* Hero */
@@ -61,6 +80,7 @@ header h1 {
 .hero-content h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: white;
 }
 
 .hero-content p {
@@ -166,6 +186,28 @@ footer {
     }
 }
 
+/*Castro criou isso*/
+/* Animação do degrade fundo*/
+@keyframes degrade-animado {
+    0% {
+        background-position: 0% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+/*Castro criou isso*/
+/* Animação do degrade nome do estúdio*/
+@keyframes faixa-pilates {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
+
 nav {
     display: flex;
     gap: 1rem;
@@ -173,6 +215,7 @@ nav {
     align-items: center;
 }
 
+/*Castro mexeu aqui*/
 nav a {
     color: var(--branco);
     text-decoration: none;
@@ -184,13 +227,32 @@ nav a {
     flex-direction: column;
     padding: 0.5rem 1rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px var(--sombra);
     font-size: 1rem;
+    position: relative; 
+}
 
+/*Castro criou isso*/
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px; /* espessura do sublinhado */
+    background-color: var(--roxo-claro);
+    left: 0;
+    bottom: 6px; /* distância do texto (ajuste se quiser) */
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
 }
 
 nav a:hover {
     color: var(--roxo-claro);
+}
+
+/*Castro criou isso*/
+nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .depoimentos {
@@ -205,6 +267,12 @@ nav a:hover {
     padding: 1rem;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+/*Castro criou isso*/
+.depoimento:hover {
+    transform: scale(1.05);
 }
 
 /* Animação fade-in */
@@ -328,6 +396,3 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
-
-
-

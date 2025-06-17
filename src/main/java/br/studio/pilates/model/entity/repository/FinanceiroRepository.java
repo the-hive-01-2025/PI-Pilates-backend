@@ -4,9 +4,18 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import br.studio.pilates.model.entity.Financeiro;
 
-public interface FinanceiroRepository extends MongoRepository<Financeiro, String>{
+/**
+ * Repositório para operações CRUD e consultas customizadas na coleção de Financeiro.
+ */
+public interface FinanceiroRepository extends MongoRepository<Financeiro, String> {
 
-	public Financeiro findFinanceiroById(String Id);
-	
+    /**
+     * Busca um registro financeiro pelo ID.
+     */
+    Financeiro findFinanceiroById(String Id);
+
+    /**
+     * Remove um registro financeiro pelo ID.
+     */
     void deleteFinanceiroById(String Id);
 }

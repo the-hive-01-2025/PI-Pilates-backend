@@ -15,37 +15,61 @@ import org.springframework.web.bind.annotation.RestController;
 import br.studio.pilates.model.entity.Financeiro;
 import br.studio.pilates.service.FinanceiroService;
 
+/**
+ * Controller REST para gerenciamento dos registros financeiros.
+ * Disponibiliza endpoints para listar, buscar, inserir e excluir registros financeiros.
+ */
 @RestController
 public class FinanceiroController {
 
-	@Autowired
-	private FinanceiroService financeiroService;
+    @Autowired
+    private FinanceiroService financeiroService;
 
-	@GetMapping("financeiro")
-	public List<Financeiro> listar() {
-		return financeiroService.getAllFinanceiro();
-	}
+    /**
+     * Retorna a lista de todos os registros financeiros cadastrados.
+     * 
+     * @return Lista de objetos Financeiro
+     */
+    @GetMapping("financeiro")
+    public List<Financeiro> listar() {
+        return financeiroService.getAllFinanceiro();
+    }
 
-	@GetMapping("financeiro/{id}")
-	public Financeiro getById(@PathVariable("id") String Id) {
-		return financeiroService.getFinanceiroById(Id);
-	}
+    /**
+     * Busca um registro financeiro pelo seu ID.
+     * 
+     * @param Id Identificador do registro financeiro
+     * @return Objeto Financeiro correspondente ao ID
+     */
+    @GetMapping("financeiro/{id}")
+    public Financeiro getById(@PathVariable("id") String Id) {
+        return financeiroService.getFinanceiroById(Id);
+    }
 
-	@PostMapping("financeiro")
-	public Financeiro insert(@RequestBody Financeiro Financeiro) {
-		return financeiroService.saveFinanceiro(Financeiro);
+    /**
+     * Insere um novo registro financeiro no sistema.
+     * 
+     * @param financeiro Objeto Financeiro a ser salvo
+     * @return Financeiro salvo com ID gerado
+     */
+    @PostMapping("financeiro")
+    public Financeiro insert(@RequestBody Financeiro financeiro) {
+        return financeiroService.saveFinanceiro(financeiro);
+    }
 
-	}
-
-	@DeleteMapping("financeiro/{id}")
-	public String delete(@PathVariable("id") String Id) {
-		if(financeiroService.getFinanceiroById(Id) != null){
-
-		financeiroService.deleteFinanceiro(Id);
-		return "Financeiro Excluido com sucesso!!";
-		} else{
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: recurso não encontrado!").toString();
-	}
-		}
-
+    /**
+     * Exclui um registro financeiro pelo seu ID.
+     * 
+     * @param Id Identificador do registro financeiro a ser excluído
+     * @return Mensagem de sucesso ou erro caso o registro não seja encontrado
+     */
+    @DeleteMapping("financeiro/{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") String Id) {
+        if (financeiroService.getFinanceiroById(Id) != null) {
+            financeiroService.deleteFinanceiro(Id);
+            return ResponseEntity.ok("Financeiro excluído com sucesso!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: recurso não encontrado!");
+        }
+    }
 }

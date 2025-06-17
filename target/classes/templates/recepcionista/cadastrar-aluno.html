@@ -54,10 +54,11 @@
                     <input type="email" id="email" th:field="*{email}" placeholder="email@exemplo.com" required>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group" th:if="${novo}">
                     <label for="password">Senha</label>
                     <input type="password" id="password" th:field="*{senha}" placeholder="Digite a senha" required>
                 </div>
+
 
                 <div class="input-group">
                     <label for="contato">Contato</label>

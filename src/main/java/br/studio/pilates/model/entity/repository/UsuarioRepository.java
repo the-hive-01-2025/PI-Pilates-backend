@@ -7,20 +7,43 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import br.studio.pilates.model.entity.Usuario;
 
-public interface UsuarioRepository extends MongoRepository<Usuario, String>{
+/**
+ * Repositório para operações CRUD e consultas customizadas na coleção de Usuários.
+ */
+public interface UsuarioRepository extends MongoRepository<Usuario, String> {
 
-	public Usuario findByNome(String nome);
-	
-	public List<Usuario> findByNomeStartsWith(String nome);
+    /**
+     * Busca um usuário pelo nome exato.
+     */
+    Usuario findByNome(String nome);
 
-	public Usuario findUsuarioById(String Id);
+    /**
+     * Busca usuários cujo nome começa com o valor informado.
+     */
+    List<Usuario> findByNomeStartsWith(String nome);
 
-	public Optional<Usuario> findByCpf(String cpf);
+    /**
+     * Busca um usuário pelo ID.
+     */
+    Usuario findUsuarioById(String Id);
 
-	void deleteUsuarioById(String Id);
+    /**
+     * Busca um usuário pelo CPF.
+     */
+    Optional<Usuario> findByCpf(String cpf);
 
-	void deleteByNome(String Id);
+    /**
+     * Remove um usuário pelo ID.
+     */
+    void deleteUsuarioById(String Id);
 
-	Usuario findByEmail(String email);
+    /**
+     * Remove um usuário pelo nome.
+     */
+    void deleteByNome(String Id);
 
+    /**
+     * Busca um usuário pelo e-mail.
+     */
+    Usuario findByEmail(String email);
 }

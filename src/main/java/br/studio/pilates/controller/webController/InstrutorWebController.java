@@ -6,11 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import br.studio.pilates.dto.AgendaInstrutorDTO;
 import br.studio.pilates.model.entity.Aluno;
@@ -20,110 +16,116 @@ import br.studio.pilates.service.AlunoService;
 import br.studio.pilates.service.FichaAvaliacaoService;
 import jakarta.websocket.server.PathParam;
 
+/**
+ * Controller responsável pelas funcionalidades do painel do instrutor,
+ * incluindo agenda, marcação de presença e avaliações dos alunos.
+ */
 @Controller
 @RequestMapping("web/instrutor")
 public class InstrutorWebController {
 
-	@Autowired
-	private AgendaInstrutorService agendaInstrutorService;
+    @Autowired
+    private AgendaInstrutorService agendaInstrutorService;
 
-	@Autowired
-	private AlunoService alunoService;
+    @Autowired
+    private AlunoService alunoService;
 
-	@Autowired
-	private FichaAvaliacaoService fichaAvaliacaoService;
-	// @Autowired
-	// private Aluno aluno;
+    @Autowired
+    private FichaAvaliacaoService fichaAvaliacaoService;
 
-	@GetMapping("/home")
-	public String homeIntrutor() {
-		return "instrutor/homeInstrutor";
-	}
+    /**
+     * Página inicial (dashboard) do instrutor.
+     */
+    @GetMapping("/home")
+    public String homeInstrutor() {
+        return "instrutor/homeInstrutor";
+    }
 
-	@GetMapping("/agenda/{id}")
-	public String listarAulas(Model model, @PathVariable("id") String instrutorId) {
-		List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
-		model.addAttribute("aulas", aulas);
+    /**
+     * Exibe a agenda de aulas do instrutor com base no seu ID.
+     */
+    @GetMapping("/agenda/{id}")
+    public String listarAulas(Model model, @PathVariable("id") String instrutorId) {
+        List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarAulasPorInstrutor(instrutorId);
+        model.addAttribute("aulas", aulas);
+        return "instrutor/agenda";
+    }
 
-		return "instrutor/agenda"; // Remove o "redirect"
-	}
+    /**
+     * Marca presença do aluno em uma aula.
+     */
+    @PostMapping("/marcar-presenca")
+    public String marcarPresenca(
+            @RequestParam String idAula,
+            @RequestParam String idAluno,
+            @RequestParam boolean presente) {
 
-	// @GetMapping("/agenda")
-	// public String listarTodasAulas(Model model) {
-	// 	List<AgendaInstrutorDTO> aulas = agendaInstrutorService.listarTodasAulas();
-	// 	List<Aluno> aluno = alunoService.listarTodos();
-	// 	model.addAttribute("aulas", aulas);
-	// 	model.addAttribute("aluno", aluno);
-	// 	return "instrutor/agenda";
-	// }
+        agendaInstrutorService.marcarPresenca(idAula, idAluno, presente);
+        return "redirect:/web/instrutor/agenda/" + idAula;
+    }
 
-	// @PostMapping("/save")
-	// public String saveAluno(Aluno aluno) {
-	// agendaInstrutorService.saveAluno(aluno);
-	// return "redirect:/web/aluno/list";
-	// }
+    /**
+     * Cancela uma aula específica.
+     */
+    @PostMapping("/aulas/cancelar/{id}")
+    public String cancelarAula(@PathVariable("id") String id) {
+        agendaInstrutorService.cancelarAula(id);
+        return "redirect:/web/instrutor/home";
+    }
 
-	// @GetMapping("/aulas/presenca/{aulaId}") // marcar presença
-	// public String editar(@PathVariable("aulaId") String Id, Model model) {
-	// List<AgendaInstrutorDTO> aula = agendaInstrutorService.listarAulaById(Id);
-	// model.addAttribute("aula", aula.getClass());
-	// model.addAttribute("presenca", true);
-	// agendaInstrutorService.marcarPresenca(aula);
-	// return "front-aluno/cadastrar-aluno"; //dar uma atenção aqui
-	// }
+    /**
+     * Exibe o formulário de avaliação física dos alunos.
+     */
+    @GetMapping("/avaliacao")
+    public String exibirAvaliacao(Model model) {
+        List<Aluno> alunos = alunoService.listarTodos();
+        model.addAttribute("alunos", alunos);
+        return "instrutor/avaliacao";
+    }
 
-	@PostMapping("/marcar-presenca")
-	public String marcarPresenca(@RequestParam String idAula,
-			@RequestParam String idAluno,
-			@RequestParam boolean presente) {
-		agendaInstrutorService.marcarPresenca(idAula, idAluno, presente);
-		return "redirect:/web/agendainstrutor/agenda"; // Redireciona para a agenda
-	}
+    /**
+     * Atualiza a ficha de avaliação de um aluno.
+     */
+    @PostMapping("/avaliacao/editar/{id}")
+    public String atualizarAvaliacao(@PathVariable("id") String id, FichaAvaliacao ficha) {
+        Optional<FichaAvaliacao> fichaAtual = fichaAvaliacaoService.getByAluno(id);
+        fichaAvaliacaoService.atualizaFicha(id, fichaAtual.get());
+        return "redirect:/web/instrutor/avaliacao";
+    }
 
-	@PostMapping("/aulas/cancelar/{id}")
-	public String cancelarAula(@PathParam("id") String id) {
-		agendaInstrutorService.cancelarAula(id);
-		return "redirect:/web/agendainstrutor/agenda";
-	}
+    /**
+     * Adiciona uma patologia na ficha de avaliação do aluno.
+     */
+    @PostMapping("/avaliacao/pat/{id}")
+    public String addPatologia(@PathVariable("id") String id, String patologia, FichaAvaliacao ficha) {
+        fichaAvaliacaoService.addPat(id, patologia, ficha);
+        return "redirect:/web/instrutor/avaliacao";
+    }
 
-	@GetMapping("/avaliacao")
-	public String exibirAvaliacao(Model model, FichaAvaliacao ficha) {
-		// Optional<FichaAvaliacao> fichaAtual = fichaAvaliacaoService.getByAluno(id);
-		List<Aluno> alunos = alunoService.listarTodos();
-		model.addAttribute("alunos", alunos);
+    /**
+     * Adiciona um medicamento na ficha de avaliação do aluno.
+     */
+    @PostMapping("/avaliacao/med/{id}")
+    public String addMedicamento(@PathVariable("id") String id, String medicamentos, FichaAvaliacao ficha) {
+        fichaAvaliacaoService.addMed(id, medicamentos, ficha);
+        return "redirect:/web/instrutor/avaliacao";
+    }
 
-		return "instrutor/avaliacao";
-	}
+    /**
+     * Adiciona um tratamento na ficha de avaliação do aluno.
+     */
+    @PostMapping("/avaliacao/trat/{id}")
+    public String addTratamento(@PathVariable("id") String id, String tratamento, FichaAvaliacao ficha) {
+        fichaAvaliacaoService.addTrat(id, tratamento, ficha);
+        return "redirect:/web/instrutor/avaliacao";
+    }
 
-	@PostMapping("/avaliacao/editar/{id}")
-	public String atualizarAvaliacao(@PathParam("id") String id, FichaAvaliacao ficha) {
-		Optional<FichaAvaliacao> fichaAtual = fichaAvaliacaoService.getByAluno(id);
-		fichaAvaliacaoService.atualizaFicha(id, fichaAtual.get());
-		return "redirect:/web/instrutor/avaliacao";
-	}
-
-	@PostMapping("/avaliacao/pat/{id}")
-	public String addPat(@PathParam("id") String id, String patologia, FichaAvaliacao ficha) {
-		fichaAvaliacaoService.addPat(id, patologia, ficha);
-		return "redirect:/web/instrutor/avaliacao";
-	}
-
-	@PostMapping("/avaliacao/med/{id}")
-	public String addMed(@PathParam("id") String id, String medicamentos, FichaAvaliacao ficha) {
-		fichaAvaliacaoService.addMed(id, medicamentos, ficha);
-		return "redirect:/web/instrutor/avaliacao";
-	}
-
-	@PostMapping("/avaliacao/trat/{id}")
-	public String addTratamentos(@PathParam("id") String id, String tratamento, FichaAvaliacao ficha) {
-		fichaAvaliacaoService.addTrat(id, tratamento, ficha);
-		return "redirect:/web/instrutor/avaliacao";
-	}
-
-	@PostMapping("/avaliacao/obj/{id}")
-	public String addObjetivo(@PathParam("id") String id, String objetivo, FichaAvaliacao ficha) {
-		fichaAvaliacaoService.addObj(id, objetivo, ficha);
-		return "redirect:/web/instrutor/avaliacao";
-	}
-
+    /**
+     * Adiciona um objetivo na ficha de avaliação do aluno.
+     */
+    @PostMapping("/avaliacao/obj/{id}")
+    public String addObjetivo(@PathVariable("id") String id, String objetivo, FichaAvaliacao ficha) {
+        fichaAvaliacaoService.addObj(id, objetivo, ficha);
+        return "redirect:/web/instrutor/avaliacao";
+    }
 }

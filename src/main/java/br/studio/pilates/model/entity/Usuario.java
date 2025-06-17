@@ -8,6 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * Representa um usuário do sistema Pilates.
+ * Pode ser um instrutor, recepcionista ou administrador.
+ * Implementa {@link UserDetails} para integração com Spring Security.
+ */
 @Document(collection = "Usuario")
 public class Usuario implements UserDetails {
 
@@ -28,20 +33,33 @@ public class Usuario implements UserDetails {
     private String rg;
     private String cep;
     private String cref;
-    private String role; // <-- Define o tipo de usuário (ADMIN, INSTRUTOR, RECEPCAO)
+    private String role; // ADMIN, INSTRUTOR, RECEPCAO
     private Estudio estudio;
 
-    public Usuario() {
-    }
-    public Usuario(String id, String nome, String email, String senha, String role) {
-        super();
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.role = role;
-    }
+    /** Construtor padrão. */
+    public Usuario() {}
 
+    /**
+     * Construtor completo da entidade Usuario.
+     * 
+     * @param id identificador único
+     * @param nome nome completo do usuário
+     * @param sexo sexo do usuário
+     * @param email email do usuário (login)
+     * @param senha senha criptografada
+     * @param dataNasc data de nascimento
+     * @param contato telefone ou outro contato
+     * @param formacao formação profissional
+     * @param conselho lista de conselhos profissionais
+     * @param foto URL ou caminho da foto do usuário
+     * @param dataContratacao data de contratação
+     * @param cpf CPF do usuário
+     * @param rg RG do usuário
+     * @param cep CEP do endereço
+     * @param cref registro profissional de educação física
+     * @param role papel do usuário no sistema (ex: ADMIN, INSTRUTOR, RECEPCAO)
+     * @param estudio estúdio associado ao usuário
+     */
     public Usuario(String id, String nome, String sexo, String email, String senha, String dataNasc,
                    String contato, String formacao, List<Conselho> conselho, String foto, String dataContratacao,
                    String cpf, String rg, String cep, String cref, String role, Estudio estudio) {
@@ -65,47 +83,57 @@ public class Usuario implements UserDetails {
         this.estudio = estudio;
     }
 
-    // 🔐 Autoridades com base no role
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		if (this.role == null) {
-			return List.of(() -> "ROLE_USER"); // padrão se role nula
-		}
-		return List.of(() -> "ROLE_" + this.role.toUpperCase());
-	}
-
-
+    /**
+     * Retorna as autoridades (roles) do usuário para o Spring Security.
+     * Caso o campo role seja nulo, retorna ROLE_USER por padrão.
+     * 
+     * @return coleção de autoridades concedidas
+     */
     @Override
-    public String getPassword() {
-        return senha;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == null) {
+            return List.of(() -> "ROLE_USER");
+        }
+        return List.of(() -> "ROLE_" + this.role.toUpperCase());
     }
 
+    /** Retorna a senha do usuário (criptografada). */
     @Override
-    public String getUsername() {
-        return email;
+    public String getPassword() { 
+        return senha; 
     }
 
+    /** Retorna o nome de usuário (email). */
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
+    public String getUsername() { 
+        return email; 
     }
 
+    /** Indica se a conta não está expirada. Sempre true para este modelo. */
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
+    public boolean isAccountNonExpired() { 
+        return true; 
     }
 
+    /** Indica se a conta não está bloqueada. Sempre true para este modelo. */
     @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
+    public boolean isAccountNonLocked() { 
+        return true; 
     }
 
+    /** Indica se as credenciais não estão expiradas. Sempre true para este modelo. */
     @Override
-    public boolean isEnabled() {
-        return true;
+    public boolean isCredentialsNonExpired() { 
+        return true; 
     }
 
-    // ✅ Getters e Setters
+    /** Indica se o usuário está habilitado. Sempre true para este modelo. */
+    @Override
+    public boolean isEnabled() { 
+        return true; 
+    }
+
+    // Getters e Setters
 
     public String getId() {
         return id;

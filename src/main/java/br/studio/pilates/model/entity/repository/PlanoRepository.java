@@ -6,12 +6,23 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import br.studio.pilates.model.entity.Plano;
 
-public interface PlanoRepository extends MongoRepository<Plano, String>{
+/**
+ * Repositório para operações CRUD e consultas customizadas na coleção de Planos.
+ */
+public interface PlanoRepository extends MongoRepository<Plano, String> {
 
-	public Plano findPlanoById(String Id);
+    /**
+     * Busca um plano pelo ID.
+     */
+    Plano findPlanoById(String Id);
 
+    /**
+     * Remove um plano pelo ID.
+     */
     void deletePlanoById(String Id);
-    
+
+    /**
+     * Busca um plano pelo nome.
+     */
     Optional<Plano> findByNomePlano(String nomePlano);
-	
 }
