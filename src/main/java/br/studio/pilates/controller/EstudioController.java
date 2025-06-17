@@ -15,52 +15,88 @@ import org.springframework.web.bind.annotation.RestController;
 import br.studio.pilates.model.entity.Estudio;
 import br.studio.pilates.service.EstudioService;
 
-
+/**
+ * Controller REST para gerenciamento dos Estúdios.
+ * Disponibiliza endpoints para listar, buscar, inserir e deletar Estúdios.
+ */
 @RestController
 public class EstudioController {
 
-	@Autowired
-	private EstudioService estudioService;
+    @Autowired
+    private EstudioService estudioService;
 
-	@GetMapping("estudio")
-	public List<Estudio> listar() {
-		return estudioService.getAllEstudio();
-	}
+    /**
+     * Retorna a lista de todos os estúdios cadastrados.
+     * 
+     * @return Lista de objetos Estudio
+     */
+    @GetMapping("estudio")
+    public List<Estudio> listar() {
+        return estudioService.getAllEstudio();
+    }
 
-	@GetMapping("estudio/{id}")
-	public Estudio getById(@PathVariable("id") String Id) {
-		return estudioService.getEstudioById(Id);
-	}
+    /**
+     * Busca um Estúdio pelo seu ID.
+     * 
+     * @param Id Identificador do Estúdio
+     * @return Objeto Estudio correspondente ao ID
+     */
+    @GetMapping("estudio/{id}")
+    public Estudio getById(@PathVariable("id") String Id) {
+        return estudioService.getEstudioById(Id);
+    }
 
-	@GetMapping("estudio/nome/{nome}")
-	public Estudio getByNomeEstudio(@PathVariable String nome) {
-		return estudioService.getByNome(nome);
-	}
+    /**
+     * Busca um Estúdio pelo seu nome.
+     * 
+     * @param nome Nome do Estúdio
+     * @return Objeto Estudio correspondente ao nome informado
+     */
+    @GetMapping("estudio/nome/{nome}")
+    public Estudio getByNomeEstudio(@PathVariable String nome) {
+        return estudioService.getByNome(nome);
+    }
 
-	@PostMapping("estudio")
-	public Estudio insert(@RequestBody Estudio estudio) {
-		return estudioService.saveEstudio(estudio);
+    /**
+     * Insere um novo Estúdio no sistema.
+     * 
+     * @param estudio Objeto Estudio a ser salvo
+     * @return Estudio salvo com ID gerado
+     */
+    @PostMapping("estudio")
+    public Estudio insert(@RequestBody Estudio estudio) {
+        return estudioService.saveEstudio(estudio);
+    }
 
-	}
+    /**
+     * Exclui um Estúdio pelo seu ID.
+     * 
+     * @param Id Identificador do Estúdio a ser excluído
+     * @return Mensagem de sucesso ou erro caso o Estúdio não seja encontrado
+     */
+    @DeleteMapping("estudio/{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") String Id) {
+        if (estudioService.getEstudioById(Id) != null) {
+            estudioService.deleteEstudio(Id);
+            return ResponseEntity.ok("Estudio excluído com sucesso!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: recurso não encontrado!");
+        }
+    }
 
-	@DeleteMapping("estudio/{id}")
-	public String delete(@PathVariable("id") String Id) {
-		if(estudioService.getEstudioById(Id) != null){
-
-		estudioService.deleteEstudio(Id);
-		return "Estudio Excluido com sucesso!!";
-		} else{
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: recurso não encontrado!").toString();
-	}
-		}
-	@DeleteMapping("estudio/nome/{nome}")
-	public String deleteByName(@PathVariable String nome) {
-		try {estudioService.deleteEstudioByName(nome);
-		return "Estudio Excluido com sucesso!!";
-		}
-		catch (Exception e) {
-			return "Estudio nao encontrado!!";
-		}
-	}
-
+    /**
+     * Exclui um Estúdio pelo seu nome.
+     * 
+     * @param nome Nome do Estúdio a ser excluído
+     * @return Mensagem de sucesso ou erro caso o Estúdio não seja encontrado
+     */
+    @DeleteMapping("estudio/nome/{nome}")
+    public ResponseEntity<String> deleteByName(@PathVariable String nome) {
+        try {
+            estudioService.deleteEstudioByName(nome);
+            return ResponseEntity.ok("Estudio excluído com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estudio não encontrado!");
+        }
+    }
 }

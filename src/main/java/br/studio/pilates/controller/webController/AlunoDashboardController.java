@@ -2,36 +2,22 @@ package br.studio.pilates.controller.webController;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.studio.pilates.dto.AulaAgendamentoDTO;
-import br.studio.pilates.model.entity.Aluno;
-import br.studio.pilates.model.entity.Aula;
-import br.studio.pilates.model.entity.Estudio;
-import br.studio.pilates.model.entity.Financeiro;
-import br.studio.pilates.model.entity.Plano;
-import br.studio.pilates.service.AulaService;
-import br.studio.pilates.service.EstudioService;
-import br.studio.pilates.service.AlunoService;
-import br.studio.pilates.service.PlanoService;
+import br.studio.pilates.model.entity.*;
+import br.studio.pilates.service.*;
 
-
+/**
+ * Controller responsável pelo dashboard do aluno na aplicação web.
+ */
 @Controller
 @RequestMapping("web/aluno")
 public class AlunoDashboardController {
@@ -48,88 +34,70 @@ public class AlunoDashboardController {
     @Autowired
     private PlanoService planoService;
 
-
+    /**
+     * Página inicial do aluno.
+     */
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
-        String email = principal.getName(); // pega o email do aluno logado
-        Aluno aluno = alunoService.getByEmail(email); // cria esse método no service
-
+        Aluno aluno = alunoService.getByEmail(principal.getName());
         model.addAttribute("aluno", aluno);
         return "aluno/home";
     }
 
+    /**
+     * Página de modalidades disponíveis.
+     */
     @GetMapping("/modalidades")
     public String modalidades(Model model, Principal principal) {
-        String email = principal.getName(); // pega o email do aluno logado
-        Aluno aluno = alunoService.getByEmail(email); // cria esse método no service
-
+        Aluno aluno = alunoService.getByEmail(principal.getName());
         model.addAttribute("aluno", aluno);
         return "aluno/modalidades";
     }
 
+    /**
+     * Página de aulas agendadas do aluno.
+     */
     @GetMapping("/aulas")
     public String agendamento(Model model, Principal principal) {
-        String email = principal.getName(); // pega o email do aluno logado
-        Aluno aluno = alunoService.getByEmail(email); // cria esse método no service
+        Aluno aluno = alunoService.getByEmail(principal.getName());
 
-        model.addAttribute("aluno", aluno);
-        // Obtém todas as aulas, estudos e alunos para exibir na página
         List<Aula> aulas = aulaService.getAulasFiltradas(null, null, aluno.getId());
         List<Estudio> estudios = estudioService.getAllEstudio();
-        List<Aluno> alunos = alunoService.listarTodos();
 
-        model.addAttribute("estudios", estudios);
-        model.addAttribute("alunos", alunos);
+        List<AulaAgendamentoDTO> aulasDTO = aulas.stream().map(aula -> {
+            AulaAgendamentoDTO dto = new AulaAgendamentoDTO();
+            dto.setId(aula.getId());
+            dto.setData(aula.getData());
+            dto.setHorario(aula.getHorario());
+            dto.setStatus(aula.getStatus());
+            dto.setModalidade("Não informado");
+            dto.setInstrutorNome("Não informado");
 
-        List<AulaAgendamentoDTO> aulasDTO = aulas.stream()
-                .map(aula -> {
-                    AulaAgendamentoDTO dto = new AulaAgendamentoDTO();
-                    dto.setId(aula.getId());
-                    dto.setData(aula.getData());
-                    dto.setHorario(aula.getHorario());
-                    dto.setStatus(aula.getStatus());
-                    dto.setModalidade("Não informado");
-                    dto.setInstrutorNome("Não informado");
-
-                    String nomeEstudio = "Não informado";
-                    if (aula.getIdStudio() != null) {
-                        Estudio estudio = estudioService.getEstudioById(aula.getIdStudio());
-                        if (estudio != null && estudio.getNome() != null) {
-                            nomeEstudio = estudio.getNome();
-                        }
-                    }
-                    dto.setEstudioNome(nomeEstudio);
-
-                    return dto;
-                })
-                .sorted((a1, a2) -> {
-                    if (a1.getData() == null && a2.getData() == null)
-                        return 0;
-                    if (a1.getData() == null)
-                        return 1;
-                    if (a2.getData() == null)
-                        return -1;
-                    int cmp = a1.getData().compareTo(a2.getData());
-                    if (cmp != 0)
-                        return cmp;
-                    if (a1.getHorario() == null && a2.getHorario() == null)
-                        return 0;
-                    if (a1.getHorario() == null)
-                        return 1;
-                    if (a2.getHorario() == null)
-                        return -1;
-                    return a1.getHorario().compareTo(a2.getHorario());
-                })
+            String nomeEstudio = "Não informado";
+            if (aula.getIdStudio() != null) {
+                Estudio estudio = estudioService.getEstudioById(aula.getIdStudio());
+                if (estudio != null && estudio.getNome() != null) {
+                    nomeEstudio = estudio.getNome();
+                }
+            }
+            dto.setEstudioNome(nomeEstudio);
+            return dto;
+        }).sorted(Comparator.comparing(AulaAgendamentoDTO::getData, Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing(AulaAgendamentoDTO::getHorario, Comparator.nullsLast(Comparator.naturalOrder())))
                 .toList();
 
+        model.addAttribute("aluno", aluno);
+        model.addAttribute("estudios", estudios);
         model.addAttribute("aulas", aulasDTO);
         return "aluno/aulas";
     }
 
+    /**
+     * Página de visualização dos planos disponíveis.
+     */
     @GetMapping("/planos")
-    public String planos(Model model, Principal principal, @ModelAttribute("aluno") Aluno aluno) {
-        String email = principal.getName();
-        aluno = alunoService.getByEmail(email);
+    public String planos(Model model, Principal principal) {
+        Aluno aluno = alunoService.getByEmail(principal.getName());
 
         model.addAttribute("aluno", aluno);
         model.addAttribute("mensal", planoService.getPlanoByNome("Mensal"));
@@ -139,7 +107,9 @@ public class AlunoDashboardController {
         return "aluno/planos";
     }
 
-
+    /**
+     * Página de listagem de todos os planos (geral).
+     */
     @GetMapping("/planos/lista")
     public String listAllPlanos(Model model) {
         List<Plano> planos = planoService.getAllPlanos();
@@ -147,11 +117,14 @@ public class AlunoDashboardController {
         return "aluno/planos";
     }
 
-    // Esse método pode ser útil para admin, mas não precisa de aluno da sessão
+    /**
+     * Vincula um plano a um aluno específico (usado por administradores).
+     */
     @PostMapping("/{id}/plano")
     public String assignPlanoToAluno(@PathVariable("id") String alunoId,
-            @RequestParam("id") String planoId,
-            RedirectAttributes redirectAttributes) {
+                                     @RequestParam("id") String planoId,
+                                     RedirectAttributes redirectAttributes) {
+
         Optional<Aluno> alunoOpt = alunoService.getById(alunoId);
         Optional<Plano> planoOpt = planoService.getPlanoById(planoId);
 
@@ -167,16 +140,17 @@ public class AlunoDashboardController {
         return "redirect:/web/aluno/planos";
     }
 
+    /**
+     * Permite que o aluno assine um plano, gera a fatura e salva no histórico.
+     */
     @PostMapping("/assinar")
-    public String assinarPlano(
-            @RequestParam String planoId,
-            @RequestParam String cpf,
-            @RequestParam String formaPagamento,
-            Principal principal,
-            RedirectAttributes redirectAttributes) {
+    public String assinarPlano(@RequestParam String planoId,
+                               @RequestParam String cpf,
+                               @RequestParam String formaPagamento,
+                               Principal principal,
+                               RedirectAttributes redirectAttributes) {
 
-        String email = principal.getName();
-        Aluno aluno = alunoService.getByEmail(email);
+        Aluno aluno = alunoService.getByEmail(principal.getName());
 
         if (aluno == null) {
             redirectAttributes.addFlashAttribute("error", "Aluno não encontrado.");
@@ -213,29 +187,22 @@ public class AlunoDashboardController {
         return "redirect:/web/aluno/planos";
     }
 
-
+    /**
+     * Página de visualização das faturas (pagas e em aberto) do aluno.
+     */
     @GetMapping("/faturas")
-    public String visualizarFaturas(@ModelAttribute("aluno") Aluno aluno,
-            Model model, Principal principal,
-            RedirectAttributes redirectAttributes) {
-
-        String email = principal.getName(); // pega o email do aluno logado
-        aluno = alunoService.getByEmail(email); // cria esse método no service
-       
-
-        model.addAttribute("aluno", aluno);
+    public String visualizarFaturas(Model model, Principal principal, RedirectAttributes redirectAttributes) {
+        Aluno aluno = alunoService.getByEmail(principal.getName());
 
         if (aluno == null) {
             redirectAttributes.addFlashAttribute("erro", "Aluno não encontrado.");
             return "redirect:/web/aluno/planos";
         }
 
-        List<Financeiro> faturas = aluno.getHistoricoPagamento();
-        if (faturas == null)
-            faturas = new ArrayList<>();
+        List<Financeiro> faturas = Optional.ofNullable(aluno.getHistoricoPagamento()).orElse(new ArrayList<>());
 
         List<Financeiro> pagas = faturas.stream()
-                .filter(f -> Boolean.TRUE.equals(f.getPaga()))
+                .filter(Financeiro::getPaga)
                 .sorted(Comparator.comparing(Financeiro::getDataPagamento).reversed())
                 .collect(Collectors.toList());
 

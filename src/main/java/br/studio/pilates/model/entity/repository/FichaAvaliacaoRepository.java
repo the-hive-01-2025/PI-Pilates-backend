@@ -8,29 +8,61 @@ import org.springframework.lang.NonNull;
 
 import br.studio.pilates.model.entity.FichaAvaliacao;
 
+/**
+ * Repositório para operações CRUD e consultas customizadas na coleção de Fichas de Avaliação.
+ */
 public interface FichaAvaliacaoRepository extends MongoRepository<FichaAvaliacao, String> {
 
     @NonNull
-    public Optional<FichaAvaliacao> findById(@NonNull String Id);
+    Optional<FichaAvaliacao> findById(@NonNull String Id);
 
-    public Optional<FichaAvaliacao> findByIdAluno(String idAluno); // busca por id do aluno
+    /**
+     * Busca ficha de avaliação por ID do aluno.
+     */
+    Optional<FichaAvaliacao> findByIdAluno(String idAluno);
 
-    public List<FichaAvaliacao> findByData(String data); // busca avaliações por datas
+    /**
+     * Busca avaliações por data.
+     */
+    List<FichaAvaliacao> findByData(String data);
 
-    public List<FichaAvaliacao> findByDiagnosticoContains(String diagnostico); // que contém diagnóstico
+    /**
+     * Busca avaliações que contenham determinado diagnóstico.
+     */
+    List<FichaAvaliacao> findByDiagnosticoContains(String diagnostico);
 
-    public List<FichaAvaliacao> findByhistoricoMedicoContains(String historicoMedico); // que contém histórico
-                                                                                       // mContains()
+    /**
+     * Busca avaliações que contenham determinado histórico médico.
+     */
+    List<FichaAvaliacao> findByhistoricoMedicoContains(String historicoMedico);
 
-    public List<FichaAvaliacao> findByPatologiasContains(String patologias); // que contém patologias
+    /**
+     * Busca avaliações que contenham determinada patologia.
+     */
+    List<FichaAvaliacao> findByPatologiasContains(String patologias);
 
-    public List<FichaAvaliacao> findByExamesContains(String exames);
+    /**
+     * Busca avaliações que contenham determinado exame.
+     */
+    List<FichaAvaliacao> findByExamesContains(String exames);
 
-    public List<FichaAvaliacao> findByMedicamentosContains(String medicamentos); // que contém medicamentos
+    /**
+     * Busca avaliações que contenham determinado medicamento.
+     */
+    List<FichaAvaliacao> findByMedicamentosContains(String medicamentos);
 
-    public List<FichaAvaliacao> findByTratamentosContains(String tratamentos); // busca por tratamentos
+    /**
+     * Busca avaliações que contenham determinado tratamento.
+     */
+    List<FichaAvaliacao> findByTratamentosContains(String tratamentos);
 
-    public List<FichaAvaliacao> findByObjetivosContains(String objetivos); // busca por objetivos
+    /**
+     * Busca avaliações que contenham determinado objetivo.
+     */
+    List<FichaAvaliacao> findByObjetivosContains(String objetivos);
 
-    public List<FichaAvaliacao> findByDataAvaliacao(String dataAvaliacao); // busca por data de avaliação
+    /**
+     * Busca avaliações por data de avaliação.
+     */
+    List<FichaAvaliacao> findByDataAvaliacao(String dataAvaliacao);
 }

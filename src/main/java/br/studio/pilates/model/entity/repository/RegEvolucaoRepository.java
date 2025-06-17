@@ -7,9 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import br.studio.pilates.model.entity.RegEvolucao;
 
+/**
+ * Repositório para operações CRUD e consultas customizadas na coleção de Registros de Evolução.
+ */
 @Repository
-public interface RegEvolucaoRepository extends MongoRepository<RegEvolucao, String>{
+public interface RegEvolucaoRepository extends MongoRepository<RegEvolucao, String> {
 
+    /**
+     * Busca registros de evolução por nome do aluno (ignorando maiúsculas/minúsculas).
+     */
     List<RegEvolucao> findByAlunoIgnoreCase(String Aluno);
-    
 }

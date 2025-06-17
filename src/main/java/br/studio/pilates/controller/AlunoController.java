@@ -6,64 +6,92 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.studio.pilates.model.entity.Aluno;
 import br.studio.pilates.service.AlunoService;
 
+/**
+ * Controller responsável pela API REST de gerenciamento de alunos.
+ * Disponibiliza endpoints para CRUD completo e buscas específicas.
+ */
 @RestController
 @RequestMapping("/api")
 public class AlunoController {
 
+    @Autowired
+    private AlunoService alunoService;
 
-	@Autowired
-	private AlunoService alunoService;
+    // ===========================================
+    // ============== LISTAGENS ==================
+    // ===========================================
 
-	@GetMapping("aluno")
-	public List<Aluno> listar() {
-		return alunoService.listarTodos();
-	}
+    /**
+     * Lista todos os alunos cadastrados.
+     */
+    @GetMapping("/aluno")
+    public List<Aluno> listar() {
+        return alunoService.listarTodos();
+    }
 
+    /**
+     * Busca um aluno pelo ID.
+     */
+    @GetMapping("/aluno/{id}")
+    public Optional<Aluno> getById(@PathVariable("id") String id) {
+        return alunoService.getById(id);
+    }
 
-	@GetMapping("aluno/{id}")
-	public Optional<Aluno> getById(@PathVariable("id") String Id) {
-		return alunoService.getById(Id);
-	}
+    /**
+     * Busca um aluno pelo CPF.
+     */
+    @GetMapping("/aluno/cpf/{cpf}")
+    public Aluno getByCpf(@PathVariable String cpf) {
+        return alunoService.getByCpf(cpf);
+    }
 
-	@GetMapping("aluno/cpf/{cpf}")
-	public Aluno getByCpf(@PathVariable String cpf) {
-		return alunoService.getByCpf(cpf);
-	}
- 
-	@GetMapping("aluno/nome/{nome}")
-	public Aluno getByNomeAluno(@PathVariable String nome) {
-		return alunoService.getByNome(nome);
-	}
+    /**
+     * Busca um aluno pelo nome completo.
+     */
+    @GetMapping("/aluno/nome/{nome}")
+    public Aluno getByNomeAluno(@PathVariable String nome) {
+        return alunoService.getByNome(nome);
+    }
 
-	@GetMapping("aluno/primeironome/{nome}")
-	public List<Aluno> getByFirstName(@PathVariable String nome) {
-		return alunoService.getByPrimeiroNome(nome);
-	}
+    /**
+     * Busca alunos pelo primeiro nome (parcial).
+     */
+    @GetMapping("/aluno/primeironome/{nome}")
+    public List<Aluno> getByFirstName(@PathVariable String nome) {
+        return alunoService.getByPrimeiroNome(nome);
+    }
 
-	@PostMapping("/aluno")
-	public ResponseEntity<?> cadastrarAluno(@RequestBody Aluno aluno) {
-		try {
-			Aluno novoAluno = alunoService.saveAluno(aluno);
-			return ResponseEntity.ok(novoAluno);
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity
-					.status(HttpStatus.CONFLICT)
-					.body("Não foi possível cadastrar o aluno: " + e.getMessage());
-		}
-	}
-	
+    // ===========================================
+    // =============== CADASTRO ==================
+    // ===========================================
+
+    /**
+     * Cadastra um novo aluno.
+     */
+    @PostMapping("/aluno")
+    public ResponseEntity<?> cadastrarAluno(@RequestBody Aluno aluno) {
+        try {
+            Aluno novoAluno = alunoService.saveAluno(aluno);
+            return ResponseEntity.ok(novoAluno);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Não foi possível cadastrar o aluno: " + e.getMessage());
+        }
+    }
+
+    // ===========================================
+    // ============= ATUALIZAÇÃO =================
+    // ===========================================
+
+    /**
+     * Atualiza os dados de um aluno pelo ID.
+     */
     @PutMapping("/aluno/{id}")
     public ResponseEntity<?> atualizarAluno(@PathVariable String id, @RequestBody Aluno aluno) {
         try {
@@ -76,25 +104,39 @@ public class AlunoController {
         }
     }
 
-	@DeleteMapping("aluno/{id}")
-	public String delete(@PathVariable("id") String Id) {
-		if (alunoService.getById(Id) != null) {
+    // ===========================================
+    // ================ EXCLUSÃO =================
+    // ===========================================
 
-			alunoService.deleteAluno(Id);
-			return "Aluno Excluido com sucesso!!";
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: recurso não encontrado!").toString();
-		}
-	}
+    /**
+     * Exclui um aluno pelo ID.
+     */
+    @DeleteMapping("/aluno/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
+        Optional<Aluno> aluno = alunoService.getById(id);
 
-	@DeleteMapping("aluno/nome/{nome}")
-	public String deleteByName(@PathVariable String nome) {
-		try {
-			alunoService.deleteAlunoByName(nome);
-			return "Aluno Excluido com sucesso!!";
-		} catch (Exception e) {
-			return "Aluno nao encontrado!!";
-		}
-	}
+        if (aluno.isPresent()) {
+            alunoService.deleteAluno(id);
+            return ResponseEntity.ok("Aluno excluído com sucesso!");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Erro: recurso não encontrado!");
+        }
+    }
 
+    /**
+     * Exclui um aluno pelo nome completo.
+     */
+    @DeleteMapping("/aluno/nome/{nome}")
+    public ResponseEntity<?> deleteByName(@PathVariable String nome) {
+        try {
+            alunoService.deleteAlunoByName(nome);
+            return ResponseEntity.ok("Aluno excluído com sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Erro: aluno não encontrado!");
+        }
+    }
 }
